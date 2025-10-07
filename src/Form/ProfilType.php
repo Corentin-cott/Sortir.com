@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Participant;
 use App\Entity\Site;
+
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -23,7 +24,7 @@ class ProfilType extends AbstractType
             ->add('nom', TextType::class)
             ->add('telephone', TelType::class)
             ->add('email', EmailType::class)
-            ->add('plainPassword', PasswordType::class, [
+            ->add('password', PasswordType::class, [
                 'mapped' => false,
                 'required' => false,
                 'label' => 'Nouveau mot de passe'
@@ -35,13 +36,13 @@ class ProfilType extends AbstractType
             ])
             ->add('site', EntityType::class, [
                 'class' => Site::class,
-                'choice_label' => 'nom',
+                    'choice_label' => 'nom',
             ])
-            ->add('photo', FileType::class, [
-                'mapped' => false,
-                'required' => false,
-                'label' => 'Ma photo'
-            ])
+//            ->add('photo', FileType::class, [
+//                'mapped' => false,
+//                'required' => false,
+//                'label' => 'Ma photo'
+//            ])
         ;
     }
 
