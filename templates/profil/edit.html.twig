@@ -1,0 +1,23 @@
+{% block body %}
+    <div class="container mt-4">
+        <h1>Mon profil</h1>
+
+        <h2>Pseudo : {{ profilForm.vars.data.pseudo }}</h2>
+
+        {{ form_start(profilForm, {'attr': {'enctype': 'multipart/form-data'}}) }}
+
+        {{ form_row(profilForm.prenom) }}
+        {{ form_row(profilForm.nom) }}
+        {{ form_row(profilForm.telephone) }}
+        {{ form_row(profilForm.email) }}
+        {{ form_row(profilForm.plainPassword) }}
+        {{ form_row(profilForm.confirmPassword) }}
+        {{ form_row(profilForm.site) }}
+        {{ form_row(profilForm.photo) }}
+
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <a href="#" class="btn btn-secondary">Annuler</a>
+
+        {{ form_end(profilForm) }}
+    </div>
+{% endblock %}
