@@ -13,7 +13,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ProfilController extends AbstractController
 {
-    #[Route('/profil', name: 'app_profil')]
+    #[Route('/edit', name: 'app_edit')]
     public function edit(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
     {
         // temporaire : on charge un utilisateur pour le dev
@@ -45,7 +45,7 @@ class ProfilController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Profil mis à jour avec succès !');
-            return $this->redirectToRoute('app_profil');
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->render('profil/edit.html.twig', [

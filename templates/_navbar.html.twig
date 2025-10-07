@@ -5,6 +5,9 @@
         </li>
         {% if app.user %}
         <li>
+            <a  href="{{ path('app_edit') }}" title="Go back to edit">Modifier Profil</a>
+        </li>
+        <li>
             <a  href="{{ path('app_logout') }}" title="Go back to logout">Se déconnecter</a>
         </li>
         {% else %}
