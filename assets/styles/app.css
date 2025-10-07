@@ -1,0 +1,43 @@
+/* === NAVBAR PERSONNALISÉE === */
+
+.custom-navbar {
+    background-color: #555555; /* ton fond gris */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+/* Supprime les marges latérales des éléments internes */
+.custom-navbar .container-fluid {
+    margin: 0;
+    padding: 0 0 0 0;
+}
+
+/* Liens blancs sans soulignement */
+.custom-navbar .nav-link,
+.custom-navbar .navbar-brand {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* Hover : souligné mais même couleur */
+.custom-navbar .nav-link:hover,
+.custom-navbar .navbar-brand:hover {
+    text-decoration: underline;
+    color: #ffffff;
+}
+
+/* Menu vertical sur mobile */
+@media (max-width: 991.98px) {
+    .custom-navbar .navbar-collapse {
+        background-color: #555555;
+        padding: 1rem 0;
+    }
+
+    .custom-navbar .nav-link {
+        display: block;
+        padding: 0.5rem 1rem;
+        text-align: left;
+    }
+}
