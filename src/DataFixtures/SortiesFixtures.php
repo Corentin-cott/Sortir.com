@@ -2,6 +2,10 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Etat;
+use App\Entity\Lieu;
+use App\Entity\Participant;
+use App\Entity\Site;
 use App\Entity\Sortie;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -18,10 +22,10 @@ class SortiesFixtures extends Fixture implements DependentFixtureInterface
         $sortie1->setDateCloture(new \DateTime("2025-10-20T20:00"));
         $sortie1->setNbInscriptionMax(10);
         $sortie1->setDescriptionInfos("Soirée d'intégration...");
-        $sortie1->setEtat($this->getReference("etat-1", EtatFixtures::class));
-        $sortie1->setOrganisateur($this->getReference("participant1", ParticipantFixtures::class));
-        $sortie1->setSiteOrg($this->getReference("site-1", SiteFixtures::class));
-        $sortie1->setLieu($this->getReference("lieu-a", LieuFixtures::class));
+        $sortie1->setEtat($this->getReference("etat-1", Etat::class));
+        $sortie1->setOrganisateur($this->getReference("participant1", Participant::class));
+        $sortie1->setSiteOrg($this->getReference("site-1", Site::class));
+        $sortie1->setLieu($this->getReference("lieu-a", Lieu::class));
         $manager->persist($sortie1);
 
         $manager->flush();

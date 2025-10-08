@@ -8,7 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class EtatFixtures extends Fixture
 {
-    public const ETATS_REFERENCE_PREFIX = 'etats-';
+    public const ETATS_REFERENCE_PREFIX = 'etat-';
 
     public const ETATS = [
         "Crées",
