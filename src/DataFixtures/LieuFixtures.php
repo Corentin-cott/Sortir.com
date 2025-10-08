@@ -17,7 +17,7 @@ class LieuFixtures extends Fixture implements DependentFixtureInterface
         $lieu1->setRue('12 Quai Richelieu');
         $lieu1->setLatitude('44.8412');
         $lieu1->setLongitude('-0.5800');
-        $lieu1->setVille($this->getReference('villes-0'));
+        $lieu1->setVille($this->getReference('villes-0');
         $this->addReference('lieu-1', $lieu1);
         $manager->persist($lieu1);
 
@@ -26,7 +26,7 @@ class LieuFixtures extends Fixture implements DependentFixtureInterface
         $lieu2->setRue('5 Place de la Bourse');
         $lieu2->setLatitude('44.8400');
         $lieu2->setLongitude('-0.5740');
-        $lieu2->setVille($this->getReference('villes-0'));
+        $lieu2->setVille($this->getReference('villes-0',));
         $this->addReference('lieu-2', $lieu2);
         $manager->persist($lieu2);
 
@@ -64,7 +64,7 @@ class LieuFixtures extends Fixture implements DependentFixtureInterface
         $lieu5->setRue('2 Quai Ferdinand Favre');
         $lieu5->setLatitude('47.2181');
         $lieu5->setLongitude('-1.5528');
-        $lieu5->setVille($this->getReference('villes-2'));
+        $lieu5->setVille($this->getReference('villes-2', ));
         $this->addReference('lieu-5', $lieu5);
         $manager->persist($lieu5);
 
@@ -73,7 +73,7 @@ class LieuFixtures extends Fixture implements DependentFixtureInterface
         $lieu6->setRue('6 Place du Commerce');
         $lieu6->setLatitude('47.2138');
         $lieu6->setLongitude('-1.5535');
-        $lieu6->setVille($this->getReference('villes-2'));
+        $lieu6->setVille($this->getReference('villes-2', VillesFixtures::class));
         $this->addReference('lieu-6', $lieu6);
         $manager->persist($lieu6);
 
@@ -83,7 +83,7 @@ class LieuFixtures extends Fixture implements DependentFixtureInterface
         $lieu7->setRue('4 Esplanade de la République');
         $lieu7->setLatitude('48.8566');
         $lieu7->setLongitude('2.3522');
-        $lieu7->setVille($this->getReference('villes-3'));
+        $lieu7->setVille($this->getReference('villes-3', VillesFixtures::class));
         $this->addReference('lieu-7', $lieu7);
         $manager->persist($lieu7);
 
@@ -92,7 +92,7 @@ class LieuFixtures extends Fixture implements DependentFixtureInterface
         $lieu8->setRue('12 Rue Lepic');
         $lieu8->setLatitude('48.8841');
         $lieu8->setLongitude('2.3385');
-        $lieu8->setVille($this->getReference('villes-3'));
+        $lieu8->setVille($this->getReference('villes-3',VillesFixtures::class));
         $this->addReference('lieu-8', $lieu8);
         $manager->persist($lieu8);
 
@@ -102,7 +102,7 @@ class LieuFixtures extends Fixture implements DependentFixtureInterface
         $lieu9->setRue('10 Place Sainte-Anne');
         $lieu9->setLatitude('48.1147');
         $lieu9->setLongitude('-1.6805');
-        $lieu9->setVille($this->getReference('villes-4'));
+        $lieu9->setVille($this->getReference('villes-4',VillesFixtures::class));
         $this->addReference('lieu-9', $lieu9);
         $manager->persist($lieu9);
 
@@ -112,7 +112,7 @@ class LieuFixtures extends Fixture implements DependentFixtureInterface
         $lieu10->setRue('3 Quai Saint-Vincent');
         $lieu10->setLatitude('45.7640');
         $lieu10->setLongitude('4.8357');
-        $lieu10->setVille($this->getReference('villes-5'));
+        $lieu10->setVille($this->getReference('villes-5',VillesFixtures::class));
         $this->addReference('lieu-10', $lieu10);
         $manager->persist($lieu10);
 

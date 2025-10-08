@@ -26,7 +26,7 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
         $participant1->setPseudo('doedoe');
         $participant1->setEmail('john.doe@example.com');
         $participant1->setTelephone('0601010101');
-        $participant1->setSite($this->getReference('site1'));
+        $participant1->setSite($this->getReference('site1', SiteFixtures::class));
         $participant1->setPassword($this->passwordHasher->hashPassword($participant1, 'myPassword'));
         $this->addReference('participant1', $participant1);
         $manager->persist($participant1);
@@ -38,7 +38,7 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
         $participant2->setPseudo('janesmith');
         $participant2->setEmail('jane.smith@example.com');
         $participant2->setTelephone('0602020202');
-        $participant2->setSite($this->getReference('site2'));
+        $participant2->setSite($this->getReference('site2', SiteFixtures::class));
         $participant2->setPassword($this->passwordHasher->hashPassword($participant2, 'securePass1'));
         $this->addReference('participant2', $participant2);
         $manager->persist($participant2);
@@ -50,7 +50,7 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
         $participant3->setPseudo('alicemartin');
         $participant3->setEmail('alice.martin@example.com');
         $participant3->setTelephone('0603030303');
-        $participant3->setSite($this->getReference('site1'));
+        $participant3->setSite($this->getReference('site1', SiteFixtures::class));
         $participant3->setPassword($this->passwordHasher->hashPassword($participant3, 'securePass2'));
         $this->addReference('participant3', $participant3);
         $manager->persist($participant3);
@@ -62,7 +62,7 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
         $participant4->setPseudo('bobdupont');
         $participant4->setEmail('bob.dupont@example.com');
         $participant4->setTelephone('0604040404');
-        $participant4->setSite($this->getReference('site2'));
+        $participant4->setSite($this->getReference('site2', SiteFixtures::class));
         $participant4->setPassword($this->passwordHasher->hashPassword($participant4, 'securePass3'));
         $this->addReference('participant4', $participant4);
         $manager->persist($participant4);

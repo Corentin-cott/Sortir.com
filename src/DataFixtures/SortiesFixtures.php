@@ -18,10 +18,10 @@ class SortiesFixtures extends Fixture implements DependentFixtureInterface
         $sortie1->setDateCloture(new \DateTime("2025-10-20T20:00"));
         $sortie1->setNbInscriptionMax(10);
         $sortie1->setDescriptionInfos("Soirée d'intégration...");
-        $sortie1->setEtat($this->getReference("etat-1"));
-        $sortie1->setOrganisateur($this->getReference("participant1"));
-        $sortie1->setSiteOrg($this->getReference("site-1"));
-        $sortie1->setLieu($this->getReference("lieu-a"));
+        $sortie1->setEtat($this->getReference("etat-1", EtatFixtures::class));
+        $sortie1->setOrganisateur($this->getReference("participant1", ParticipantFixtures::class));
+        $sortie1->setSiteOrg($this->getReference("site-1", SiteFixtures::class));
+        $sortie1->setLieu($this->getReference("lieu-a", LieuFixtures::class));
         $manager->persist($sortie1);
 
         $manager->flush();

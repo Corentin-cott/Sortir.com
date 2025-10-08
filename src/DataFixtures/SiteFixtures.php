@@ -11,10 +11,10 @@ class SiteFixtures extends Fixture
     public const SITE_REFERENCE = 'site-';
 
     public const SITE = [
-          'Saint Herblain',
-          'Niort',
-        'Quimper',
-        'Nantes,'
+      'Saint Herblain',
+      'Niort',
+      'Quimper',
+      'Nantes,'
 
     ];
 

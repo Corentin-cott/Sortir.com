@@ -11,11 +11,11 @@ class VillesFixtures extends Fixture
     public const VILLES_REFERENCE_PREFIX = 'villes-';
 
     public const VILLES_NAMES = [
-        'Bordeaux',
+    'Bordeaux',
     'Niort',
     'Nantes',
     'Paris',
-    'Rennnes',
+    'Rennes',
     'Lyon'
 ];
     public const VILLES_CODEPOSTAL = [
@@ -34,7 +34,7 @@ class VillesFixtures extends Fixture
             $ville->setNom($name);
             $ville->setCodePostal(self::VILLES_CODEPOSTAL[$key]);
             $manager->persist($ville);
-            $this->addReference(self::VILLES_REFERENCE_PREFIX . $key, $ville);
+            $this->addReference(self::VILLES_REFERENCE_PREFIX.$key, $ville);
         }
         $manager->flush();
     }
