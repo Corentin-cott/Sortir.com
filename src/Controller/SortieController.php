@@ -25,7 +25,7 @@ final class SortieController extends AbstractController
             $em->persist($sortie);
             $em->flush();
 
-            $this->addFlash('success', 'Sortie created successfully!');
+            $this->addFlash('success', 'Sortie créer avec succès !');
         }
 
         return $this->render('sorties/creer.html.twig', [
