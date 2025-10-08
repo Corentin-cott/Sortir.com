@@ -40,4 +40,54 @@ class SortieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findWithFilters($siteId, $search, $dateDebut, $dateFin, $user, $organisateur, $inscrit, $nonInscrit, $passees)
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->leftJoin('s.siteOrg', 'site')
+            ->addSelect('site');
+
+        if ($siteId) {
+            $qb->andWhere('site.id = :siteId')
+                ->setParameter('siteId', $siteId);
+        }
+
+        if ($search) {
+            $qb->andWhere('s.nom LIKE :search')
+                ->setParameter('search', '%' . $search . '%');
+        }
+
+        if ($dateDebut) {
+            $qb->andWhere('s.dateHeureDebut >= :dateDebut')
+                ->setParameter('dateDebut', $dateDebut);
+        }
+
+        if ($dateFin) {
+            $qb->andWhere('s.dateHeureDebut <= :dateFin')
+                ->setParameter('dateFin', $dateFin);
+        }
+
+        if ($organisateur && $user) {
+            $qb->andWhere('s.organisateur = :user')
+                ->setParameter('user', $user);
+        }
+
+        if ($inscrit && $user) {
+            $qb->andWhere(':user MEMBER OF s.participants')
+                ->setParameter('user', $user);
+        }
+
+        if ($nonInscrit && $user) {
+            $qb->andWhere(':user NOT MEMBER OF s.participants')
+                ->setParameter('user', $user);
+        }
+
+        if ($passees) {
+            $qb->andWhere('s.dateHeureDebut < :today')
+                ->setParameter('today', new \DateTime());
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
 }
