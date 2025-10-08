@@ -211,4 +211,22 @@ class Sortie
 
         return $this;
     }
+    public function sinscrire(Participant $participant): void
+    {
+        $this->addParticipant($participant);
+    }
+    public function desinscrire(Participant $participant): void
+    {
+        $this->removeParticipant($participant);
+    }
+    public function estInscrit(Participant $user): bool
+    {
+       foreach ($this->getParticipants() as $participant) {
+           if($participant->getId() === $user->getId()) {
+               return true;
+           }
+       }
+       return false;
+    }
+
 }

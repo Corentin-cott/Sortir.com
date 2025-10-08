@@ -22,6 +22,11 @@
         </div>
     </header>
     <main>
+        {% for status, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{status}}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
         <div>
             {% block body %}{% endblock %}
         </div>

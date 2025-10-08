@@ -79,8 +79,16 @@
                     <td>{{ sortie.organisateur.prenom }}</td>
                     <td>
                         <a href="/">Afficher</a>
-                        {% if sortie.organisateur == user %}
-                            | <a href="{{ path('app_sortie_edit', {id: sortie.id}) }}">Modifier</a>
+                        {% if app.user and sortie.organisateur.id == app.user.id %}
+{#                            | <a href="{{ path('app_sortie_edit', {id: sortie.id}) }}">Modifier</a>#}
+                        {% endif %}
+                        {% if app.user and sortie.organisateur.id != app.user.id %}
+                            {% if app.user and not sortie.estInscrit(app.user)  %}
+                                <a href="{{ path("app_home_sinscrire", {'id': sortie.id}) }}">S'inscrire</a>
+                            {% endif %}
+                            {% if app.user and sortie.estInscrit(app.user) %}
+                                <a href="{{ path("app_home_desinscrire", {'id':sortie.id}) }}">Se désinscrire</a>
+                            {% endif %}
                         {% endif %}
                     </td>
                 </tr>
