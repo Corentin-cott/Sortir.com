@@ -61,9 +61,6 @@ class Sortie
         $this->participants = new ArrayCollection();
     }
 
-
-
-
     public function getId(): ?int
     {
         return $this->id;
@@ -139,7 +136,6 @@ class Sortie
 
         return $this;
     }
-
 
     public function getOrganisateur(): ?Participant
     {
