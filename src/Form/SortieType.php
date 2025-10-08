@@ -9,6 +9,10 @@ use App\Entity\Site;
 use App\Entity\Sortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,32 +21,31 @@ class SortieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom')
-            ->add('dateHeureDebut')
-            ->add('duree')
-            ->add('dateLimiteInscription')
-            ->add('nbInscriptionMax')
-            ->add('descriptionInfos')
-            ->add('organisateur', EntityType::class, [
-                'class' => Participant::class,
-                'choice_label' => 'nom',
+            ->add('nom', TextType::class, [
+                'label' => 'Titre de la sortie',
             ])
-            ->add('participants', EntityType::class, [
-                'class' => Participant::class,
-                'choice_label' => 'nom',
-                'multiple' => true,
+            ->add('dateHeureDebut', DateTimeType::class, [
+                'label' => 'Date et heure de début',
+                'widget' => 'single_text',
             ])
-            ->add('siteOrg', EntityType::class, [
-                'class' => Site::class,
-                'choice_label' => 'nom',
+            ->add('duree', IntegerType::class, [
+                'label' => 'Durée',
             ])
-            ->add('etat', EntityType::class, [
-                'class' => Etat::class,
-                'choice_label' => 'libelle',
+            ->add('dateLimiteInscription', DateTimeType::class, [
+                'label' => 'Date limite d\'inscription',
+                'widget' => 'single_text',
+            ])
+            ->add('nbInscriptionMax', IntegerType::class, [
+                'label' => 'Nombre maximum de participants',
+            ])
+            ->add('descriptionInfos', TextareaType::class, [
+                'label' => 'Description / Informations',
+                'attr' => ['rows' => 5],
             ])
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
                 'choice_label' => 'nom',
+                'label' => 'Lieu',
             ])
         ;
     }
