@@ -41,6 +41,7 @@ class SortieRepository extends ServiceEntityRepository
 //        ;
 //    }
 
+
     public function findWithFilters($siteId, $search, $dateDebut, $dateFin, $user, $organisateur, $inscrit, $nonInscrit, $passees)
     {
         $qb = $this->createQueryBuilder('s')
