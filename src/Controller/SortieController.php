@@ -15,12 +15,12 @@ final class SortieController extends AbstractController
     #[Route('/sortie/creer', name: 'app_sortie')]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
+        // Vérification que l'utilisateur est connecté
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $sortie = new Sortie();
-
         $form = $this->createForm(SortieType::class, $sortie);
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($sortie);
             $em->flush();
