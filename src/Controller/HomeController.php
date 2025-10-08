@@ -47,7 +47,7 @@ final class HomeController extends AbstractController
             'sorties' => $sorties,
             'sites' => $siteRepository->findAll(),
             'user' => $this->getUser(),
-            'today' => new \DateTime(),
+            'today' => new \DateTimeImmutable(),
         ]);
     }
 

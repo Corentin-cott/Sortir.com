@@ -20,13 +20,13 @@ class Sortie
     private ?string $nom = null;
 
     #[ORM\Column]
-    private ?\DateTime $dateHeureDebut = null;
+    private ?\DateTimeImmutable $dateHeureDebut = null;
 
     #[ORM\Column]
     private ?int $duree = null;
 
     #[ORM\Column]
-    private ?\DateTime $dateLimiteInscription = null;
+    private ?\DateTimeImmutable $dateLimiteInscription = null;
 
     #[ORM\Column]
     private ?int $nbInscriptionMax = null;
@@ -78,12 +78,12 @@ class Sortie
         return $this;
     }
 
-    public function getDateHeureDebut(): ?\DateTime
+    public function getDateHeureDebut(): ?\DateTimeImmutable
     {
         return $this->dateHeureDebut;
     }
 
-    public function setDateHeureDebut(\DateTime $dateHeureDebut): static
+    public function setDateHeureDebut(\DateTimeImmutable $dateHeureDebut): static
     {
         $this->dateHeureDebut = $dateHeureDebut;
 
@@ -103,12 +103,12 @@ class Sortie
     }
 
 
-    public function getDateLimiteInscription(): ?\DateTime
+    public function getDateLimiteInscription(): ?\DateTimeImmutable
     {
         return $this->dateLimiteInscription;
     }
 
-    public function setDateLimiteInscription(\DateTime $dateLimiteInscription): self
+    public function setDateLimiteInscription(\DateTimeImmutable $dateLimiteInscription): self
     {
         $this->dateLimiteInscription = $dateLimiteInscription;
         return $this;
@@ -211,7 +211,7 @@ class Sortie
 
     public function MiseAJourEtat(EtatRepository $etatRepository): void
     {
-        $now = new \DateTime();
+        $now = new \DateTimeImmutable();
 
         // Raccourcis pour les états disponibles
         $etatCree = $etatRepository->findOneBy(['libelle' => 'Créée']);
@@ -252,7 +252,7 @@ class Sortie
      */
     public function sinscrire(Participant $participant): void
     {
-        $dateNow = new \DateTime();
+        $dateNow = new \DateTimeImmutable();
         //Cloture des inscriptions
         if($dateNow > $this->getDateLimiteInscription())
         {
