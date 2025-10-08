@@ -16,8 +16,8 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class SortieController extends AbstractController
 {
-    #[Route('/sortie/creer', name: 'app_sortie')]
-    public function new(Request $request, EntityManagerInterface $em): Response
+    #[Route('/sortie/creer', name: 'app_sortie_creer')]
+    public function creer(Request $request, EntityManagerInterface $em): Response
     {
         // Vérification que l'utilisateur est connecté
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -63,6 +63,34 @@ final class SortieController extends AbstractController
         return $this->render('sorties/creer.html.twig', [
             'form' => $form->createView(),
             'lieux' => $lieux
+        ]);
+    }
+
+    #[Route('/sortie/annuler/{id}', name: 'app_sortie_annuler', requirements: ['id' => '\d+'])]
+    public function annuler(Request $request, EntityManagerInterface $em, int $id): Response
+    {
+        // Vérification que l'utilisateur est connecté
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        // Récupération des infos de la sortie à partir de l'id
+        $sortie = $em->getRepository(Sortie::class)->find($id);
+        $siteOrga = $em->getRepository(Site::class)->find($sortie->getOrganisateur()->getSite());
+        $lieu  = $em->getRepository(Lieu::class)->find($sortie->getLieu());
+        $lieuVille  = $lieu->getVille();
+
+        // Vérification que l'organisateur est bien l'utilisateur demandant l'annulation
+        $organisateur = $em->getRepository(Participant::class)->find($this->getUser()->getId());
+        if ($sortie->getOrganisateur()->getId() != $organisateur->getId()) {
+            $this->addFlash('error', 'Cette sortie ne vous appartient pas !');
+            return $this->redirectToRoute('app_home');
+        }
+
+        // Envoie de la sortie au template
+        return $this->render('sorties/annuler.html.twig', [
+            'sortie' => $sortie,
+            'siteOrga' => $siteOrga,
+            'lieu' => $lieu,
+            'lieuVille' => $lieuVille
         ]);
     }
 }
