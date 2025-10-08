@@ -7,6 +7,8 @@ use App\Entity\Sortie;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Exception\ORMException;
+use Doctrine\ORM\OptimisticLockException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,75 +50,63 @@ final class HomeController extends AbstractController
             'today' => new \DateTime(),
         ]);
     }
+
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     * @throws \Exception
+     */
     #[Route('/sinscrire/{id}', name: 'app_home_sinscrire', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function sinscrire(EntityManagerInterface $entityManager, int  $id): Response
     {
         $sortie = $entityManager->find(Sortie::class, $id);
         if (!$sortie) {
             throw $this->createNotFoundException('Sortie inexistante');
-
         }
+
         $participant = $this->getUser();
         if (!$participant) {
             throw $this->createNotFoundException('Connectez vous pour pouvoir vous inscrire');
-
         }
         $participant = $entityManager->getRepository(Participant::class)->find($participant->getId());
 
-        $nbMax = $sortie->getNbInscriptionMax();
-        $nbInscrit = count($sortie->getParticipants());
-
         //User =/= organisateur
         if($participant->getId() == $sortie->getOrganisateur()->getId()){
-            $this->addFlash('error', 'Vous ne pouvez pas vous inscrire à la sortie en tant qu \' organisateur !');
+            $this->addFlash('danger', 'Vous ne pouvez pas vous inscrire à la sortie en tant qu \' organisateur !');
             return $this->redirectToRoute('app_home');
         }
-
-        //date limite
-        if ($sortie->getDateLimiteInscription() < new \DateTime()) {
-            $this->addFlash('error', 'La date limite d’inscription est dépassée.');
-            return $this->redirectToRoute('app_home');
-        }
-        // nb Max
-        if ($nbInscrit == $nbMax) {
-            $this->addFlash('error', 'La sortie est complète.');
-            return $this->redirectToRoute('app_home');
-        }
-
-        $sortie->sinscrire($participant);
-        $entityManager->persist($sortie);
-        $entityManager->flush();
-        $this->addFlash('success', 'Inscription réussie !');
+       try {
+           $sortie->sinscrire($participant);
+           $entityManager->flush();
+           $this->addFlash('success', 'Inscription réussie !');
+       } catch(\Exception $e) {
+            $this->addFlash('danger', $e->getMessage());
+       }
         return $this->redirectToRoute('app_home');
-
     }
+
     #[Route('/desinscrire/{id}', name: 'app_home_desinscrire', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function desinscrire(EntityManagerInterface $entityManager, int  $id): Response
     {
         $sortie = $entityManager->find(Sortie::class, $id);
         if (!$sortie) {
             throw $this->createNotFoundException('Sortie inexistante');
-
         }
+
         $participant = $this->getUser();
         if (!$participant) {
             throw $this->createNotFoundException('Connectez vous pour pouvoir vous inscrire');
-
         }
         $participant = $entityManager->getRepository(Participant::class)->find($participant->getId());
 
-
-        //User =/= participants
-        if(!$sortie->estInscrit($participant)){
-            $this->addFlash('error', 'Vous n\êtes pas inscrit !');
-            return $this->redirectToRoute('app_home');
+        try {
+            $sortie->desinscrire($participant);
+            $entityManager->flush();
+            $this->addFlash('success', 'Desinscription réussie !');
+        } catch(\Exception $e) {
+            $this->addFlash('danger', $e->getMessage());
         }
 
-        $sortie->desinscrire($participant);
-        $entityManager->persist($sortie);
-        $entityManager->flush();
-
-        $this->addFlash('success', 'Desinscription réussie !');
         return $this->redirectToRoute('app_home');
 
     }
