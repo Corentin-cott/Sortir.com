@@ -1,12 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Create a Sortie{% endblock %}
+{% block title %}Création d'une nouvelle sortie{% endblock %}
 
 {% block body %}
-    <h1>Create a new Sortie</h1>
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-primary">Save</button>
-    {{ form_end(form) }}
+    <div class="container mt-4">
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+
+                    <h1>Création d'une nouvelle sortie</h1>
+
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+
+                    <button class="btn btn-primary">Créer la nouvelle sortie</button>
+                    {{ form_end(form) }}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
 {% endblock %}
