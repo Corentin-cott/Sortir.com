@@ -25,7 +25,7 @@ class Sortie
     private ?int $duree = null;
 
     #[ORM\Column]
-    private ?\DateTime $dateCloture = null;
+    private ?\DateTime $dateLimiteInscription = null;
 
     #[ORM\Column]
     private ?int $nbInscriptionMax = null;
@@ -59,6 +59,9 @@ class Sortie
     {
         $this->participants = new ArrayCollection();
     }
+
+
+
 
     public function getId(): ?int
     {
@@ -101,14 +104,13 @@ class Sortie
         return $this;
     }
 
-    private ?\DateTimeInterface $dateLimiteInscription = null;
 
-    public function getDateLimiteInscription(): ?\DateTimeInterface
+    public function getDateLimiteInscription(): ?\DateTime
     {
         return $this->dateLimiteInscription;
     }
 
-    public function setDateLimiteInscription(\DateTimeInterface $dateLimiteInscription): self
+    public function setDateLimiteInscription(\DateTime $dateLimiteInscription): self
     {
         $this->dateLimiteInscription = $dateLimiteInscription;
         return $this;
