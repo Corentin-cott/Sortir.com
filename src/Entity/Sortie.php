@@ -101,15 +101,16 @@ class Sortie
         return $this;
     }
 
-    public function getDateCloture(): ?\DateTime
+    private ?\DateTimeInterface $dateLimiteInscription = null;
+
+    public function getDateLimiteInscription(): ?\DateTimeInterface
     {
-        return $this->dateCloture;
+        return $this->dateLimiteInscription;
     }
 
-    public function setDateCloture(\DateTime $dateCloture): static
+    public function setDateLimiteInscription(\DateTimeInterface $dateLimiteInscription): self
     {
-        $this->dateCloture = $dateCloture;
-
+        $this->dateLimiteInscription = $dateLimiteInscription;
         return $this;
     }
 
@@ -118,10 +119,9 @@ class Sortie
         return $this->nbInscriptionMax;
     }
 
-    public function setNbInscriptionMax(int $nbInscriptionMax): static
+    public function setNbInscriptionMax(int $nbInscriptionMax): self
     {
         $this->nbInscriptionMax = $nbInscriptionMax;
-
         return $this;
     }
 
