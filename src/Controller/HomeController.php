@@ -13,6 +13,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
 
 final class HomeController extends AbstractController
 {
@@ -56,14 +58,10 @@ final class HomeController extends AbstractController
      * @throws ORMException
      * @throws \Exception
      */
-    #[Route('/sinscrire/{id}', name: 'app_home_sinscrire', requirements: ['id' => '\d+'], methods: ['GET'])]
-    public function sinscrire(EntityManagerInterface $entityManager, int  $id): Response
+    #[IsGranted('ROLE_USER')]
+    #[Route('/sinscrire/{id}', name: 'app_home_sinscrire', requirements: ['id' => '\d+'], methods: ['POST'] )]
+    public function sinscrire(Request $request, EntityManagerInterface $entityManager, Sortie  $sortie): Response
     {
-        $sortie = $entityManager->find(Sortie::class, $id);
-        if (!$sortie) {
-            throw $this->createNotFoundException('Sortie inexistante');
-        }
-
         $participant = $this->getUser();
         if (!$participant) {
             throw $this->createNotFoundException('Connectez vous pour pouvoir vous inscrire');
@@ -75,29 +73,36 @@ final class HomeController extends AbstractController
             $this->addFlash('danger', 'Vous ne pouvez pas vous inscrire à la sortie en tant qu \' organisateur !');
             return $this->redirectToRoute('app_home');
         }
-       try {
-           $sortie->sinscrire($participant);
-           $entityManager->flush();
-           $this->addFlash('success', 'Inscription réussie !');
-       } catch(\Exception $e) {
-            $this->addFlash('danger', $e->getMessage());
-       }
-        return $this->redirectToRoute('app_home');
-    }
 
-    #[Route('/desinscrire/{id}', name: 'app_home_desinscrire', requirements: ['id' => '\d+'], methods: ['GET'])]
-    public function desinscrire(EntityManagerInterface $entityManager, int  $id): Response
-    {
-        $sortie = $entityManager->find(Sortie::class, $id);
-        if (!$sortie) {
-            throw $this->createNotFoundException('Sortie inexistante');
+        $token = $request->request->get('_token');
+        if (!$this->isCsrfTokenValid('sinscrire'.$sortie->getId(), $token)) {
+            throw $this->createAccessDeniedException('Action non autorisée (token invalide).');
         }
 
+        try {
+            $sortie->sinscrire($participant);
+            $entityManager->flush();
+            $this->addFlash('success', 'Inscription réussie !');
+        } catch(\Exception $e) {
+            $this->addFlash('danger', $e->getMessage());
+        }
+
+        return $this->redirectToRoute('app_home');
+    }
+    #[IsGranted('ROLE_USER')]
+    #[Route('/desinscrire/{id}', name: 'app_home_desinscrire', requirements: ['id' => '\d+'], methods: ['POST'] )]
+    public function desinscrire(Request $request, EntityManagerInterface $entityManager, Sortie $sortie): Response
+    {
         $participant = $this->getUser();
         if (!$participant) {
             throw $this->createNotFoundException('Connectez vous pour pouvoir vous inscrire');
         }
         $participant = $entityManager->getRepository(Participant::class)->find($participant->getId());
+
+        $token = $request->request->get('_token');
+        if (!$this->isCsrfTokenValid('desinscrire'.$sortie->getId(), $token)) {
+            throw $this->createAccessDeniedException('Action non autorisée (token invalide).');
+        }
 
         try {
             $sortie->desinscrire($participant);
@@ -106,6 +111,7 @@ final class HomeController extends AbstractController
         } catch(\Exception $e) {
             $this->addFlash('danger', $e->getMessage());
         }
+
 
         return $this->redirectToRoute('app_home');
 
