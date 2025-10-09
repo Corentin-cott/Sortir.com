@@ -34,14 +34,14 @@ class EtatSortieUpdate
 
         $etatRepo = $this->entityManager->getRepository(Etat::Class);
 
-        if($etatActuel === 'Ouverte' && $now > $dateLimite || $nbInscrits == $nbMax){
+        if($etatActuel === 'Ouverte' && ($now > $dateLimite || $nbInscrits == $nbMax)){
             $sortie->setEtat($etatRepo->findOneBy(['libelle' => 'Cloturée']));
         }
         if($etatActuel === 'Cloturée' && $now >= $dateDebut && $now <= $dateFin){
             $sortie->setEtat($etatRepo->findOneBy(['libelle' => 'Activitée en cours']));
         }
 
-        if($etatActuel === 'En cours' && $now > $dateFin){
+        if($etatActuel === 'Activitée en cours' && $now > $dateFin){
             $sortie->setEtat($etatRepo->findOneBy(['libelle' => 'Passée']));
         }
 
