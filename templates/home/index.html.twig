@@ -89,8 +89,8 @@
                                 #}
                             {% endif %}
 
-                            {% if sortie.etat.libelle != "Activitée en cours" or sortie.etat.libelle != "Passée" or sortie.etat.libelle != "Annulée" %}
-                                <a href="{{ path("app_sortie_annuler", {'id':sortie.id}) }}">Annuler</a>
+                            {% if sortie.etat.libelle != "Activitée en cours" and sortie.etat.libelle != "Passée" and sortie.etat.libelle != "Annulée" %}
+                                <a href="{{ path('app_sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
                             {% endif %}
 
                         {% endif %}
