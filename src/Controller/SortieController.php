@@ -85,6 +85,21 @@ final class SortieController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
+        if ($request->isMethod('POST')) {
+            $motif = $request->request->get('motif');
+
+            if ($motif != null) {
+                $etat = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Annulée']);
+                $sortie->setEtat($etat);
+                $sortie->setAnnulationMotif($motif);
+
+                $em->flush();
+
+                $this->addFlash('success', 'La sortie a été annulée avec succès.');
+                return $this->redirectToRoute('app_home');
+            }
+        }
+
         // Envoie de la sortie au template
         return $this->render('sorties/annuler.html.twig', [
             'sortie' => $sortie,
