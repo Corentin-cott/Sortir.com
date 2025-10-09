@@ -16,6 +16,26 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class SortieController extends AbstractController
 {
+
+    #[Route('/sortie/{id}', name: 'app_sortie_details', methods: ['GET'], requirements: ['id' => '\d+'])]
+    public function details(Request $request, EntityManagerInterface $em, int $id): Response
+    {
+        // Récupération des infos de la sortie à partir de l'id
+        $sortie = $em->getRepository(Sortie::class)->find($id);
+        $siteOrga = $em->getRepository(Site::class)->find($sortie->getOrganisateur()->getSite());
+        $lieu  = $em->getRepository(Lieu::class)->find($sortie->getLieu());
+        $lieuVille  = $lieu->getVille();
+
+        // Envoie de la sortie au template
+        return $this->render('sorties/afficher.html.twig', [
+            'sortie' => $sortie,
+            'siteOrga' => $siteOrga,
+            'lieu' => $lieu,
+            'lieuVille' => $lieuVille
+        ]);
+
+    }
+
     #[Route('/sortie/creer', name: 'app_sortie_creer')]
     public function creer(Request $request, EntityManagerInterface $em): Response
     {
