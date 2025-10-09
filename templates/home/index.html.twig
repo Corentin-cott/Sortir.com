@@ -79,17 +79,34 @@
                     <td>{{ sortie.organisateur.prenom }}</td>
                     <td>
                         <a href="/">Afficher</a>
+
                         {% if app.user and sortie.organisateur.id == app.user.id %}
-{#                            | <a href="{{ path('app_sortie_edit', {id: sortie.id}) }}">Modifier</a>#}
+
+                            {% if sortie.etat.libelle == "Crée" %}
+                                {#
+                                    // TODO : Retirer le commentaire une fois la modification des sorties en dev
+                                    <a href="{{ path('app_sortie_edit', {id: sortie.id}) }}">Modifier</a>
+                                #}
+                            {% endif %}
+
+                            {% if sortie.etat.libelle != "Activitée en cours" and sortie.etat.libelle != "Passée" and sortie.etat.libelle != "Annulée" %}
+                                <a href="{{ path('app_sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
+                            {% endif %}
+
                         {% endif %}
+
                         {% if app.user and sortie.organisateur.id != app.user.id %}
+
                             {% if app.user and not sortie.estInscrit(app.user)  %}
                                 <a href="{{ path("app_home_sinscrire", {'id': sortie.id}) }}">S'inscrire</a>
                             {% endif %}
+
                             {% if app.user and sortie.estInscrit(app.user) %}
                                 <a href="{{ path("app_home_desinscrire", {'id':sortie.id}) }}">Se désinscrire</a>
                             {% endif %}
+
                         {% endif %}
+
                     </td>
                 </tr>
             {% else %}
