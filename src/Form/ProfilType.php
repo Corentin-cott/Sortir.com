@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class ProfilType extends AbstractType
 {
@@ -38,11 +39,22 @@ class ProfilType extends AbstractType
                 'class' => Site::class,
                     'choice_label' => 'nom',
             ])
-//            ->add('photo', FileType::class, [
-//                'mapped' => false,
-//                'required' => false,
-//                'label' => 'Ma photo'
-//            ])
+            ->add('photo', FileType::class, [
+                'label' => 'Photo de profil (jpg, png)',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '2M',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'image/webp',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger une image valide (jpg, png, webp)',
+                    ])
+                ],
+            ]);
         ;
     }
 
