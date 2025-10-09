@@ -55,13 +55,13 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private ?Lieu $lieu = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $annulation_motif = null;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();
     }
-
-
-
 
     public function getId(): ?int
     {
@@ -139,7 +139,6 @@ class Sortie
         return $this;
     }
 
-
     public function getOrganisateur(): ?Participant
     {
         return $this->organisateur;
@@ -211,4 +210,34 @@ class Sortie
 
         return $this;
     }
+    public function sinscrire(Participant $participant): void
+    {
+        $this->addParticipant($participant);
+    }
+    public function desinscrire(Participant $participant): void
+    {
+        $this->removeParticipant($participant);
+    }
+    public function estInscrit(Participant $user): bool
+    {
+       foreach ($this->getParticipants() as $participant) {
+           if($participant->getId() === $user->getId()) {
+               return true;
+           }
+       }
+       return false;
+    }
+
+    public function getAnnulationMotif(): ?string
+    {
+        return $this->annulation_motif;
+    }
+
+    public function setAnnulationMotif(?string $annulation_motif): static
+    {
+        $this->annulation_motif = $annulation_motif;
+
+        return $this;
+    }
+
 }
