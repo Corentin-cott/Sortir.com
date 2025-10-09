@@ -1,0 +1,12 @@
+:root {
+    --background: #fff;
+    --contrastBackground: #333;
+    --linkHover: #106d05;
+    --contrastLinkHover: #79d56e;
+
+    --defaultFontSize: 1em;
+
+    --bodyPaddingX: 2em;
+    --bodyPaddingY: 0em;
+}
+

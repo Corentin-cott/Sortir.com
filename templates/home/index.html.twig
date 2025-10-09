@@ -3,16 +3,12 @@
 {% block title %}Home | {{ parent() }} {% endblock %}
 
 {% block body %}
-    <div class="container mt-4">
-        <h1>Logo Sortir.com</h1>
-
-        <div class="d-flex justify-content-between mb-3">
-            <div>
-                <strong>Date du jour :</strong> {{ today|date('d/m/Y') }}<br>
-                {% if user %}
-                    <strong>Participant :</strong> {{ user.prenom }} {{ user.nom }}
-                {% endif %}
-            </div>
+    <div class="body-container">
+        <div class="flexbox-centered">
+            <p style="padding: 1em"><strong>Date du jour :</strong> {{ today|date('d/m/Y') }}</p>
+            {% if user %}
+                <p style="padding: 1em"><strong>Participant :</strong> {{ user.prenom }} {{ user.nom }}</p>
+            {% endif %}
         </div>
 
         <form method="get" class="mb-4 p-3 border rounded bg-light">
