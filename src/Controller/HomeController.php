@@ -68,17 +68,10 @@ final class HomeController extends AbstractController
         }
         $participant = $entityManager->getRepository(Participant::class)->find($participant->getId());
 
-        //User =/= organisateur
-        if($participant->getId() == $sortie->getOrganisateur()->getId()){
-            $this->addFlash('danger', 'Vous ne pouvez pas vous inscrire à la sortie en tant qu \' organisateur !');
-            return $this->redirectToRoute('app_home');
-        }
-
         $token = $request->request->get('_token');
         if (!$this->isCsrfTokenValid('sinscrire'.$sortie->getId(), $token)) {
             throw $this->createAccessDeniedException('Action non autorisée (token invalide).');
         }
-
         try {
             $sortie->sinscrire($participant);
             $entityManager->flush();
@@ -86,7 +79,6 @@ final class HomeController extends AbstractController
         } catch(\Exception $e) {
             $this->addFlash('danger', $e->getMessage());
         }
-
         return $this->redirectToRoute('app_home');
     }
     #[IsGranted('ROLE_USER')]
@@ -103,7 +95,6 @@ final class HomeController extends AbstractController
         if (!$this->isCsrfTokenValid('desinscrire'.$sortie->getId(), $token)) {
             throw $this->createAccessDeniedException('Action non autorisée (token invalide).');
         }
-
         try {
             $sortie->desinscrire($participant);
             $entityManager->flush();
@@ -111,10 +102,7 @@ final class HomeController extends AbstractController
         } catch(\Exception $e) {
             $this->addFlash('danger', $e->getMessage());
         }
-
-
         return $this->redirectToRoute('app_home');
-
     }
 
 }

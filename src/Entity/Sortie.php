@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -209,52 +208,25 @@ class Sortie
         return $this;
     }
 
-    public function MiseAJourEtat(EtatRepository $etatRepository): void
-    {
-        $now = new \DateTimeImmutable();
-
-        // Raccourcis pour les états disponibles
-        $etatCree = $etatRepository->findOneBy(['libelle' => 'Créée']);
-        $etatOuverte = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
-        $etatCloturee = $etatRepository->findOneBy(['libelle' => 'Clôturée']);
-        $etatEnCours = $etatRepository->findOneBy(['libelle' => 'Activitée en cours']);
-        $etatPasse = $etatRepository->findOneBy(['libelle' => 'Passée']);
-        $etatAnnule = $etatRepository->findOneBy(['libelle' => 'Annulée']);
-
-        // Si la sortie est annulée → on ne touche plus à son état
-        if ($this->etat === $etatAnnule) {
-            return;
-        }
-
-        // Si la date limite est passée et qu'elle est encore ouverte → Clôturée
-        if ($this->getDateLimiteInscription() < $now && $this->etat === $etatOuverte) {
-            $this->etat = $etatCloturee;
-            return;
-        }
-
-        // Si la sortie commence maintenant → En cours
-        if ($this->getDateHeureDebut() <= $now && $this->etat !== $etatPasse) {
-            $this->etat = $etatEnCours;
-            return;
-        }
-
-        // Si la sortie est terminée (date + durée)
-        $fin = (clone $this->getDateHeureDebut())->modify('+' . $this->getDuree() . ' minutes');
-        if ($fin < $now) {
-            $this->etat = $etatPasse;
-        }
-    }
-
-
-
     /**
      * @throws \Exception
      */
     public function sinscrire(Participant $participant): void
     {
-        $dateNow = new \DateTimeImmutable();
+        $dateNow = new \DateTimeImmutable()->format('Y-m-d H:i:s');
+        $dateLimite = $this->getDateLimiteInscription()->format('Y-m-d H:i:s');
+
+        //User is organisateur
+        if($participant->getId() == $this->getOrganisateur()->getId()){
+            throw new \Exception("Vous ne pouvez pas vous inscrire en tant qu'organisateur");
+        }
+
+        if($this->getEtat()->getLibelle() == "Annulée" || $this->getEtat()->getLibelle() == "Cloturée"){
+            throw new \Exception("Le statut de la sortie ne permet pas d'inscription.");
+        }
+
         //Cloture des inscriptions
-        if($dateNow > $this->getDateLimiteInscription())
+        if($dateNow > $dateLimite)
         {
             throw new \Exception("La date limite d'inscription est passée");
         }
