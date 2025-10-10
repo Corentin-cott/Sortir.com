@@ -1,0 +1,202 @@
+:root{
+    --bg: #0f1724;           /* accent dark (used subtly) */
+    --card-bg: #0f1724;      /* dark accents in gradients */
+    --muted: #6b7280;
+    --text: #0b1220;
+    --accent: #2563eb;       /* vibrant blue accent */
+    --accent-2: #7c3aed;     /* secondary accent */
+    --surface: #ffffff;
+    --glass: rgba(255,255,255,0.06);
+    --radius: 12px;
+    --shadow: 0 6px 18px rgba(16,24,40,0.12);
+    --soft-shadow: 0 3px 10px rgba(9,30,66,0.08);
+}
+
+/* Page container */
+.page-wrap{
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    color: var(--text);
+    padding: 28px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header */
+.page-header {
+    text-align: center;
+    margin-bottom: 18px;
+}
+.page-header h1 {
+    margin: 0;
+    font-size: 28px;
+    letter-spacing: -0.2px;
+    color: var(--accent);
+}
+
+/* Main area */
+.page-main {
+    display: block;
+    gap: 18px;
+}
+
+/* Row with the two cards (info + lieu) */
+.cards-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+    margin-bottom: 18px;
+}
+
+/* Generic card */
+.card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,252,0.98));
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--soft-shadow);
+    border: 1px solid rgba(37,99,235,0.06);
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+.card:hover {
+    box-shadow: var(--shadow);
+}
+
+.card-title {
+    margin: 0 0 12px 0;
+    font-size: 16px;
+    color: var(--accent-2);
+    font-weight: 600;
+}
+
+/* Info list layout */
+.info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Each informational line: label left, value right */
+.info-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, rgba(240,246,255,0.6), rgba(250,250,252,0.6));
+    border: 1px solid rgba(37,99,235,0.04);
+}
+
+.info-line--long { align-items: stretch; flex-direction: column; }
+
+.label {
+    min-width: 36%;
+    max-width: 42%;
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.value {
+    flex: 1;
+    font-size: 14px;
+    color: var(--text);
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    line-height: 1.25;
+}
+
+/* Participants block */
+.participants-wrap {
+    display: block;
+    margin-top: 6px;
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+/* Title */
+.participants-title {
+    margin: 0 0 8px 0;
+    font-size: 15px;
+    color: var(--accent);
+}
+
+/* Table container: on desktop it will be constrained to ~20% width */
+.participants-table {
+    width: 20vw;               /* ~20% of viewport width on desktop */
+    min-width: 220px;
+    max-width: 320px;
+    background: var(--surface);
+    border-radius: 10px;
+    box-shadow: var(--soft-shadow);
+    overflow: hidden;
+    border: 1px solid rgba(16,24,40,0.04);
+    max-height: 46vh;
+    overflow-y: auto;
+}
+
+/* Table styling */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+.table thead {
+    position: sticky;
+    top: 0;
+    background: linear-gradient(90deg, rgba(37,99,235,0.06), rgba(124,58,237,0.03));
+    backdrop-filter: blur(4px);
+}
+.table th, .table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid rgba(16,24,40,0.04);
+}
+.table tbody tr:hover {
+    background: linear-gradient(90deg, rgba(37,99,235,0.02), rgba(124,58,237,0.01));
+}
+
+/* Button */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: transform .12s ease;
+}
+.btn--secondary {
+    background: linear-gradient(180deg, #eef2ff, #eef6ff);
+    color: var(--accent);
+    border: 1px solid rgba(37,99,235,0.12);
+    box-shadow: 0 4px 10px rgba(37,99,235,0.04);
+}
+
+
+/* Responsive behaviour */
+@media (max-width: 920px) {
+    .cards-row { grid-template-columns: 1fr; }
+    .participants-table {
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+    }
+    .info-line { padding: 8px; }
+    .label { min-width: 40%; max-width: 45%; }
+}
+
+/* Mobile: single column with label left / value right */
+@media (max-width: 600px) {
+    .page-wrap { padding: 16px; }
+    .label { width: 46%; flex: 0 0 46%; font-size: 13px; }
+    .value { width: 54%; text-align: right; font-size: 13px; }
+    .info-line { background: rgba(0,0,0,0.03); padding: 8px; align-items: center; }
+    .info-line--long { flex-direction: column; }
+    .participants-wrap { flex-direction: column; gap: 10px; }
+    .participants-title { margin-left: 0; }
+    .participants-table { width: 100%; max-height: 34vh; }
+}

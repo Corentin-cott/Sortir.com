@@ -50,6 +50,7 @@ class ProfilType extends AbstractType
                             'image/jpeg',
                             'image/png',
                             'image/webp',
+                            'image/jpg',
                         ],
                         'mimeTypesMessage' => 'Veuillez télécharger une image valide (jpg, png, webp)',
                     ])
