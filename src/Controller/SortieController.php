@@ -63,11 +63,11 @@ final class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $action = $request->request->get('action');
             if ($action === 'save') {
-                $etat = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Crée']);
+                $etat = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Créée']);
             } elseif ($action === 'publish') {
                 $etat = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']);
             } else { // On sait jamais
-                $etat = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Crée']);
+                $etat = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Créée']);
             }
 
             $sortie->setOrganisateur($organisateur);
@@ -77,7 +77,7 @@ final class SortieController extends AbstractController
             $em->persist($sortie);
             $em->flush();
 
-            $this->addFlash('success', 'Sortie créer avec succès !');
+            $this->addFlash('success', 'Sortie créér avec succès !');
         }
 
         return $this->render('sorties/creer_modifier.html.twig', [
@@ -129,7 +129,7 @@ final class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/sortie/modifier/{id}', name: 'app_sortie_annuler', requirements: ['id' => '\d+'])]
+    #[Route('/sortie/modifier/{id}', name: 'app_sortie_modifier', requirements: ['id' => '\d+'])]
     public function modifier(Request $request, EntityManagerInterface $em, int $id): Response
     {
         // Vérification que l'utilisateur est connecté
@@ -170,7 +170,7 @@ final class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $action = $request->request->get('action');
             if ($action === 'save') {
-                $etat = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Crée']);
+                $etat = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Créée']);
             } elseif ($action === 'publish') {
                 $etat = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']);
             }

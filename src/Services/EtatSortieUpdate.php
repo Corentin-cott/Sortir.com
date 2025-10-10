@@ -27,7 +27,7 @@ class EtatSortieUpdate
         $dateDebut = $sortie->getDateHeureDebut();
         $dateFin = $dateDebut->modify("+ {$sortie->getDuree()} minutes");
         $dateLimite = $sortie->getDateLimiteInscription();
-//        $dateArchive = $dateDebut->modify("+ 1 month");
+        $dateArchive = $dateDebut->modify("+ 1 month");
 
         $nbInscrits = count($sortie->getParticipants());
         $nbMax = $sortie->getNbInscriptionMax();
@@ -41,13 +41,13 @@ class EtatSortieUpdate
             $sortie->setEtat($etatRepo->findOneBy(['libelle' => 'Activitée en cours']));
         }
 
-        if($etatActuel === 'Activitée en cours' && $now > $dateFin){
+        if($etatActuel === 'Activitée en cours' && $now > $dateFin || $etatActuel === 'Cloturée' && $now > $dateFin){
             $sortie->setEtat($etatRepo->findOneBy(['libelle' => 'Passée']));
         }
 
-//        if($etatActuel === 'Terminée' && $now > $dateArchive || $etatActuel === 'Annuleé' && $now > $dateArchive){
-//            $sortie->setEtat($etatRepo->findOneBy(['libelle' => 'Archivée']));
-//        }
+        if( $now > $dateArchive && ($etatActuel === 'Passée' || $etatActuel === 'Annulée')){
+            $sortie->setEtat($etatRepo->findOneBy(['libelle' => 'Archivée']));
+        }
     }
 
 }
