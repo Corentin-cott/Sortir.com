@@ -10,21 +10,30 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ProfilController extends AbstractController
 {
     #[Route('/edit', name: 'app_edit')]
-    public function edit(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
+    public function edit(
+        Request $request,
+        EntityManagerInterface $em,
+        UserPasswordHasherInterface $passwordHasher,
+        SluggerInterface $slugger
+    ): Response
     {
-        // temporaire : on charge un utilisateur pour le dev
+        // récupérer l'utilisateur courant
         $user = $this->getUser();
         $user = $em->getRepository(Participant::class)->find($user->getId());
 
         if (!$user) {
-            return new Response('Utilisateur non connecté (auth à venir)');
+            return new Response('Utilisateur non connecté');
         }
 
-        $form = $this->createForm(ProfilType::class, $user);
+        $form = $this->createForm(ProfilType::class, $user, [
+            'attr' => ['enctype' => 'multipart/form-data'] // nécessaire pour upload
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -34,13 +43,24 @@ class ProfilController extends AbstractController
                 $user->setPassword($hashedPassword);
             }
 
-//            // gérer la photo si uploadée
-//            $photo = $form->get('photo')->getData();
-//            if ($photo) {
-//                $newFilename = uniqid().'.'.$photo->guessExtension();
-//                $photo->move($this->getParameter('photo_directory'), $newFilename);
-//                $user->setPhoto($newFilename);
-//            }
+            // gérer la photo si uploadée
+            $photoFile = $form->get('photo')->getData();
+            if ($photoFile) {
+                $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$photoFile->guessExtension();
+
+                try {
+                    $photoFile->move(
+                        $this->getParameter('uploads_directory'), // défini dans services.yaml
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    $this->addFlash('error', 'Erreur lors de l\'upload de la photo.');
+                }
+
+                $user->setPhoto($newFilename);
+            }
 
             $em->persist($user);
             $em->flush();

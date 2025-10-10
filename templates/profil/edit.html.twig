@@ -1,16 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription{% endblock %}
+{% block title %}Mon profil{% endblock %}
+
 {% block body %}
     <div class="container mt-4">
-        <div class="container mt-5">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
                 <h1>Mon profil</h1>
 
                 <h2>Pseudo : {{ profilForm.vars.data.pseudo }}</h2>
 
                 {{ form_start(profilForm, {'attr': {'enctype': 'multipart/form-data'}}) }}
+
+                {% if profilForm.vars.data.photo %}
+                    <div class="mb-3">
+                        <img src="{{ asset('uploads/photos/' ~ profilForm.vars.data.photo) }}"
+                             alt="Photo de profil" class="img-thumbnail" width="150">
+                    </div>
+                {% endif %}
 
                 {{ form_row(profilForm.prenom) }}
                 {{ form_row(profilForm.nom) }}
@@ -19,13 +26,14 @@
                 {{ form_row(profilForm.password) }}
                 {{ form_row(profilForm.confirmPassword) }}
                 {{ form_row(profilForm.site) }}
-        {#        {{ form_row(profilForm.photo) }}#}
+                {{ form_row(profilForm.photo) }}
 
-                <button type="submit" class="btn btn-primary">Enregistrer</button>
-                <a href="/" class="btn btn-secondary">Annuler</a>
+                <div class="d-flex gap-2 mt-3">
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <a href="{{ path('app_home') }}" class="btn btn-secondary">Annuler</a>
+                </div>
 
                 {{ form_end(profilForm) }}
-            </div>
             </div>
         </div>
     </div>
