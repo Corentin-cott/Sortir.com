@@ -28,7 +28,7 @@
         </a>
         {% include('_navbar.html.twig') %}
     </header>
-    <main>
+    <main style="min-height: 90dvh">
         {% for status, messages in app.flashes %}
             {% for message in messages %}
                 <div class="alert alert-{{status}}">{{ message }}</div>
@@ -38,11 +38,9 @@
             {% block body %}{% endblock %}
         </div>
     </main>
+    </body>
 
     <footer>
-        <div class="container">
-            <p>@Sortir.com  - {{ "now" | date("Y") }}</p>
-        </div>
+        <p>@Sortir.com  - {{ "now" | date("Y") }}</p>
     </footer>
-    </body>
 </html>

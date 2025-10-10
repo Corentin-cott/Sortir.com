@@ -22,6 +22,17 @@ header {
     width: 100%;
 }
 
+footer {
+    color: var(--background);
+    background-color: var(--contrastBackground);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    height: 5em;
+    margin-top: 1em;
+    align-content: center;
+}
+
 .custom-navbar {
     background-color: var(--contrastBackground);
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
@@ -79,6 +90,8 @@ header {
     text-decoration: none;
     border-radius: 0.5em;
     justify-content: center;
+    max-height: 100%;
+    display: inline-block;
 }
 
 .bouton-secondary-color:hover {
