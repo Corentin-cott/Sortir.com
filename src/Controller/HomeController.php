@@ -7,10 +7,14 @@ use App\Entity\Sortie;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Exception\ORMException;
+use Doctrine\ORM\OptimisticLockException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
 
 final class HomeController extends AbstractController
 {
@@ -45,80 +49,60 @@ final class HomeController extends AbstractController
             'sorties' => $sorties,
             'sites' => $siteRepository->findAll(),
             'user' => $this->getUser(),
-            'today' => new \DateTime(),
+            'today' => new \DateTimeImmutable(),
         ]);
     }
-    #[Route('/sinscrire/{id}', name: 'app_home_sinscrire', requirements: ['id' => '\d+'], methods: ['GET'])]
-    public function sinscrire(EntityManagerInterface $entityManager, int  $id): Response
-    {
-        $sortie = $entityManager->find(Sortie::class, $id);
-        if (!$sortie) {
-            throw $this->createNotFoundException('Sortie inexistante');
 
-        }
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     * @throws \Exception
+     */
+    #[IsGranted('ROLE_USER')]
+    #[Route('/sinscrire/{id}', name: 'app_home_sinscrire', requirements: ['id' => '\d+'], methods: ['POST'] )]
+    public function sinscrire(Request $request, EntityManagerInterface $entityManager, Sortie  $sortie): Response
+    {
         $participant = $this->getUser();
         if (!$participant) {
             throw $this->createNotFoundException('Connectez vous pour pouvoir vous inscrire');
-
         }
         $participant = $entityManager->getRepository(Participant::class)->find($participant->getId());
 
-        $nbMax = $sortie->getNbInscriptionMax();
-        $nbInscrit = count($sortie->getParticipants());
-
-        //User =/= organisateur
-        if($participant->getId() == $sortie->getOrganisateur()->getId()){
-            $this->addFlash('error', 'Vous ne pouvez pas vous inscrire à la sortie en tant qu \' organisateur !');
-            return $this->redirectToRoute('app_home');
+        $token = $request->request->get('_token');
+        if (!$this->isCsrfTokenValid('sinscrire'.$sortie->getId(), $token)) {
+            throw $this->createAccessDeniedException('Action non autorisée (token invalide).');
         }
-
-        //date limite
-        if ($sortie->getDateLimiteInscription() < new \DateTime()) {
-            $this->addFlash('error', 'La date limite d’inscription est dépassée.');
-            return $this->redirectToRoute('app_home');
+        try {
+            $sortie->sinscrire($participant);
+            $entityManager->flush();
+            $this->addFlash('success', 'Inscription réussie !');
+        } catch(\Exception $e) {
+            $this->addFlash('danger', $e->getMessage());
         }
-        // nb Max
-        if ($nbInscrit == $nbMax) {
-            $this->addFlash('error', 'La sortie est complète.');
-            return $this->redirectToRoute('app_home');
-        }
-
-        $sortie->sinscrire($participant);
-        $entityManager->persist($sortie);
-        $entityManager->flush();
-        $this->addFlash('success', 'Inscription réussie !');
         return $this->redirectToRoute('app_home');
-
     }
-    #[Route('/desinscrire/{id}', name: 'app_home_desinscrire', requirements: ['id' => '\d+'], methods: ['GET'])]
-    public function desinscrire(EntityManagerInterface $entityManager, int  $id): Response
+    #[IsGranted('ROLE_USER')]
+    #[Route('/desinscrire/{id}', name: 'app_home_desinscrire', requirements: ['id' => '\d+'], methods: ['POST'] )]
+    public function desinscrire(Request $request, EntityManagerInterface $entityManager, Sortie $sortie): Response
     {
-        $sortie = $entityManager->find(Sortie::class, $id);
-        if (!$sortie) {
-            throw $this->createNotFoundException('Sortie inexistante');
-
-        }
         $participant = $this->getUser();
         if (!$participant) {
             throw $this->createNotFoundException('Connectez vous pour pouvoir vous inscrire');
-
         }
         $participant = $entityManager->getRepository(Participant::class)->find($participant->getId());
 
-
-        //User =/= participants
-        if(!$sortie->estInscrit($participant)){
-            $this->addFlash('error', 'Vous n\êtes pas inscrit !');
-            return $this->redirectToRoute('app_home');
+        $token = $request->request->get('_token');
+        if (!$this->isCsrfTokenValid('desinscrire'.$sortie->getId(), $token)) {
+            throw $this->createAccessDeniedException('Action non autorisée (token invalide).');
         }
-
-        $sortie->desinscrire($participant);
-        $entityManager->persist($sortie);
-        $entityManager->flush();
-
-        $this->addFlash('success', 'Desinscription réussie !');
+        try {
+            $sortie->desinscrire($participant);
+            $entityManager->flush();
+            $this->addFlash('success', 'Desinscription réussie !');
+        } catch(\Exception $e) {
+            $this->addFlash('danger', $e->getMessage());
+        }
         return $this->redirectToRoute('app_home');
-
     }
 
 }

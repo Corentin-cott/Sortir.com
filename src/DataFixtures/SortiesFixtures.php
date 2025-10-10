@@ -17,9 +17,9 @@ class SortiesFixtures extends Fixture implements DependentFixtureInterface
     {
         $sortie1 = new Sortie();
         $sortie1->setNom("Mardi apéro Niortais");
-        $sortie1->setDateHeureDebut(new \DateTime("2025-10-25T20:00"));
+        $sortie1->setDateHeureDebut(new \DateTimeImmutable("2025-10-25T20:00"));
         $sortie1->setDuree(90);
-        $sortie1->setDateLimiteInscription(new \DateTime("2025-10-20T20:00"));
+        $sortie1->setDateLimiteInscription(new \DateTimeImmutable("2025-10-20T20:00"));
         $sortie1->setNbInscriptionMax(10);
         $sortie1->setDescriptionInfos("Soirée d'intégration...");
         $sortie1->setEtat($this->getReference("etat-1", Etat::class));
