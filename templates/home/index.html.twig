@@ -6,7 +6,7 @@
     <div class="container mt-4">
         <h1>Logo Sortir.com</h1>
 
-        <div class="d-flex justify-content-between mb-3">
+        <div class="d-flex justify-content-between mb-3 align-items-center">
             <div>
                 <strong>Date du jour :</strong> {{ today|date('d/m/Y') }}<br>
                 {% if user %}
@@ -114,5 +114,4 @@
 
         <a href="sortie/creer" class="btn btn-success">Créer une sortie</a>
     </div>
-
 {% endblock %}
