@@ -1,0 +1,27 @@
+:root {
+    /* Color variables */
+    --primaryColor: #333;
+    --secondaryColor: #106d05;
+    --secondaryColorLight: #79d56e;
+    --secondaryColorLightest: #f8f9fa;
+    --secondaryColorDark: #0e4e07;
+    --secondaryColorDarkest: #0a3006;
+
+    --defaultFontSize: 1em;
+    /* End of color variables */
+
+    /* Elements variables */
+    --background: #fff;
+    --linkHover: var(--secondaryColor);
+    --contrastBackground: var(--primaryColor);
+    --contrastLinkHover: var(--secondaryColorLight);
+    --lightContainer: var(--secondaryColorLightest);
+    --lightContainerOutline: var(--secondaryColor);
+    --boutonSecondaryColor: var(--secondaryColor);
+    --boutonSecondaryColorHover: var(--secondaryColorDark);
+
+    --bodyPaddingX: 2em;
+    --bodyPaddingY: 0em;
+    /* End of elements variables */
+}
+
