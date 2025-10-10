@@ -11,12 +11,13 @@ class EtatFixtures extends Fixture
     public const ETATS_REFERENCE_PREFIX = 'etat-';
 
     public const ETATS = [
-        "Crées",
+        "Créée",
         "Ouverte",
         "Cloturée",
         "Activitée en cours",
         "Passée",
-        "Annulée"
+        "Annulée",
+        "Archivée"
     ];
 
     public function load(ObjectManager $manager): void

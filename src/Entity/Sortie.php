@@ -19,13 +19,13 @@ class Sortie
     private ?string $nom = null;
 
     #[ORM\Column]
-    private ?\DateTime $dateHeureDebut = null;
+    private ?\DateTimeImmutable $dateHeureDebut = null;
 
     #[ORM\Column]
     private ?int $duree = null;
 
     #[ORM\Column]
-    private ?\DateTime $dateLimiteInscription = null;
+    private ?\DateTimeImmutable $dateLimiteInscription = null;
 
     #[ORM\Column]
     private ?int $nbInscriptionMax = null;
@@ -80,12 +80,12 @@ class Sortie
         return $this;
     }
 
-    public function getDateHeureDebut(): ?\DateTime
+    public function getDateHeureDebut(): ?\DateTimeImmutable
     {
         return $this->dateHeureDebut;
     }
 
-    public function setDateHeureDebut(\DateTime $dateHeureDebut): static
+    public function setDateHeureDebut(\DateTimeImmutable $dateHeureDebut): static
     {
         $this->dateHeureDebut = $dateHeureDebut;
 
@@ -105,12 +105,12 @@ class Sortie
     }
 
 
-    public function getDateLimiteInscription(): ?\DateTime
+    public function getDateLimiteInscription(): ?\DateTimeImmutable
     {
         return $this->dateLimiteInscription;
     }
 
-    public function setDateLimiteInscription(\DateTime $dateLimiteInscription): self
+    public function setDateLimiteInscription(\DateTimeImmutable $dateLimiteInscription): self
     {
         $this->dateLimiteInscription = $dateLimiteInscription;
         return $this;
@@ -210,12 +210,45 @@ class Sortie
 
         return $this;
     }
+
+    /**
+     * @throws \Exception
+     */
     public function sinscrire(Participant $participant): void
     {
+        $dateNow = new \DateTimeImmutable()->format('Y-m-d H:i:s');
+        $dateLimite = $this->getDateLimiteInscription()->format('Y-m-d H:i:s');
+
+        //User is organisateur
+        if($participant->getId() == $this->getOrganisateur()->getId()){
+            throw new \Exception("Vous ne pouvez pas vous inscrire en tant qu'organisateur");
+        }
+
+        if($this->getEtat()->getLibelle() == "Annulée" || $this->getEtat()->getLibelle() == "Cloturée"){
+            throw new \Exception("Le statut de la sortie ne permet pas d'inscription.");
+        }
+
+        //Cloture des inscriptions
+        if($dateNow > $dateLimite)
+        {
+            throw new \Exception("La date limite d'inscription est passée");
+        }
+        //nbMax
+        $nbInscrit = count($this->getParticipants());
+        if($nbInscrit == $this->getNbInscriptionMax()){
+            throw new \Exception("Le nombre maximum d'inscrits est deja atteint");
+        }
         $this->addParticipant($participant);
     }
+
+    /**
+     * @throws \Exception
+     */
     public function desinscrire(Participant $participant): void
     {
+        if (!$this->estInscrit($participant)) {
+            throw new \Exception("Vous n'êtes pas inscrit à cette sortie.");
+        }
         $this->removeParticipant($participant);
     }
     public function estInscrit(Participant $user): bool

@@ -72,10 +72,10 @@
                 <tr>
                     <td>{{ sortie.nom }}</td>
                     <td>{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</td>
-                    <td>{{ sortie.dateLimiteInscription|date('d/m/Y H:i' ) }}</td>
+                    <td>{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</td>
                     <td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionMax }}</td>
                     <td>{{ sortie.etat.libelle }}</td>
-                    <td>{% if user in sortie.participants %}X{% endif %}</td>
+                    <td>{% if app.user and sortie.estInscrit(app.user) %}X{% endif %}</td>
                     <td>{{ sortie.organisateur.prenom }}</td>
                     <td>
                         <a href="{{ path('app_sortie_details', {id: sortie.id}) }}">Afficher</a>
@@ -95,11 +95,17 @@
                         {% if app.user and sortie.organisateur.id != app.user.id %}
 
                             {% if app.user and not sortie.estInscrit(app.user)  %}
-                                <a href="{{ path("app_home_sinscrire", {'id': sortie.id}) }}">S'inscrire</a>
+                                <form method="post" action="{{ path('app_home_sinscrire', {'id': sortie.id}) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('sinscrire'~sortie.id) }}">
+                                    <button class="btn btn-primary" type="submit">S'inscrire</button>
+                                </form>
                             {% endif %}
 
                             {% if app.user and sortie.estInscrit(app.user) %}
-                                <a href="{{ path("app_home_desinscrire", {'id':sortie.id}) }}">Se désinscrire</a>
+                                <form method="post" action="{{ path('app_home_desinscrire', {'id': sortie.id}) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('desinscrire'~sortie.id) }}">
+                                    <button class="btn btn-danger" type="submit">Se désinscrire</button>
+                                </form>
                             {% endif %}
 
                         {% endif %}
