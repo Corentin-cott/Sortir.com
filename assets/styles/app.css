@@ -1,4 +1,16 @@
+/* SORTIES */
+
+.recherche-sortie-form {
+    background-color: var(--lightContainer);
+    border: var(--lightContainerOutline) 1px solid;
+    border-radius: 1em;
+    padding: 1em;
+}
+
+/* APP */
+
 body {
+    background-color: var(--background);
     width: 100%;
     overflow-x: hidden;
 }
@@ -57,6 +69,23 @@ header {
     padding-right: var(--bodyPaddingX);
     width: 100%
 }
+
+/* BOUTONS */
+
+.bouton-secondary-color {
+    background-color: var(--boutonSecondaryColor);
+    padding: 0.7em;
+    color: white;
+    text-decoration: none;
+    border-radius: 0.5em;
+    justify-content: center;
+}
+
+.bouton-secondary-color:hover {
+    background-color: var(--boutonSecondaryColorHover);
+}
+
+/* FIN BOUTONS */
 
 /* Menu vertical sur mobile */
 @media (max-width: 991.98px) {
