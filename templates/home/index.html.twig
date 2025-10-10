@@ -73,7 +73,10 @@
                     <td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionMax }}</td>
                     <td>{{ sortie.etat.libelle }}</td>
                     <td>{% if app.user and sortie.estInscrit(app.user) %}X{% endif %}</td>
-                    <td>{{ sortie.organisateur.prenom }}</td>
+                    <td>
+                        <a href="{{ path('app_edit', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.prenom }}</a>
+
+                    </td>
                     <td>
                         <a href="{{ path('app_sortie_details', {id: sortie.id}) }}">Afficher</a>
 

@@ -83,20 +83,7 @@ footer {
 
 /* BOUTONS */
 
-.bouton-secondary-color {
-    background-color: var(--boutonSecondaryColor);
-    padding: 0.7em;
-    color: white;
-    text-decoration: none;
-    border-radius: 0.5em;
-    justify-content: center;
-    max-height: 100%;
-    display: inline-block;
-}
 
-.bouton-secondary-color:hover {
-    background-color: var(--boutonSecondaryColorHover);
-}
 
 /* FIN BOUTONS */
 

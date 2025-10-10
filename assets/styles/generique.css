@@ -1,5 +1,6 @@
 :root {
     /* Color variables */
+    --primaryColorLight: #6b7280;
     --primaryColor: #333;
     --secondaryColor: #106d05;
     --secondaryColorLight: #79d56e;
@@ -8,20 +9,48 @@
     --secondaryColorDarkest: #0a3006;
 
     --defaultFontSize: 1em;
+
+    --shadow: 0 6px 18px rgba(16,24,40,0.12);
+    --soft-shadow: 0 3px 10px rgba(9,30,66,0.08);
     /* End of color variables */
 
     /* Elements variables */
     --background: #fff;
+    --labelColor: var(--primaryColor);
     --linkHover: var(--secondaryColor);
     --contrastBackground: var(--primaryColor);
     --contrastLinkHover: var(--secondaryColorLight);
     --lightContainer: var(--secondaryColorLightest);
     --lightContainerOutline: var(--secondaryColor);
     --boutonSecondaryColor: var(--secondaryColor);
+    --titleSecondaryColor: var(--secondaryColor);
+    --textColor: var(--primaryColor);
+    --textLight: var(--primaryColorLight);
     --boutonSecondaryColorHover: var(--secondaryColorDark);
 
     --bodyPaddingX: 2em;
     --bodyPaddingY: 0em;
+
+
+    --fontTitleSize: 1.4em;
+    --fontLabelSize: 1.1em;
+    --fontTextSize: 1em;
+
     /* End of elements variables */
 }
 
+/* Généric buton for site*/
+.bouton-secondary-color {
+    background-color: var(--boutonSecondaryColor);
+    padding: 0.7em;
+    color: white;
+    text-decoration: none;
+    border-radius: 0.5em;
+    justify-content: center;
+    max-height: 100%;
+    display: inline-block;
+}
+
+.bouton-secondary-color:hover {
+    background-color: var(--boutonSecondaryColorHover);
+}
