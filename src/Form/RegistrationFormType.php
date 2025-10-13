@@ -25,20 +25,67 @@ class RegistrationFormType extends AbstractType
             ->add('nom', TextType::class, [
                 'label' => 'Nom',
                 'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Saisir votre nom',
+                    ]),
+                    new Length([
+                        'min' => 3,
+                        'minMessage' => 'Saisissez un minimum de {{limit}} caractères.',
+                        'max' => 30,
+                        'maxMessage' => 'Votre nom ne doit pas dépasser {{limit}} caractères.'
+                    ])
+                ],
             ])
             ->add('prenom', TextType::class, [
                 'label' => 'Prenom',
                 'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Saisir votre prenom',
+                    ]),
+                    new Length([
+                    'min' => 3,
+                    'minMessage' => 'Saisissez un minimum de {{limit}} caractères.',
+                    'max' => 30,
+                    'maxMessage' => 'Votre prenom ne doit pas dépasser {{limit}} caractères.'
+                    ]),
+                ],
             ])
             ->add('pseudo', TextType::class, [
                 'label' => 'Pseudo',
                 'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Saisir votre pseudo',
+                    ]),
+                    new Length([
+                        'max' => 40,
+                        'maxMessage' => 'Votre pseudo ne doit pas dépasser {{limite}} caractères.'
+                    ])
+
+                ]
             ])
             ->add('telephone', TextType::class, [
                 'label' => 'Telephone',
+                'constraints' => [
+                    new Length([
+                        'min' => 10,
+                        'max' => 10,
+                        'minMessage' => 'Si vous souhaitez préciser un telephone {{ limit }} chiffres.',
+                        'maxMessage' => 'Si vous souhaitez préciser un telephone {{ limit }} chiffres, directement par 06 pas de +33'
+                    ])
+                ]
             ])
             ->add('email', EmailType::class, [
                 'attr' => ['placeholder' => 'Email'],
+                'label' => 'Email',
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Saisir votre email',
+                    ])
+                ]
             ])
 
             ->add('password', PasswordType::class, [
@@ -48,7 +95,7 @@ class RegistrationFormType extends AbstractType
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Saisir votre password',
                     ]),
                     new Length([
                         'min' => 6,

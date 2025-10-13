@@ -20,10 +20,12 @@
                         <li  class="nav-item">
                             <a class="nav-link" href="{{ path('app_edit', {'id': app.user.id}) }}" title="Go back to edit">Modifier Profil</a>
                         </li>
+                        {% if is_granted("ROLE_ADMIN") %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_register') }}">Inscription</a>
+                            </li>
+                        {% endif %}
                     {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_register') }}">Inscription</a>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
                         </li>
