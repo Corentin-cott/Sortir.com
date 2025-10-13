@@ -9,7 +9,11 @@
     {% if result is defined %}
         <div class="recherche-sortie-form">
             <h2>Résultat de l'import</h2>
-            <p style="margin: 0;"><span class="warning-text">{{ result.imported }}/{{ result.totalToImport }}</span> participants importés.</p>
+            {% if result.imported == result.totalToImport and result.totalToImport > 0 %}
+                <p style="margin: 0;"><span class="goodnews-text">{{ result.imported }}/{{ result.totalToImport }}</span> participants importés.</p>
+            {% else %}
+                <p style="margin: 0;"><span class="warning-text">{{ result.imported }}/{{ result.totalToImport }}</span> participants importés.</p>
+            {% endif %}
 
             {% if result.errors %}
                 <ul style="margin: 0;">
