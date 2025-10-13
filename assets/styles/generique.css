@@ -7,6 +7,7 @@
     --secondaryColorLightest: #f8f9fa;
     --secondaryColorDark: #0e4e07;
     --secondaryColorDarkest: #0a3006;
+    --warningColor: #ff4500;
 
     --defaultFontSize: 1em;
 
@@ -27,6 +28,8 @@
     --textColor: var(--primaryColor);
     --textLight: var(--primaryColorLight);
     --boutonSecondaryColorHover: var(--secondaryColorDark);
+    --warningTextColor: var(--warningColor);
+    --goodNewsTextColor: var(--secondaryColor);
 
     --bodyPaddingX: 2em;
     --bodyPaddingY: 0em;
@@ -54,3 +57,14 @@
 .bouton-secondary-color:hover {
     background-color: var(--boutonSecondaryColorHover);
 }
+/* End of buttons */
+.warning-text {
+    font-weight: 600;
+    color: var(--warningTextColor);
+}
+
+.goodnews-text {
+    font-weight: 600;
+    color: var(--goodNewsTextColor);
+}
+/* Generic text */
