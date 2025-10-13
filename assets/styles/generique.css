@@ -7,6 +7,7 @@
     --secondaryColorLightest: #f8f9fa;
     --secondaryColorDark: #0e4e07;
     --secondaryColorDarkest: #0a3006;
+    --warningColor: #ff4500;
 
     --defaultFontSize: 1em;
 
@@ -27,6 +28,8 @@
     --textColor: var(--primaryColor);
     --textLight: var(--primaryColorLight);
     --boutonSecondaryColorHover: var(--secondaryColorDark);
+    --warningTextColor: var(--warningColor);
+    --goodNewsTextColor: var(--secondaryColor);
 
     --bodyPaddingX: 2em;
     --bodyPaddingY: 0em;
@@ -39,12 +42,13 @@
     /* End of elements variables */
 }
 
-/* Généric buton for site*/
+/* Generic buttons */
 .bouton-secondary-color {
     background-color: var(--boutonSecondaryColor);
     padding: 0.7em;
     color: white;
     text-decoration: none;
+    border: none;
     border-radius: 0.5em;
     justify-content: center;
     max-height: 100%;
@@ -54,3 +58,38 @@
 .bouton-secondary-color:hover {
     background-color: var(--boutonSecondaryColorHover);
 }
+/* End of  generic buttons */
+
+/* Generic text */
+.title {
+    width: 100%;
+    text-align: center;
+}
+
+.information-container h3 {
+    font-size: 1.5rem;
+}
+.information-container p,
+.information-container ul {
+    margin: 0;
+}
+.warning-text {
+    font-weight: 600;
+    color: var(--warningTextColor);
+}
+
+.goodnews-text {
+    font-weight: 600;
+    color: var(--goodNewsTextColor);
+}
+/* End of generic text */
+
+/* Special containers */
+.information-container {
+    background-color: var(--lightContainer);
+    border: var(--lightContainerOutline) 1px solid;
+    border-radius: 1em;
+    padding: 1em;
+    margin-bottom: 1rem;
+}
+/* End of special containers */
