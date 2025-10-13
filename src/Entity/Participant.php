@@ -55,9 +55,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     #[ORM\Column]
-    private ?bool $administrateur = false;
-
-    #[ORM\Column]
     private ?bool $actif = true;
 
     #[ORM\ManyToOne(inversedBy: 'participants')]
@@ -204,19 +201,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
-    public function isAdministrateur(): ?bool
-    {
-        return $this->administrateur;
-    }
-
-    public function setAdministrateur(bool $administrateur): static
-    {
-        $this->administrateur = $administrateur;
-
-        return $this;
-    }
-
     public function isActif(): ?bool
     {
         return $this->actif;
@@ -307,5 +291,13 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->photo = $photo;
         return $this;
+    }
+    public function isAdmin(): ?bool
+    {
+        $roles = $this->roles;
+        if(in_array('ROLE_ADMIN', $roles)){
+            return true;
+        }
+        return false;
     }
 }

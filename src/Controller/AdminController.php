@@ -15,12 +15,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use function PHPUnit\Framework\throwException;
 
 final class AdminController extends AbstractController {
     #[Route('/admin/dashboard', name: 'admin_dashboard')]
     #[IsGranted("ROLE_ADMIN")]
     public function importParticipants(Request $request, ParticipantImporter $importer, EntityManagerInterface $em): Response
     {
+        $utilisateurs = $em->getRepository(Participant::class)->findAll();
         if ($request->isMethod('POST')) {
             $file = $request->files->get('csv_file');
             if ($file) {
@@ -30,14 +32,14 @@ final class AdminController extends AbstractController {
                 try {
                     $file->move($uploadDir, $file->getClientOriginalName());
                     $result = $importer->importFromCsv($filePath);
-                    return $this->render('admin/dashboard.html.twig', ['result' => $result]);
+                    return $this->render('admin/dashboard.html.twig', ['result' => $result,
+                            'utilisateurs' => $utilisateurs  ]
+                    );
                 } catch (FileException $e) {
                     $this->addFlash('error', 'Erreur lors du téléchargement du fichier.');
                 }
             }
         }
-        $utilisateurs = $em->getRepository(Participant::class)->findAll();
-
         return $this->render('admin/dashboard.html.twig',
         ['utilisateurs' => $utilisateurs]);
     }
@@ -124,6 +126,35 @@ final class AdminController extends AbstractController {
         }
 
         $this->addFlash('error', 'Utilisateur deja inactif.');
+        return $this->redirectToRoute('admin_dashboard');
+    }
+
+    #[Route('admin/grant/{id}', name:'admin_grant', requirements: ['id' => '\d+'], methods: ['POST'])]
+    public function grantedAdmin(Participant $utilisateur, Request $request, EntityManagerInterface $em): Response
+    {
+       $token = $request->request->get('_token');
+       if (!$this->isCsrfTokenValid('grant'.$utilisateur->getId(), $token)) {
+           throw $this->createAccessDeniedException("Action non autorisée (token invalide).");
+       }
+
+       $utilisateur->setRoles(['ROLE_ADMIN']);
+       $em->flush();
+       $this->addFlash('success', 'Utilisateur promu Admin.');
+
+       return $this->redirectToRoute('admin_dashboard');
+    }
+
+    #[Route('admin/demote/{id}', name:'admin_demote', requirements: ['id' => '\d+'], methods: ['POST'])]
+    public function demote(Participant $utilisateur, Request $request, EntityManagerInterface $em): Response
+    {
+        $token = $request->request->get('_token');
+        if (!$this->isCsrfTokenValid('demote'.$utilisateur->getId(), $token)) {
+            throw $this->createAccessDeniedException("Action non autorisée (token invalide).");
+        }
+        $utilisateur->setRoles([]);
+        $em->flush();
+        $this->addFlash('success', 'Utilisateur rétrogradé avec succès.');
+
         return $this->redirectToRoute('admin_dashboard');
     }
 
