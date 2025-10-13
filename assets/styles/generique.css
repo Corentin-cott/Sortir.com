@@ -5,10 +5,16 @@
     --primaryColor: #333;
     --secondaryColor: #106d05;
     --secondaryColorLight: #7ec876;
+    --secondaryColorLighter: #ccecc8;
     --secondaryColorLightest: #f8f9fa;
     --secondaryColorDark: #0e4e07;
     --secondaryColorDarkest: #0a3006;
+    --infoColor: #159ba8;
+    --infoColorHover: #10818c;
+    --dangerColor: #a80f0f;
+    --dangerColorHover: #880808;
     --warningColor: #ff4500;
+    --warningColorHover: #c53804;
 
     --defaultFontSize: 1em;
 
@@ -24,21 +30,30 @@
     --contrastLinkHover: var(--secondaryColorLight);
     --lightContainer: var(--secondaryColorLightest);
     --lightContainerOutline: var(--secondaryColor);
-    --boutonSecondaryColor: var(--secondaryColor);
     --titleSecondaryColor: var(--secondaryColor);
     --textColor: var(--primaryColor);
     --textLight: var(--primaryColorLight);
+    --boutonTextColor: var(--white);
+    --boutonSecondaryColor: var(--secondaryColor);
     --boutonSecondaryColorHover: var(--secondaryColorDark);
+    --boutonInfoColor: var(--infoColor);
+    --boutonInfoColorHover: var(--infoColorHover);
+    --boutonDangerColor: var(--dangerColor);
+    --boutonDangerColorHover: var(--dangerColorHover);
     --warningTextColor: var(--warningColor);
     --goodNewsTextColor: var(--secondaryColor);
     --table-head: var(--secondaryColor);
     --table-head-text: var(--white);
     --table-td-even: var(--secondaryColorLightest);
-    --table-td-hover: var(--secondaryColorLight);
+    --table-td-hover: var(--secondaryColorLighter);
 
+    --boutonBorderRadius: 0.5em;
+
+    --boutonPadding: 0.7em;
     --bodyPaddingX: 2em;
     --bodyPaddingY: 0em;
 
+    --boutonFontSide: 1rem;
     --fontPageTitleSize: 2.5em;
     --fontTitleSize: 1.4em;
     --fontLabelSize: 1.1em;
@@ -48,20 +63,43 @@
 }
 
 /* Generic buttons */
-.bouton-secondary-color {
+.generic-button {
     background-color: var(--boutonSecondaryColor);
-    padding: 0.7em;
-    color: white;
+
+    color: var(--boutonTextColor);
+    font-size: var(--boutonFontSide);
+    text-align: center;
     text-decoration: none;
+
     border: none;
-    border-radius: 0.5em;
-    justify-content: center;
+    border-radius: var(--boutonBorderRadius);
+    padding: var(--boutonPadding);
+
     max-height: 100%;
+    min-width: 3em;
     display: inline-block;
+    justify-content: center;
 }
 
+.bouton-secondary-color {
+    background-color: var(--boutonSecondaryColor);
+}
 .bouton-secondary-color:hover {
     background-color: var(--boutonSecondaryColorHover);
+}
+
+.bouton-info-color {
+    background-color: var(--boutonInfoColor);
+}
+.bouton-info-color:hover {
+    background-color: var(--boutonInfoColorHover);
+}
+
+.bouton-danger-color {
+    background-color: var(--boutonDangerColor);
+}
+.bouton-danger-color:hover {
+    background-color: var(--boutonDangerColorHover);
 }
 /* End of  generic buttons */
 

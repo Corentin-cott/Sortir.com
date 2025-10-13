@@ -32,7 +32,7 @@
         {% endif %}
         <form method="post" enctype="multipart/form-data">
             <input type="file" name="csv_file" accept=".csv" required>
-            <button class="bouton-secondary-color" type="submit">Importer</button>
+            <button class="generic-button bouton-secondary-color" type="submit">Importer</button>
         </form>
 
         <hr>
@@ -40,7 +40,7 @@
         <h2>Ajouter un participant manuellement</h2>
         <div style="display: ruby;">
             <p>Vous pouvez créer un participant à la main via le formulaire dédié :</p>
-            <a href="{{ path('app_register') }}" class="bouton-secondary-color">Aller au formulaire</a>
+            <a href="{{ path('app_register') }}" class="generic-button bouton-secondary-color">Aller au formulaire</a>
         </div>
 
         <hr>
@@ -48,7 +48,7 @@
         <h2>Gestion des lieux</h2>
         <div style="display: ruby;">
             <p>Vous pouvez ajouter un lieu selectionnable pour les sorties :</p>
-            <a href="{{ path('admin_gestion_lieux') }}" class="bouton-secondary-color">Aller au formulaire</a>
+            <a href="{{ path('admin_gestion_lieux') }}" class="generic-button bouton-secondary-color">Aller au formulaire</a>
         </div>
 
         <hr>
@@ -56,7 +56,7 @@
         <h2>Ajouter une ville</h2>
         <div style="display: ruby;">
             <p>Vous pouvez ajouter une ville selectionnable pour les lieux de sortie :</p>
-            <a href="{{ path('admin_ajouter_ville') }}" class="bouton-secondary-color">Aller au formulaire</a>
+            <a href="{{ path('admin_ajouter_ville') }}" class="generic-button bouton-secondary-color">Aller au formulaire</a>
         </div>
 
         <hr>
