@@ -58,7 +58,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?bool $administrateur = false;
 
     #[ORM\Column]
-    private ?bool $actif = false;
+    private ?bool $actif = true;
 
     #[ORM\ManyToOne(inversedBy: 'participants')]
     #[ORM\JoinColumn(nullable: false)]
