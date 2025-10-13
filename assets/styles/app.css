@@ -1,12 +1,3 @@
-/* SORTIES */
-
-.recherche-sortie-form {
-    background-color: var(--lightContainer);
-    border: var(--lightContainerOutline) 1px solid;
-    border-radius: 1em;
-    padding: 1em;
-}
-
 /* APP */
 
 body {
