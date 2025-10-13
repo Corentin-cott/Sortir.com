@@ -43,6 +43,14 @@
             <a href="{{ path('app_register') }}" class="bouton-secondary-color">Aller au formulaire</a>
         </div>
 
+        <hr>
+
+        <h2>Ajouter un lieu</h2>
+        <div style="display: ruby;">
+            <p>Vous pouvez ajouter un lieu selectionnable pour les sorties :</p>
+            <a href="{{ path('admin_ajouter_lieu') }}" class="bouton-secondary-color">Aller au formulaire</a>
+        </div>
+
         <div >
             <table >
                 <thead>
@@ -67,12 +75,12 @@
                         <td>{% if utilisateur.administrateur  %} ADMIN {% else %} USER {% endif %}</td>
                         <td>
                             {% if utilisateur.actif %}
-                                <form method="post" action="{{ path('admin_import_desactiver', {'id': utilisateur.id}) }}">
+                                <form method="post" action="{{ path('admin_desactiver', {'id': utilisateur.id}) }}">
                                     <input type="hidden" name="_token" value="{{ csrf_token('desactiver'~utilisateur.id) }}">
                                     <button class="btn btn-danger" type="submit">Désactiver</button>
                                 </form>
                                 {% else %}
-                                    <form method="post" action="{{ path('admin_import_reactiver', {'id': utilisateur.id}) }}">
+                                    <form method="post" action="{{ path('admin_reactiver', {'id': utilisateur.id}) }}">
                                         <input type="hidden" name="_token" value="{{ csrf_token('reactiver'~utilisateur.id) }}">
                                         <button class="btn btn-primary" type="submit">Réactiver</button>
                                     </form>

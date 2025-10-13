@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieu;
+use App\Entity\Ville;
+use App\Form\LieuType;
 use App\Entity\Participant;
 use App\Services\ParticipantImporter;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class AdminController extends AbstractController {
-    #[Route('/admin/import/participants', name: 'admin_import_participants')]
+    #[Route('/admin/dashboard', name: 'admin_dashboard')]
     #[IsGranted("ROLE_ADMIN")]
     public function importParticipants(Request $request, ParticipantImporter $importer, EntityManagerInterface $em): Response
     {
@@ -38,7 +41,28 @@ final class AdminController extends AbstractController {
         ['utilisateurs' => $utilisateurs]);
     }
 
-    #[Route('/admin//importdesactiver/{id}', name: 'admin_import_desactiver', requirements: ['id' => '\d+'], methods: ['POST'])]
+    #[Route('/admin/ajouter/lieu', name: 'admin_ajouter_lieu')]
+    #[IsGranted("ROLE_ADMIN")]
+    public function addLieu(Request $request, EntityManagerInterface $em): Response
+    {
+        $lieu = new Lieu();
+        $form = $this->createForm(LieuType::class, $lieu);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($lieu);
+            $em->flush();
+
+            $this->addFlash('success', 'Lieu ajouté avec succès !');
+            return $this->redirectToRoute('admin_dashboard');
+        }
+
+        return $this->render('admin/lieu/creer_modifier.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/admin/desactiver/{id}', name: 'admin_desactiver', requirements: ['id' => '\d+'], methods: ['POST'])]
     #[IsGranted("ROLE_ADMIN")]
     public function desactiver(Participant $utilisateur, Request $request, EntityManagerInterface $em): Response
     {
@@ -52,16 +76,16 @@ final class AdminController extends AbstractController {
             $utilisateur->setActif(false);
             $em->flush();
             $this->addFlash('success', 'Utilisateur désactivé.');
-            return $this->redirectToRoute('admin_import_participants');
+            return $this->redirectToRoute('admin_dashboard');
         }
 
         $this->addFlash('error', 'Utilisateur deja inactif.');
-        return $this->redirectToRoute('admin_import_participants');
+        return $this->redirectToRoute('admin_dashboard');
 
 
     }
 
-    #[Route('/admin/import/reactiver/{id}', name: 'admin_import_reactiver', requirements: ['id' => '\d+'], methods: ['POST'])]
+    #[Route('/admin/reactiver/{id}', name: 'admin_reactiver', requirements: ['id' => '\d+'], methods: ['POST'])]
     #[IsGranted("ROLE_ADMIN")]
     public function reactiver(Participant $utilisateur, Request $request, EntityManagerInterface $em): Response
     {
@@ -74,11 +98,11 @@ final class AdminController extends AbstractController {
             $utilisateur->setActif(true);
             $em->flush();
             $this->addFlash('success', 'Utilisateur Réactivé.');
-            return $this->redirectToRoute('admin_import_participants');
+            return $this->redirectToRoute('admin_dashboard');
         }
 
         $this->addFlash('error', 'Utilisateur deja inactif.');
-        return $this->redirectToRoute('admin_import_participants');
+        return $this->redirectToRoute('admin_dashboard');
     }
 
 
