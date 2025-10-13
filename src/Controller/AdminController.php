@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieu;
+use App\Entity\Ville;
+use App\Form\LieuType;
 use App\Services\ParticipantImporter;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class AdminController extends AbstractController {
-    #[Route('/admin/import/participants', name: 'admin_import_participants')]
+    #[Route('/admin/dashboard', name: 'admin_dashboard')]
     #[IsGranted("ROLE_ADMIN")]
     public function importParticipants(Request $request, ParticipantImporter $importer): Response
     {
@@ -32,5 +36,26 @@ final class AdminController extends AbstractController {
         }
 
         return $this->render('admin/dashboard.html.twig');
+    }
+
+    #[Route('/admin/ajouter/lieu', name: 'admin_ajouter_lieu')]
+    #[IsGranted("ROLE_ADMIN")]
+    public function addLieu(Request $request, EntityManagerInterface $em): Response
+    {
+        $lieu = new Lieu();
+        $form = $this->createForm(LieuType::class, $lieu);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($lieu);
+            $em->flush();
+
+            $this->addFlash('success', 'Lieu ajouté avec succès !');
+            return $this->redirectToRoute('admin_dashboard');
+        }
+
+        return $this->render('admin/lieu/creer_modifier.html.twig', [
+            'form' => $form,
+        ]);
     }
 }
