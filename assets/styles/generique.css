@@ -49,7 +49,7 @@
 
     --boutonBorderRadius: 0.5em;
 
-    --boutonPadding: 0.7em;
+    --boutonPadding: 0.55em 0.75em;
     --bodyPaddingX: 2em;
     --bodyPaddingY: 0em;
 
@@ -108,6 +108,10 @@
     width: 100%;
     text-align: center;
     font-size: var(--fontPageTitleSize);
+}
+
+.body-container h2 {
+    font-size: var(--fontTitleSize);
 }
 
 .information-container h3 {

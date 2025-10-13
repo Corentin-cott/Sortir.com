@@ -37,30 +37,31 @@
 
         <hr>
 
-        <h2>Ajouter un participant manuellement</h2>
-        <div style="display: ruby;">
-            <p>Vous pouvez créer un participant à la main via le formulaire dédié :</p>
-            <a href="{{ path('app_register') }}" class="generic-button bouton-secondary-color">Aller au formulaire</a>
+        <div style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2em;
+            margin-top: 2em;
+        ">
+            <div>
+                <h2>Gestion des lieux</h2>
+                <div style="display: flex; align-items: baseline;">
+                    <p style="margin-right: 0.5em">Vous pouvez ajouter un lieu sélectionnable pour les sorties :</p>
+                    <a href="{{ path('admin_gestion_lieux') }}" class="generic-button bouton-secondary-color">Page gestion des lieux</a>
+                </div>
+            </div>
+            <div>
+                <h2>Ajouter une ville</h2>
+                <div style="display: flex; align-items: baseline;">
+                    <p style="margin-right: 0.5em">Vous pouvez ajouter une ville sélectionnable pour les lieux de sortie :</p>
+                    <a href="{{ path('admin_ajouter_ville') }}" class="generic-button bouton-secondary-color">Aller au formulaire</a>
+                </div>
+            </div>
         </div>
 
         <hr>
 
-        <h2>Gestion des lieux</h2>
-        <div style="display: ruby;">
-            <p>Vous pouvez ajouter un lieu selectionnable pour les sorties :</p>
-            <a href="{{ path('admin_gestion_lieux') }}" class="generic-button bouton-secondary-color">Aller au formulaire</a>
-        </div>
-
-        <hr>
-
-        <h2>Ajouter une ville</h2>
-        <div style="display: ruby;">
-            <p>Vous pouvez ajouter une ville selectionnable pour les lieux de sortie :</p>
-            <a href="{{ path('admin_ajouter_ville') }}" class="generic-button bouton-secondary-color">Aller au formulaire</a>
-        </div>
-
-        <hr>
-
+        <h2>Gestion des utilisateurs</h2>
         <div >
             <table >
                 <thead>
@@ -101,6 +102,8 @@
                 </tbody>
             </table>
         </div>
+
+        <a href="{{ path('app_register') }}" class="generic-button bouton-secondary-color">Ajouter un participant manuellement</a>
 
     </div>
 {% endblock %}
