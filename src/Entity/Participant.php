@@ -55,9 +55,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     #[ORM\Column]
-    private ?bool $administrateur = false;
-
-    #[ORM\Column]
     private ?bool $actif = true;
 
     #[ORM\ManyToOne(inversedBy: 'participants')]
@@ -200,19 +197,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTelephone(?string $telephone): static
     {
         $this->telephone = $telephone;
-
-        return $this;
-    }
-
-
-    public function isAdministrateur(): ?bool
-    {
-        return $this->administrateur;
-    }
-
-    public function setAdministrateur(bool $administrateur): static
-    {
-        $this->administrateur = $administrateur;
 
         return $this;
     }

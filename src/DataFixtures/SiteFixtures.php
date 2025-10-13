@@ -14,7 +14,7 @@ class SiteFixtures extends Fixture
       'Saint Herblain',
       'Niort',
       'Quimper',
-      'Nantes,'
+      'Nantes'
 
     ];
 

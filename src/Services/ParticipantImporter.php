@@ -59,7 +59,7 @@ class ParticipantImporter
                 $participant->setPrenom($record['prenom']);
                 $participant->setPseudo($record['pseudo']);
                 $participant->setTelephone($record['telephone'] ?? null);
-                $participant->setAdministrateur((bool)$record['administrateur']);
+                $participant->setRoles( $record['administrateur'] ? ['ROLE_ADMIN'] : ['ROLE_USER']);
                 $participant->setActif((bool)$record['actif']);
                 $participant->setSite($site);
 

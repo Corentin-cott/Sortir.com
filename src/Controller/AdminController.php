@@ -22,6 +22,7 @@ final class AdminController extends AbstractController {
     #[IsGranted("ROLE_ADMIN")]
     public function importParticipants(Request $request, ParticipantImporter $importer, EntityManagerInterface $em): Response
     {
+        $utilisateurs = $em->getRepository(Participant::class)->findAll();
         if ($request->isMethod('POST')) {
             $file = $request->files->get('csv_file');
             if ($file) {
@@ -31,14 +32,14 @@ final class AdminController extends AbstractController {
                 try {
                     $file->move($uploadDir, $file->getClientOriginalName());
                     $result = $importer->importFromCsv($filePath);
-                    return $this->render('admin/dashboard.html.twig', ['result' => $result]);
+                    return $this->render('admin/dashboard.html.twig', ['result' => $result,
+                            'utilisateurs' => $utilisateurs  ]
+                    );
                 } catch (FileException $e) {
                     $this->addFlash('error', 'Erreur lors du téléchargement du fichier.');
                 }
             }
         }
-        $utilisateurs = $em->getRepository(Participant::class)->findAll();
-
         return $this->render('admin/dashboard.html.twig',
         ['utilisateurs' => $utilisateurs]);
     }
