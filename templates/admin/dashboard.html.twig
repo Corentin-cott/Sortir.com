@@ -59,5 +59,46 @@
             <a href="{{ path('admin_ajouter_ville') }}" class="bouton-secondary-color">Aller au formulaire</a>
         </div>
 
+        <div >
+            <table >
+                <thead>
+                <tr>
+                    <th>Pseudo</th>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Email</th>
+                    <th>Actif</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for utilisateur in utilisateurs  %}
+                    <tr>
+                        <td>{{ utilisateur.pseudo }}</td>
+                        <td>{{ utilisateur.nom }}</td>
+                        <td>{{ utilisateur.prenom }}</td>
+                        <td>{{ utilisateur.email }}</td>
+                        <td>{%  if utilisateur.actif %}O {% else %}X {% endif%}</td>
+                        <td>{% if utilisateur.administrateur  %} ADMIN {% else %} USER {% endif %}</td>
+                        <td>
+                            {% if utilisateur.actif %}
+                                <form method="post" action="{{ path('admin_desactiver', {'id': utilisateur.id}) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('desactiver'~utilisateur.id) }}">
+                                    <button class="btn btn-danger" type="submit">Désactiver</button>
+                                </form>
+                                {% else %}
+                                    <form method="post" action="{{ path('admin_reactiver', {'id': utilisateur.id}) }}">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('reactiver'~utilisateur.id) }}">
+                                        <button class="btn btn-primary" type="submit">Réactiver</button>
+                                    </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
     </div>
 {% endblock %}
