@@ -42,10 +42,12 @@ final class AdminController extends AbstractController {
         ['utilisateurs' => $utilisateurs]);
     }
 
-    #[Route('/admin/ajouter/lieu', name: 'admin_ajouter_lieu')]
+    #[Route('/admin/gestion/lieux', name: 'admin_gestion_lieux')]
     #[IsGranted("ROLE_ADMIN")]
-    public function addLieu(Request $request, EntityManagerInterface $em): Response
+    public function gestionLieux(Request $request, EntityManagerInterface $em): Response
     {
+        $listeLieux = $em->getRepository(Lieu::class)->findAll();
+
         $lieu = new Lieu();
         $form = $this->createForm(LieuType::class, $lieu);
         $form->handleRequest($request);
@@ -58,8 +60,9 @@ final class AdminController extends AbstractController {
             return $this->redirectToRoute('admin_dashboard');
         }
 
-        return $this->render('admin/lieu/creer_modifier.html.twig', [
+        return $this->render('admin/lieu/gestionLieux.html.twig', [
             'form' => $form,
+            'listeLieux' => $listeLieux
         ]);
     }
 
@@ -79,7 +82,7 @@ final class AdminController extends AbstractController {
             return $this->redirectToRoute('admin_dashboard');
         }
 
-        return $this->render('admin/ville/creer_modifier.html.twig', [
+        return $this->render('admin/ville/gestionLieux.html.twig', [
             'form' => $form,
         ]);
     }
