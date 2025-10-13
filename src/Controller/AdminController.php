@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Lieu;
 use App\Entity\Ville;
 use App\Form\LieuType;
+use App\Form\VilleType;
 use App\Services\ParticipantImporter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -55,6 +56,27 @@ final class AdminController extends AbstractController {
         }
 
         return $this->render('admin/lieu/creer_modifier.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/admin/ajouter/ville', name: 'admin_ajouter_ville')]
+    #[IsGranted("ROLE_ADMIN")]
+    public function addVille(Request $request, EntityManagerInterface $em): Response
+    {
+        $ville = new Ville();
+        $form = $this->createForm(VilleType::class, $ville);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($ville);
+            $em->flush();
+
+            $this->addFlash('success', 'Ville ajouté avec succès !');
+            return $this->redirectToRoute('admin_dashboard');
+        }
+
+        return $this->render('admin/ville/creer_modifier.html.twig', [
             'form' => $form,
         ]);
     }

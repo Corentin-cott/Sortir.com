@@ -34,7 +34,7 @@
     --bodyPaddingX: 2em;
     --bodyPaddingY: 0em;
 
-
+    --fontPageTitleSize: 2.5em;
     --fontTitleSize: 1.4em;
     --fontLabelSize: 1.1em;
     --fontTextSize: 1em;
@@ -64,10 +64,11 @@
 .title {
     width: 100%;
     text-align: center;
+    font-size: var(--fontPageTitleSize);
 }
 
 .information-container h3 {
-    font-size: 1.5rem;
+    font-size: var(--fontTitleSize);
 }
 .information-container p,
 .information-container ul {
