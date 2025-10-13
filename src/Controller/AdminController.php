@@ -22,13 +22,13 @@ final class AdminController extends AbstractController {
                 try {
                     $file->move($uploadDir, $file->getClientOriginalName());
                     $result = $importer->importFromCsv($filePath);
-                    return $this->render('import/participant.html.twig', ['result' => $result]);
+                    return $this->render('admin/dashboard.html.twig', ['result' => $result]);
                 } catch (FileException $e) {
                     $this->addFlash('error', 'Erreur lors du téléchargement du fichier.');
                 }
             }
         }
 
-        return $this->render('import/participant.html.twig');
+        return $this->render('admin/dashboard.html.twig');
     }
 }

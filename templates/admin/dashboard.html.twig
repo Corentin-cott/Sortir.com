@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Dashboard | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="body-container">
+
+        <h1 class="title">Administration</h1>
+
+        <hr>
+
+        <h2>Importer des participants</h2>
+
+        {# Résultats d'import CSV #}
+        {% if result is defined and result %}
+            <div class="information-container">
+                <h3>Résultat de l'import</h3>
+                {% if result.imported == result.totalToImport and result.totalToImport > 0 %}
+                    <p><span class="goodnews-text">{{ result.imported }}/{{ result.totalToImport }}</span> participants importés.</p>
+                {% else %}
+                    <p><span class="warning-text">{{ result.imported }}/{{ result.totalToImport }}</span> participants importés.</p>
+                {% endif %}
+
+                {% if result.errors %}
+                    <ul>
+                        {% for error in result.errors %}
+                            <li class="warning-text">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endif %}
+        <form method="post" enctype="multipart/form-data">
+            <input type="file" name="csv_file" accept=".csv" required>
+            <button class="bouton-secondary-color" type="submit">Importer</button>
+        </form>
+
+        <hr>
+
+        <h2>Ajouter un participant manuellement</h2>
+        <div style="display: ruby;">
+            <p>Vous pouvez créer un participant à la main via le formulaire dédié :</p>
+            <a href="" class="bouton-secondary-color">Aller au formulaire</a>
+        </div>
+
+    </div>
+{% endblock %}
