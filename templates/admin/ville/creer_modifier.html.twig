@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <div class="body-container">
+        <h1 class="title">Ajouter une ville</h1>
+            <hr>
+
+            <div style="justify-content: center; display: flex;">
+                <div style="min-width: 40em; max-width: 80em;">
+                    {{ form_errors(form) }}
+
+                    {{ form_start(form) }}
+                        {{ form_row(form.nom) }}
+                        {{ form_row(form.codePostal) }}
+                        <button type="submit" class="bouton-secondary-color" style="width: 100%; margin-top: 1.5em">Ajouter</button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
