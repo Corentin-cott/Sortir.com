@@ -308,4 +308,12 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         $this->photo = $photo;
         return $this;
     }
+    public function isAdmin(): ?bool
+    {
+        $roles = $this->roles;
+        if(in_array('ROLE_ADMIN', $roles)){
+            return true;
+        }
+        return false;
+    }
 }

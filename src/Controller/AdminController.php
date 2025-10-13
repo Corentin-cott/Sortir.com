@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use function PHPUnit\Framework\throwException;
 
 final class AdminController extends AbstractController {
     #[Route('/admin/dashboard', name: 'admin_dashboard')]
@@ -124,6 +125,35 @@ final class AdminController extends AbstractController {
         }
 
         $this->addFlash('error', 'Utilisateur deja inactif.');
+        return $this->redirectToRoute('admin_dashboard');
+    }
+
+    #[Route('admin/grant/{id}', name:'admin_grant', requirements: ['id' => '\d+'], methods: ['POST'])]
+    public function grantedAdmin(Participant $utilisateur, Request $request, EntityManagerInterface $em): Response
+    {
+       $token = $request->request->get('_token');
+       if (!$this->isCsrfTokenValid('grant'.$utilisateur->getId(), $token)) {
+           throw $this->createAccessDeniedException("Action non autorisée (token invalide).");
+       }
+
+       $utilisateur->setRoles(['ROLE_ADMIN']);
+       $em->flush();
+       $this->addFlash('success', 'Utilisateur promu Admin.');
+
+       return $this->redirectToRoute('admin_dashboard');
+    }
+
+    #[Route('admin/demote/{id}', name:'admin_demote', requirements: ['id' => '\d+'], methods: ['POST'])]
+    public function demote(Participant $utilisateur, Request $request, EntityManagerInterface $em): Response
+    {
+        $token = $request->request->get('_token');
+        if (!$this->isCsrfTokenValid('demote'.$utilisateur->getId(), $token)) {
+            throw $this->createAccessDeniedException("Action non autorisée (token invalide).");
+        }
+        $utilisateur->setRoles([]);
+        $em->flush();
+        $this->addFlash('success', 'Utilisateur rétrogradé avec succès.');
+
         return $this->redirectToRoute('admin_dashboard');
     }
 
