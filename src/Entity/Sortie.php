@@ -224,7 +224,11 @@ class Sortie
             throw new \Exception("Vous ne pouvez pas vous inscrire en tant qu'organisateur");
         }
 
-        if($this->getEtat()->getLibelle() == "Annulée" || $this->getEtat()->getLibelle() == "Cloturée"){
+        if(!$participant->isActif()){
+            throw new \Exception("Votre compte a été désactiver vous ne pouvez pas faire cette action");
+        }
+
+        if($this->getEtat()->getLibelle() != "Ouverte"){
             throw new \Exception("Le statut de la sortie ne permet pas d'inscription.");
         }
 

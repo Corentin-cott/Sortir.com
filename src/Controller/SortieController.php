@@ -44,6 +44,10 @@ final class SortieController extends AbstractController
         $user = $this->getUser();
         $organisateur = $em->getRepository(Participant::class)->find($user->getId());
 
+        if( !$organisateur->isActif()){
+            $this->addFlash('danger', 'Votre compte est désactivé vous ne pouvez pas effectuer cette action');
+            return $this->redirectToRoute('app_home');
+        }
         // Récupération de la liste des lieux pour afficher rue, ville, ect
         $lieux = $em->getRepository(Lieu::class)->findAll();
         $lieux = array_map(function($lieu) {
@@ -78,6 +82,7 @@ final class SortieController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Sortie créér avec succès !');
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->render('sorties/creer_modifier.html.twig', [
