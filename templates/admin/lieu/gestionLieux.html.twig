@@ -1,32 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription{% endblock %}
+{% block title %}Gestion des lieux{% endblock %}
 
 {% block body %}
     <div class="body-container">
         <h1 class="title">Gestion des lieux</h1>
-            <hr>
+        <hr>
 
-            {# Colonne 1 : La liste des lieux est dans $listeLieux #}
+        <div style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(40em, 1fr));
+            gap: 2em;
+            margin-top: 2em;
+            align-items: start;
+        ">
 
+            {# --- Colonne 1 : Tableau des lieux --- #}
+            <div>
+                <h2>Liste des lieux</h2>
+                <table class="admin-table">
+                    <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Rue</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>Ville</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for lieu in listeLieux %}
+                        <tr>
+                            <td>{{ lieu.nom }}</td>
+                            <td>{{ lieu.rue }}</td>
+                            <td>{{ lieu.latitude }}</td>
+                            <td>{{ lieu.longitude }}</td>
+                            <td>{{ lieu.ville.nom }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 1em;">Aucun lieu enregistré.</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-            {# Colonne 2 : La liste des lieux est dans $listeLieux #}
-            <div style="justify-content: center; display: flex;">
-                <div style="min-width: 40em; max-width: 80em;">
-                    {{ form_errors(form) }}
+            {# --- Colonne 2 : Formulaire d’ajout de lieu --- #}
+            <div>
+                <h2>Ajouter un lieu</h2>
+                {{ form_errors(form) }}
 
+                <div>
                     {{ form_start(form) }}
-                        {{ form_row(form.nom) }}
-                        {{ form_row(form.rue) }}
-                        {{ form_row(form.latitude) }}
-                        {{ form_row(form.longitude) }}
-                        {{ form_row(form.ville) }}
-                        <button type="submit" class="bouton-secondary-color" style="width: 100%; margin-top: 1.5em">Ajouter</button>
+                    {{ form_row(form.nom) }}
+                    {{ form_row(form.rue) }}
+                    {{ form_row(form.latitude) }}
+                    {{ form_row(form.longitude) }}
+                    {{ form_row(form.ville) }}
+                    <button type="submit" class="bouton-secondary-color" style="width: 100%; margin-top: 1.5em;">Ajouter</button>
                     {{ form_end(form) }}
                 </div>
             </div>
 
         </div>
     </div>
-</div>
 {% endblock %}
