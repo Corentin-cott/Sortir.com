@@ -8,9 +8,11 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class AdminController extends AbstractController {
     #[Route('/admin/import/participants', name: 'admin_import_participants')]
+    #[IsGranted("ROLE_ADMIN")]
     public function importParticipants(Request $request, ParticipantImporter $importer): Response
     {
         if ($request->isMethod('POST')) {
