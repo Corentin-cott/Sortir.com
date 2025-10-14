@@ -164,6 +164,13 @@
 /* End of generic containers */
 
 /* Generic tables */
+.app-table-container {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
 .app-table {
     width: 100%;
     border-collapse: collapse;
@@ -187,6 +194,7 @@
 .app-table td {
     border: 1px solid #ddd;
     padding: 0.6em;
+    white-space: nowrap;
 }
 
 .app-table td a, .app-table td button {
