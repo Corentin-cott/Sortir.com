@@ -9,12 +9,12 @@
     --secondaryColorLightest: #f8f9fa;
     --secondaryColorDark: #0f3e0b;
     --secondaryColorDarkest: #0b2b08;
-    --infoColor: #159ba8;
-    --infoColorHover: #10818c;
+    --infoColor: #1566a8;
+    --infoColorHover: #104e8c;
     --dangerColor: #a80f0f;
     --dangerColorHover: #880808;
-    --warningColor: #ff4500;
-    --warningColorHover: #c53804;
+    --warningColor: #cf410d;
+    --warningColorHover: #a8350b;
     --LightColorLightest: #f8f9fa;
     --LightColorLightestHover: #d2d7dc;
 
@@ -42,6 +42,8 @@
     --boutonInfoColorHover: var(--infoColorHover);
     --boutonDangerColor: var(--dangerColor);
     --boutonDangerColorHover: var(--dangerColorHover);
+    --boutonWarningColor: var(--warningColor);
+    --boutonWarningColorHover: var(--warningColorHover);
     --boutonLightColor: var(--LightColorLightest);
     --boutonLightColorHover: var(--LightColorLightestHover);
     --warningTextColor: var(--warningColor);
@@ -104,6 +106,13 @@
 }
 .bouton-danger-color:hover {
     background-color: var(--boutonDangerColorHover);
+}
+
+.bouton-warning-color {
+    background-color: var(--boutonWarningColor);
+}
+.bouton-warning-color:hover {
+    background-color: var(--boutonWarningColorHover);
 }
 
 .bouton-light-color {
@@ -180,7 +189,7 @@
     padding: 0.6em;
 }
 
-.app-table td form {
+.app-table td a, .app-table td button {
     margin: 0 0.4em;
 }
 
