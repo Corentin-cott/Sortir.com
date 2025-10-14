@@ -24,7 +24,7 @@
         {{ form_start(form) }}
 
         <div style="display: flex; justify-content: center;">
-            <div class="row" style="min-width: 60em;">
+            <div class="row" style="min-width: 5em; width: 60em;">
                 <div class="col-md-6">
                     {{ form_row(form.nom) }}
                     {{ form_row(form.dateHeureDebut) }}
@@ -86,7 +86,7 @@
             <div class="gap-4">
                 {% if sortie is defined %}
                     <button type="submit" name="action" value="save" class="generic-button bouton-info-color">Mettre à jour</button>
-                    {% if sortie.etat.libelle == "Crée" %}
+                    {% if sortie.etat.libelle == "Créée" %}
                         <button type="submit" name="action" value="publish" class="generic-button bouton-secondary-color">Publier la sortie</button>
                     {% endif %}
                 {% else %}
