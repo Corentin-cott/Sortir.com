@@ -21,7 +21,7 @@
         <div style="display: flex; justify-content: center;">
 
                 {% if isOwner %}
-                    <div style="min-width: 5em; width: 60em; display: grid; grid-template-columns: 1fr 1fr; gap: 2em;">
+                    <div class="form-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2em;">
                             <div>
                                 {{ form_start(profilForm, {'attr': {'enctype': 'multipart/form-data'}}) }}
                                 {{ form_row(profilForm.prenom) }}
