@@ -17,6 +17,7 @@ class Ville
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    #[ORM\Column(length: 5)]
     #[Assert\NotBlank(message: "Le code postal est obligatoire.")]
     #[Assert\Regex(
         pattern: "/^\d{5}$/"

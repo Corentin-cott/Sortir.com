@@ -73,7 +73,7 @@ final class AdminController extends AbstractController {
         ]);
     }
 
-    #[Route('/admin/gestion/supprimer/lieux/{id}', name: 'admin_lieu_supprimer', methods: ['POST'])]
+    #[Route('/admin/gestion/supprimer/lieu/{id}', name: 'admin_lieu_supprimer', methods: ['POST'])]
     #[IsGranted("ROLE_ADMIN")]
     public function supprimerLieu(Lieu $lieu, EntityManagerInterface $em): Response
     {
@@ -85,7 +85,7 @@ final class AdminController extends AbstractController {
         return $this->redirectToRoute('admin_gestion_lieux');
     }
 
-    #[Route('/admin/gestion/modifier/lieux/{id}', name: 'admin_lieu_modifier', methods: ['POST', 'GET'])]
+    #[Route('/admin/gestion/modifier/lieu/{id}', name: 'admin_lieu_modifier', methods: ['POST', 'GET'])]
     #[IsGranted("ROLE_ADMIN")]
     public function modifierLieu(EntityManagerInterface $em, Request $request, int $id): Response
     {
@@ -113,24 +113,69 @@ final class AdminController extends AbstractController {
     }
     /* FIN ROUTES DES LIEUX */
     /* ROUTES DES VILLES */
-    #[Route('/admin/ajouter/ville', name: 'admin_ajouter_ville')]
+    #[Route('/admin/gestion/villes', name: 'admin_gestion_villes')]
     #[IsGranted("ROLE_ADMIN")]
-    public function addVille(Request $request, EntityManagerInterface $em): Response
+    public function gestionVille(Request $request, EntityManagerInterface $em): Response
     {
+        // Pour le tableau des villes
+        $listeVilles = $em->getRepository(Ville::class)->findAll();
+
+        // Pour le formulaire d'ajout de villes
         $ville = new Ville();
+        $form = $this->createForm(VilleType::class, $ville);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Le formulaire à été rempli
+            $em->persist($ville);
+            $em->flush();
+
+            $this->addFlash('success', 'Ville ajouté avec succès !');
+            return $this->redirectToRoute('admin_gestion_villes');
+        }
+
+        return $this->render('admin/ville/gestionVilles.html.twig', [
+            'form' => $form,
+            'listeVilles' => $listeVilles,
+            'ville' => $ville,
+        ]);
+    }
+
+    #[Route('/admin/gestion/supprimer/ville/{id}', name: 'admin_ville_supprimer', methods: ['POST'])]
+    #[IsGranted("ROLE_ADMIN")]
+    public function supprimerVille(Ville $ville, EntityManagerInterface $em): Response
+    {
+        // Suppression du lieu
+        $em->remove($ville);
+        $em->flush();
+
+        $this->addFlash('success', 'Ville supprimé avec succès !');
+        return $this->redirectToRoute('admin_gestion_villes');
+    }
+
+    #[Route('/admin/gestion/modifier/ville/{id}', name: 'admin_ville_modifier', methods: ['POST', 'GET'])]
+    #[IsGranted("ROLE_ADMIN")]
+    public function modifierVille(EntityManagerInterface $em, Request $request, int $id): Response
+    {
+        // Pour le tableau des villes
+        $listeVilles = $em->getRepository(Ville::class)->findAll();
+
+        // Modification du lieu
+        $ville = $em->getRepository(Ville::class)->find($id);
         $form = $this->createForm(VilleType::class, $ville);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($ville);
             $em->flush();
-
-            $this->addFlash('success', 'Ville ajouté avec succès !');
-            return $this->redirectToRoute('admin_dashboard');
+            $this->addFlash('success', 'Ville modifié avec succès !');
+            return $this->redirectToRoute('admin_gestion_villes');
         }
 
-        return $this->render('admin/ville/gestionLieux.html.twig', [
+        return $this->render('admin/ville/gestionVilles.html.twig', [
             'form' => $form,
+            'listeVilles' => $listeVilles,
+            'ville' => $ville,
         ]);
     }
     /* FIN ROUTES DES VILLES */
