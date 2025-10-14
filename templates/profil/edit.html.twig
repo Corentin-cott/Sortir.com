@@ -34,7 +34,7 @@
                     {{ form_row(profilForm.confirmPassword) }}
                     {{ form_row(profilForm.site) }}
                     {{ form_row(profilForm.photo) }}
-                    <button class="btn btn-primary">Enregistrer</button>
+                    <button class="generic-button bouton-secondary-color">Enregistrer</button>
                     {{ form_end(profilForm) }}
                 {% else %}
                     {# Mode lecture seule #}
@@ -45,7 +45,7 @@
                         <li class="list-group-item"><strong>Email :</strong> {{ participant.email }}</li>
                         <li class="list-group-item"><strong>Site :</strong> {{ participant.site }}</li>
                     </ul>
-                    <a href="{{ path('app_home') }}" class="btn btn-secondary">Retour</a>
+                    <a href="{{ path('app_home') }}" class="generic-button bouton-light-color">Retour</a>
                 {% endif %}
 
             </div>
