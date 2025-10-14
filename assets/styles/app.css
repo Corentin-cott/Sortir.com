@@ -4,6 +4,25 @@ body {
     background-color: var(--background);
     width: 100%;
     overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* ✅ corps toujours plein écran */
+}
+
+main {
+    flex: 1; /* ✅ le main s’adapte au contenu et pousse le footer vers le bas */
+    padding: var(--bodyPaddingY) var(--bodyPaddingX);
+}
+
+footer {
+    color: var(--background);
+    background-color: var(--contrastBackground);
+    margin: 0;
+    text-align: center;
+    height: auto; /* ✅ ne pas fixer la hauteur du footer */
+    padding: 1em 0;
 }
 
 header {
@@ -72,11 +91,86 @@ footer {
     width: 100%
 }
 
-/* BOUTONS */
+/* Menu vertical sur mobile */
+@media (max-width: 991.98px) {
+    .toggler {
+        display: inline;
+        background-color: var(--background);
+        margin-right: 2em;
+        border-radius: 5px;
+        font-size: 1.3em;
+    }
+
+    .custom-navbar .navbar-collapse {
+        background-color: var(--contrastBackground);
+        padding: 1em 0;
+    }
+
+    .custom-navbar .nav-link {
+        display: block;
+        padding: 0.5em 2.5rem;
+        text-align: end;
+        font-weight: 600;
+        font-size: 1.2em;
+    }
+}
+/* APP */
 
 
+header {
+    padding-bottom: 1em;
 
-/* FIN BOUTONS */
+    justify-content: end;
+    width: 100%;
+}
+
+.custom-navbar {
+    background-color: var(--contrastBackground);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-nav {
+    width: 100%;
+    justify-content: end;
+}
+
+.nav-item {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.custom-navbar .nav-link,
+.custom-navbar .navbar-brand {
+    width: 100%;
+    justify-content: end;
+    color: var(--background);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.custom-navbar .nav-link:hover,
+.custom-navbar .navbar-brand:hover {
+    color: var(--contrastLinkHover);
+    text-decoration: underline;
+}
+
+.toggler {
+    display: none;
+}
+
+.flexbox-centered {
+    display: flex;
+    justify-content: center;
+}
+
+.body-container {
+    padding: var(--bodyPaddingY);
+    padding-left: var(--bodyPaddingX);
+    padding-right: var(--bodyPaddingX);
+    width: 100%
+}
 
 /* Menu vertical sur mobile */
 @media (max-width: 991.98px) {
