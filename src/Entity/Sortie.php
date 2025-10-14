@@ -6,8 +6,10 @@ use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
+#[Gedmo\SoftDeleteable(fieldName: 'deletedAt')]
 class Sortie
 {
     #[ORM\Id]
@@ -57,6 +59,21 @@ class Sortie
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $annulation_motif = null;
+
+
+    #[ORM\Column(name: 'deleted_at', type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $deletedAt = null;
+
+    public function getDeletedAt(): ?\DateTimeInterface
+    {
+        return $this->deletedAt;
+    }
+
+    public function setDeletedAt(?\DateTimeInterface $deletedAt): void
+    {
+        $this->deletedAt = $deletedAt;
+    }
+
 
     public function __construct()
     {

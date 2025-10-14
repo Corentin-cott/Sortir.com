@@ -8,6 +8,7 @@ use App\Form\LieuType;
 use App\Entity\Participant;
 use App\Form\VilleType;
 use App\Services\ParticipantImporter;
+use App\Services\SoftDeleteSorties;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -249,6 +250,20 @@ final class AdminController extends AbstractController {
         $em->flush();
         $this->addFlash('success', 'Utilisateur rétrogradé avec succès.');
 
+        return $this->redirectToRoute('admin_dashboard');
+    }
+
+    #[Route('/admin/delete/participant/{id}', name:'admin_delete_participant', requirements: ['id' => '\d+'], methods: ['POST'])]
+    public function deleteParticipant(Participant $utilisateur, Request $request, EntityManagerInterface $em, SoftDeleteSorties $deleteSorties): Response
+    {
+        $token = $request->request->get('_token');
+        if (!$this->isCsrfTokenValid('delete_participant'.$utilisateur->getId(), $token)) {
+            throw $this->createAccessDeniedException("Action non autorisée (token invalide).");
+        }
+        $deleteSorties->softDelete($utilisateur, $em);
+        $em->remove($utilisateur);
+        $em->flush();
+        $this->addFlash('success', "L'utilisateur a bien été supprimée");
         return $this->redirectToRoute('admin_dashboard');
     }
 
