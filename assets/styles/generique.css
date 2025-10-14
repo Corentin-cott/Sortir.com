@@ -1,13 +1,22 @@
 :root {
     /* Color variables */
+    --white: #fff;
     --primaryColorLight: #6b7280;
     --primaryColor: #333;
-    --secondaryColor: #106d05;
-    --secondaryColorLight: #79d56e;
+    --secondaryColor: #0e4e07;
+    --secondaryColorLight: #7ec876;
+    --secondaryColorLighter: #ccecc8;
     --secondaryColorLightest: #f8f9fa;
-    --secondaryColorDark: #0e4e07;
-    --secondaryColorDarkest: #0a3006;
-    --warningColor: #ff4500;
+    --secondaryColorDark: #0f3e0b;
+    --secondaryColorDarkest: #0b2b08;
+    --infoColor: #1566a8;
+    --infoColorHover: #104e8c;
+    --dangerColor: #a80f0f;
+    --dangerColorHover: #880808;
+    --warningColor: #cf410d;
+    --warningColorHover: #a8350b;
+    --LightColorLightest: #f8f9fa;
+    --LightColorLightestHover: #d2d7dc;
 
     --defaultFontSize: 1em;
 
@@ -16,24 +25,41 @@
     /* End of color variables */
 
     /* Elements variables */
-    --background: #fff;
+    --background: var(--white);
     --labelColor: var(--primaryColor);
     --linkHover: var(--secondaryColor);
     --contrastBackground: var(--primaryColor);
     --contrastLinkHover: var(--secondaryColorLight);
     --lightContainer: var(--secondaryColorLightest);
     --lightContainerOutline: var(--secondaryColor);
-    --boutonSecondaryColor: var(--secondaryColor);
     --titleSecondaryColor: var(--secondaryColor);
     --textColor: var(--primaryColor);
     --textLight: var(--primaryColorLight);
+    --boutonTextColor: var(--white);
+    --boutonSecondaryColor: var(--secondaryColor);
     --boutonSecondaryColorHover: var(--secondaryColorDark);
+    --boutonInfoColor: var(--infoColor);
+    --boutonInfoColorHover: var(--infoColorHover);
+    --boutonDangerColor: var(--dangerColor);
+    --boutonDangerColorHover: var(--dangerColorHover);
+    --boutonWarningColor: var(--warningColor);
+    --boutonWarningColorHover: var(--warningColorHover);
+    --boutonLightColor: var(--LightColorLightest);
+    --boutonLightColorHover: var(--LightColorLightestHover);
     --warningTextColor: var(--warningColor);
     --goodNewsTextColor: var(--secondaryColor);
+    --table-head: var(--secondaryColorDark);
+    --table-head-text: var(--white);
+    --table-td-even: var(--secondaryColorLightest);
+    --table-td-hover: var(--secondaryColorLighter);
 
+    --boutonBorderRadius: 0.5em;
+
+    --boutonPadding: 0.55em 0.75em;
     --bodyPaddingX: 2em;
     --bodyPaddingY: 0em;
 
+    --boutonFontSide: 1rem;
     --fontPageTitleSize: 2.5em;
     --fontTitleSize: 1.4em;
     --fontLabelSize: 1.1em;
@@ -43,20 +69,58 @@
 }
 
 /* Generic buttons */
-.bouton-secondary-color {
+.generic-button {
     background-color: var(--boutonSecondaryColor);
-    padding: 0.7em;
-    color: white;
+
+    color: var(--boutonTextColor);
+    font-size: var(--boutonFontSide);
+    text-align: center;
     text-decoration: none;
+
     border: none;
-    border-radius: 0.5em;
-    justify-content: center;
+    border-radius: var(--boutonBorderRadius);
+    padding: var(--boutonPadding);
+
     max-height: 100%;
+    min-width: 3em;
     display: inline-block;
+    justify-content: center;
 }
 
+.bouton-secondary-color {
+    background-color: var(--boutonSecondaryColor);
+}
 .bouton-secondary-color:hover {
     background-color: var(--boutonSecondaryColorHover);
+}
+
+.bouton-info-color {
+    background-color: var(--boutonInfoColor);
+}
+.bouton-info-color:hover {
+    background-color: var(--boutonInfoColorHover);
+}
+
+.bouton-danger-color {
+    background-color: var(--boutonDangerColor);
+}
+.bouton-danger-color:hover {
+    background-color: var(--boutonDangerColorHover);
+}
+
+.bouton-warning-color {
+    background-color: var(--boutonWarningColor);
+}
+.bouton-warning-color:hover {
+    background-color: var(--boutonWarningColorHover);
+}
+
+.bouton-light-color {
+    color: #333333;
+    background-color: var(--boutonLightColor);
+}
+.bouton-light-color:hover {
+    background-color: var(--boutonLightColorHover);
 }
 /* End of  generic buttons */
 
@@ -65,6 +129,10 @@
     width: 100%;
     text-align: center;
     font-size: var(--fontPageTitleSize);
+}
+
+.body-container h2 {
+    font-size: var(--fontTitleSize);
 }
 
 .information-container h3 {
@@ -85,7 +153,7 @@
 }
 /* End of generic text */
 
-/* Special containers */
+/* Generic containers */
 .information-container {
     background-color: var(--lightContainer);
     border: var(--lightContainerOutline) 1px solid;
@@ -93,4 +161,43 @@
     padding: 1em;
     margin-bottom: 1rem;
 }
-/* End of special containers */
+/* End of generic containers */
+
+/* Generic tables */
+.app-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--background);
+}
+
+.app-table thead tr {
+    background-color: var(--table-head);
+    color: var(--table-head-text);
+    text-align: left;
+}
+
+.app-table th {
+    text-align: center;
+}
+
+.app-table th,
+.app-table td {
+    border: 1px solid #ddd;
+    padding: 0.6em;
+}
+
+.app-table td a, .app-table td button {
+    margin: 0 0.4em;
+}
+
+.app-table tbody tr:nth-child(even) {
+    background-color: var(--table-td-even);
+}
+
+.app-table tbody tr:hover {
+    background-color: var(--table-td-hover);
+}
+/* End of generic tables */
