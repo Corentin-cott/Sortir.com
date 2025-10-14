@@ -32,7 +32,7 @@
     {% include '_navbar.html.twig' %}
 </header>
 
-<main style="min-height: 90dvh">
+<main style="min-height: 50vh;">
     {% for status, messages in app.flashes %}
         {% for message in messages %}
             <div class="alert alert-{{ status }}">{{ message }}</div>
