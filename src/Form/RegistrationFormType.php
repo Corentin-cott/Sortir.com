@@ -109,15 +109,7 @@ class RegistrationFormType extends AbstractType
                 'class' => Site::class,
                     'placeholder' => 'Choisir un site',
                     'choice_label' => 'nom',
-                ])
-            ->add('agreeTerms', CheckboxType::class, [
-            'mapped' => false,
-            'constraints' => [
-                new IsTrue([
-                    'message' => 'You should agree to our terms.',
-                ]),
-            ],
-        ]);
+                ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

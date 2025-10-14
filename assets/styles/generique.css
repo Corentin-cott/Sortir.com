@@ -209,3 +209,12 @@
     background-color: var(--table-td-hover);
 }
 /* End of generic tables */
+/* Photo de profil */
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--secondaryColorLightest);
+}
+/* Fin photo de profil */

@@ -51,7 +51,7 @@ final class SortieController extends AbstractController
         $organisateur = $em->getRepository(Participant::class)->find($user->getId());
 
         if( !$organisateur->isActif()){
-            $this->addFlash('danger', 'Votre compte est désactivé vous ne pouvez pas effectuer cette action');
+            $this->addFlash('danger', 'Votre compte est désactivé, vous ne pouvez pas effectuer cette action.');
             return $this->redirectToRoute('app_home');
         }
         // Récupération de la liste des lieux pour afficher rue, ville, ect
@@ -87,7 +87,7 @@ final class SortieController extends AbstractController
             $em->persist($sortie);
             $em->flush();
 
-            $this->addFlash('success', 'Sortie créér avec succès !');
+            $this->addFlash('success', 'La sortie a été créée avec succès !');
             return $this->redirectToRoute('app_home');
         }
 
@@ -190,7 +190,7 @@ final class SortieController extends AbstractController
             $sortie->setEtat($etat);
             $em->flush();
 
-            $this->addFlash('success', 'Sortie modifiée avec succès !');
+            $this->addFlash('success', 'La sortie a été modifiée avec succès !');
             return $this->redirectToRoute('app_home');
         }
 

@@ -1,126 +1,40 @@
+{# templates/sorties/afficher.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Détails de la sortie{% endblock %}
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('styles/afficher-sortie.css') }}">
+{% block title %}
+    Détail de la sortie | {{ parent() }}
 {% endblock %}
 
 {% block body %}
-    <div class="page-wrap">
-        <header class="page-header">
-            <h1>Détails de la sortie</h1>
-        </header>
+    <div class="body-container">
+        <h1 class="title">Détail de la sortie</h1>
+        <hr>
 
-        <main class="page-main">
-            <section class="cards-row">
-                <!-- Infos sortie (left column on desktop) -->
-                <article class="card card--left">
-                    <h2 class="card-title">Informations</h2>
-
-                    <div class="info-list">
-                        <div class="info-line">
-                            <div class="label">Nom</div>
-                            <div class="value">{{ sortie.nom }}</div>
-                        </div>
-
-                        <div class="info-line">
-                            <div class="label">Date et heure de début</div>
-                            <div class="value">{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</div>
-                        </div>
-
-                        <div class="info-line">
-                            <div class="label">Date limite d'inscription</div>
-                            <div class="value">{{ sortie.dateLimiteInscription|date('d/m/Y') }}</div>
-                        </div>
-
-                        <div class="info-line">
-                            <div class="label">Nombre de places</div>
-                            <div class="value">{{ sortie.nbInscriptionMax }}</div>
-                        </div>
-
-                        <div class="info-line">
-                            <div class="label">Durée (minutes)</div>
-                            <div class="value">{{ sortie.duree }}</div>
-                        </div>
-
-                        <div class="info-line info-line--long">
-                            <div class="label">Description</div>
-                            <div class="value">{{ sortie.descriptionInfos }}</div>
-                        </div>
+        <div style="display: flex; justify-content: center;">
+            <div class="row" style="min-width: 5em; width: 60em;">
+                <div class="col-md-6">
+                    <p><strong>Nom :</strong> {{ sortie.nom }}</p>
+                    <p><strong>Date et heure de début :</strong> {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y H:i') : '' }}</p>
+                    <p><strong>Date limite d'inscription :</strong> {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d/m/Y H:i') : '' }}</p>
+                    <p><strong>Nombre maximum d'inscriptions :</strong> {{ sortie.nbInscriptionMax }}</p>
+                    <p><strong>Durée :</strong> {{ sortie.duree }} minutes</p>
+                    <p><strong>Description :</strong><br>{{ sortie.descriptionInfos }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Lieu :</strong> {{ sortie.lieu.nom }}</p>
+                    <div id="lieu-details">
+                        <p>Rue : <span>{{ sortie.lieu.rue }}</span></p>
+                        <p>Ville : <span>{{ sortie.lieu.ville.nom }}</span></p>
+                        <p>Code postal : <span>{{ sortie.lieu.ville.xqxxxxxxxxxxxxxxxxxxxxxxxxxxxxxcodePostal }}</span></p>
+                        <p>Latitude : <span>{{ sortie.lieu.latitude }}</span></p>
+                        <p>Longitude : <span>{{ sortie.lieu.longitude }}</span></p>
                     </div>
-                </article>
-
-                <!-- Infos lieu (right column on desktop) -->
-                <aside class="card card--right">
-                    <h2 class="card-title">Lieu</h2>
-
-                    <div class="info-list">
-                        <div class="info-line">
-                            <div class="label">Nom</div>
-                            <div class="value">{{ sortie.lieu.nom }}</div>
-                        </div>
-
-                        <div class="info-line">
-                            <div class="label">Rue</div>
-                            <div class="value">{{ sortie.lieu.rue }}</div>
-                        </div>
-
-                        <div class="info-line">
-                            <div class="label">Ville</div>
-                            <div class="value">{{ sortie.lieu.ville.nom }}</div>
-                        </div>
-
-                        <div class="info-line">
-                            <div class="label">Code postal</div>
-                            <div class="value">{{ sortie.lieu.ville.codePostal }}</div>
-                        </div>
-
-                        <div class="info-line">
-                            <div class="label">Latitude</div>
-                            <div class="value">{{ sortie.lieu.latitude }}</div>
-                        </div>
-
-                        <div class="info-line">
-                            <div class="label">Longitude</div>
-                            <div class="value">{{ sortie.lieu.longitude }}</div>
-                        </div>
-                    </div>
-                </aside>
-            </section>
-
-            <!-- Participants (bottom left ~20% on desktop, full-width on mobile) -->
-            {% if sortie.participants.count() > 0 %}
-                <section class="participants-wrap">
-                    <h3 class="participants-title">Participants inscrits ({{ sortie.participants.count() }})</h3>
-
-                    <div class="participants-table">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Pseudo</th>
-                                <th>Nom</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for participant in sortie.participants %}
-                                <tr>
-                                    <td>
-                                        <a href="{{ path('app_edit', {'id': participant.id}) }}">{{ participant.pseudo }}</a>
-
-                                    </td>
-                                    <td>{{ participant.prenom }} {{ participant.nom }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-            {% endif %}
-
-            <div class="actions">
-                <a class="generic-button bouton-light-color" href="/">Retour</a>
+                </div>
             </div>
-        </main>
+        </div>
+
+        <div style="display: flex; justify-content: center; margin-top: 2em;">
+            <a href="/" class="generic-button bouton-light-color">Retour</a>
+        </div>
     </div>
 {% endblock %}

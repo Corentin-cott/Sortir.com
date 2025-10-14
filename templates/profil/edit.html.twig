@@ -5,47 +5,59 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container mt-4">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
+    <div class="body-container">
+        <h1 class="title">
+            {% set photoUrl = participant.photo
+                ? asset('uploads/photos/' ~ participant.photo)
+                : 'https://avatar.iran.liara.run/public/' ~ participant.id ~ '?size=32' %}
 
-                <h1>
-                    {{ isOwner ? 'Mon profil' : 'Profil de ' ~ participant.pseudo }}
-                </h1>
+            <img src="{{ photoUrl }}" alt="Photo de profil" class="profile-photo" style="width: 100px; height: 100px">
 
-                <div class="d-flex align-items-center mb-4">
-                    {% if participant.photo %}
-                        <img src="{{ asset('uploads/photos/' ~ participant.photo) }}" alt="Photo"
-                             class="img-thumbnail me-3" width="150">
-                    {% else %}
-{#                        <img src="{{ asset('images/default.png') }}" alt="Profil"#}
-{#                             class="img-thumbnail me-3" width="150">#}
-                    {% endif %}
-                </div>
+            {{ isOwner ? 'Mon profil' : 'Profil de ' ~ participant.pseudo }}
+        </h1>
+
+        <hr>
+
+        <div style="display: flex; justify-content: center;">
 
                 {% if isOwner %}
-                    {# Mode édition #}
-                    {{ form_start(profilForm, {'attr': {'enctype': 'multipart/form-data'}}) }}
-                    {{ form_row(profilForm.prenom) }}
-                    {{ form_row(profilForm.nom) }}
-                    {{ form_row(profilForm.telephone) }}
-                    {{ form_row(profilForm.email) }}
-                    {{ form_row(profilForm.password) }}
-                    {{ form_row(profilForm.confirmPassword) }}
-                    {{ form_row(profilForm.site) }}
-                    {{ form_row(profilForm.photo) }}
-                    <button class="generic-button bouton-secondary-color">Enregistrer</button>
-                    {{ form_end(profilForm) }}
+                    <div style="min-width: 5em; width: 60em; display: grid; grid-template-columns: 1fr 1fr; gap: 2em;">
+                            <div>
+                                {{ form_start(profilForm, {'attr': {'enctype': 'multipart/form-data'}}) }}
+                                {{ form_row(profilForm.prenom) }}
+                                {{ form_row(profilForm.nom) }}
+                                {{ form_row(profilForm.telephone) }}
+                                {{ form_row(profilForm.site) }}
+                            </div>
+
+                            <div>
+                                {{ form_row(profilForm.email) }}
+                                {{ form_row(profilForm.password) }}
+                                {{ form_row(profilForm.confirmPassword) }}
+                                {{ form_row(profilForm.photo) }}
+                            </div>
+
+                            <div style="grid-column: 1 / -1; display: flex; justify-content: center; gap: 1em;">
+                                <button class="generic-button bouton-secondary-color">Enregistrer</button>
+                                <a href="{{ path('app_home') }}" class="generic-button bouton-info-color">Retour</a>
+                            </div>
+
+                            {{ form_end(profilForm) }}
+                    </div>
                 {% else %}
-                    {# Mode lecture seule #}
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item"><strong>Prénom :</strong> {{ participant.prenom }}</li>
-                        <li class="list-group-item"><strong>Nom :</strong> {{ participant.nom }}</li>
-                        <li class="list-group-item"><strong>Téléphone :</strong> {{ participant.telephone }}</li>
-                        <li class="list-group-item"><strong>Email :</strong> {{ participant.email }}</li>
-                        <li class="list-group-item"><strong>Site :</strong> {{ participant.site }}</li>
-                    </ul>
-                    <a href="{{ path('app_home') }}" class="generic-button bouton-light-color">Retour</a>
+                <div style="min-width: 5em; width: 60em;">
+                        <ul class="list-group mb-3" style="grid-column: 1 / -1;">
+                            <li class="list-group-item"><strong>Prénom :</strong> {{ participant.prenom }}</li>
+                            <li class="list-group-item"><strong>Nom :</strong> {{ participant.nom }}</li>
+                            <li class="list-group-item"><strong>Téléphone :</strong> {{ participant.telephone }}</li>
+                            <li class="list-group-item"><strong>Email :</strong> {{ participant.email }}</li>
+                            <li class="list-group-item"><strong>Site :</strong> {{ participant.site }}</li>
+                        </ul>
+
+                        <div style="display: flex; justify-content: center;">
+                            <a href="{{ path('app_home') }}" class="generic-button bouton-info-color" style="width: 100%;">Retour</a>
+                        </div>
+                </div>
                 {% endif %}
 
             </div>
