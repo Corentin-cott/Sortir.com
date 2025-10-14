@@ -101,9 +101,6 @@ final class SortieController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function annuler(Request $request, EntityManagerInterface $em, int $id): Response
     {
-        // Vérification que l'utilisateur est connecté
-//        $this->denyAccessUnlessGranted('ROLE_USER');
-
         // Récupération des infos de la sortie à partir de l'id
         $sortie = $em->getRepository(Sortie::class)->find($id);
         $siteOrga = $em->getRepository(Site::class)->find($sortie->getOrganisateur()->getSite());
