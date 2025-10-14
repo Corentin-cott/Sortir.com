@@ -9,13 +9,19 @@ use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class SortieController extends AbstractController
 {
+    private LoggerInterface $logger;
+    public function __construct(LoggerInterface $logger){
+        $this->logger = $logger;
+    }
 
     #[Route('/sortie/{id}', name: 'app_sortie_details', methods: ['GET'], requirements: ['id' => '\d+'])]
     public function details(Request $request, EntityManagerInterface $em, int $id): Response
@@ -92,10 +98,11 @@ final class SortieController extends AbstractController
     }
 
     #[Route('/sortie/annuler/{id}', name: 'app_sortie_annuler', requirements: ['id' => '\d+'])]
+    #[IsGranted('ROLE_USER')]
     public function annuler(Request $request, EntityManagerInterface $em, int $id): Response
     {
         // Vérification que l'utilisateur est connecté
-        $this->denyAccessUnlessGranted('ROLE_USER');
+//        $this->denyAccessUnlessGranted('ROLE_USER');
 
         // Récupération des infos de la sortie à partir de l'id
         $sortie = $em->getRepository(Sortie::class)->find($id);
@@ -104,9 +111,13 @@ final class SortieController extends AbstractController
         $lieuVille  = $lieu->getVille();
 
         // Vérification que l'organisateur est bien l'utilisateur demandant l'annulation
-        $organisateur = $em->getRepository(Participant::class)->find($this->getUser()->getId());
-        if ($sortie->getOrganisateur()->getId() != $organisateur->getId()) {
-            $this->addFlash('error', 'Cette sortie ne vous appartient pas !');
+        $user = $em->getRepository(Participant::class)->find($this->getUser());
+        $this->logger->info("[SORTIE CONTROLLER] ----- Organisateur : {$sortie->getOrganisateur()->getId()}");
+        $this->logger->info("[SORTIE CONTROLLER] ----- User : {$user->getId()}");
+        $this->logger->info("[SORTIE CONTROLLER] ----- User est admin ? {$user->isAdmin()}");
+
+        if (!$user->isAdmin() && ($user !== $sortie->getOrganisateur())) {
+            $this->addFlash('danger', 'Cette sortie ne vous appartient pas !');
             return $this->redirectToRoute('app_home');
         }
 
@@ -124,7 +135,6 @@ final class SortieController extends AbstractController
                 return $this->redirectToRoute('app_home');
             }
         }
-
         // Envoie de la sortie au template
         return $this->render('sorties/annuler.html.twig', [
             'sortie' => $sortie,
