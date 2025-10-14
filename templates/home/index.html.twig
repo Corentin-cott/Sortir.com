@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="col-md-2 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary w-100">Rechercher</button>
+                    <button type="submit" class="generic-button bouton-info-color">Rechercher</button>
                 </div>
             </div>
 
@@ -97,14 +97,14 @@
                             {% if app.user and not sortie.estInscrit(app.user)  %}
                                 <form method="post" action="{{ path('app_home_sinscrire', {'id': sortie.id}) }}">
                                     <input type="hidden" name="_token" value="{{ csrf_token('sinscrire'~sortie.id) }}">
-                                    <button class="btn btn-primary" type="submit">S'inscrire</button>
+                                    <button class="generic-button bouton-secondary-color" type="submit">S'inscrire</button>
                                 </form>
                             {% endif %}
 
                             {% if app.user and sortie.estInscrit(app.user) %}
                                 <form method="post" action="{{ path('app_home_desinscrire', {'id': sortie.id}) }}">
                                     <input type="hidden" name="_token" value="{{ csrf_token('desinscrire'~sortie.id) }}">
-                                    <button class="btn btn-danger" type="submit">Se désinscrire</button>
+                                    <button class="generic-button bouton-danger-color" type="submit">Se désinscrire</button>
                                 </form>
                             {% endif %}
 
@@ -118,6 +118,6 @@
             </tbody>
         </table>
 
-        <a href="sortie/creer" class="bouton-secondary-color">Créer une sortie</a>
+        <a href="sortie/creer" class="generic-button bouton-secondary-color">Créer une sortie</a>
     </div>
 {% endblock %}

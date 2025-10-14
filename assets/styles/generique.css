@@ -15,6 +15,8 @@
     --dangerColorHover: #880808;
     --warningColor: #ff4500;
     --warningColorHover: #c53804;
+    --LightColorLightest: #f8f9fa;
+    --LightColorLightestHover: #d2d7dc;
 
     --defaultFontSize: 1em;
 
@@ -40,6 +42,8 @@
     --boutonInfoColorHover: var(--infoColorHover);
     --boutonDangerColor: var(--dangerColor);
     --boutonDangerColorHover: var(--dangerColorHover);
+    --boutonLightColor: var(--LightColorLightest);
+    --boutonLightColorHover: var(--LightColorLightestHover);
     --warningTextColor: var(--warningColor);
     --goodNewsTextColor: var(--secondaryColor);
     --table-head: var(--secondaryColorDark);
@@ -100,6 +104,14 @@
 }
 .bouton-danger-color:hover {
     background-color: var(--boutonDangerColorHover);
+}
+
+.bouton-light-color {
+    color: #333333;
+    background-color: var(--boutonLightColor);
+}
+.bouton-light-color:hover {
+    background-color: var(--boutonLightColorHover);
 }
 /* End of  generic buttons */
 
