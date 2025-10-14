@@ -53,6 +53,9 @@
     --table-td-even: var(--secondaryColorLightest);
     --table-td-hover: var(--secondaryColorLighter);
 
+    --background-image-url: url('https://www.parc-marais-poitevin.fr/wp-content/uploads/donjon-et-halles-1-e1541422612508-scaled.jpg');
+    --background-image-filter-color: rgba(255, 255, 255, 0.5);
+
     --boutonBorderRadius: 0.5em;
 
     --boutonPadding: 0.55em 0.75em;
@@ -160,6 +163,11 @@
     border-radius: 1em;
     padding: 1em;
     margin-bottom: 1rem;
+}
+
+.form-container {
+    background-color: var(--background);
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
 /* End of generic containers */
 
