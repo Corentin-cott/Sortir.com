@@ -3,12 +3,12 @@
     --white: #fff;
     --primaryColorLight: #6b7280;
     --primaryColor: #333;
-    --secondaryColor: #106d05;
+    --secondaryColor: #0e4e07;
     --secondaryColorLight: #7ec876;
     --secondaryColorLighter: #ccecc8;
     --secondaryColorLightest: #f8f9fa;
-    --secondaryColorDark: #0e4e07;
-    --secondaryColorDarkest: #0a3006;
+    --secondaryColorDark: #0f3e0b;
+    --secondaryColorDarkest: #0b2b08;
     --infoColor: #159ba8;
     --infoColorHover: #10818c;
     --dangerColor: #a80f0f;
@@ -42,7 +42,7 @@
     --boutonDangerColorHover: var(--dangerColorHover);
     --warningTextColor: var(--warningColor);
     --goodNewsTextColor: var(--secondaryColor);
-    --table-head: var(--secondaryColor);
+    --table-head: var(--secondaryColorDark);
     --table-head-text: var(--white);
     --table-td-even: var(--secondaryColorLightest);
     --table-td-hover: var(--secondaryColorLighter);
@@ -143,7 +143,7 @@
 /* End of generic containers */
 
 /* Generic tables */
-.admin-table {
+.app-table {
     width: 100%;
     border-collapse: collapse;
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
@@ -152,23 +152,31 @@
     background-color: var(--background);
 }
 
-.admin-table thead tr {
+.app-table thead tr {
     background-color: var(--table-head);
     color: var(--table-head-text);
     text-align: left;
 }
 
-.admin-table th,
-.admin-table td {
+.app-table th {
+    text-align: center;
+}
+
+.app-table th,
+.app-table td {
     border: 1px solid #ddd;
     padding: 0.6em;
 }
 
-.admin-table tbody tr:nth-child(even) {
+.app-table td form {
+    margin: 0 0.4em;
+}
+
+.app-table tbody tr:nth-child(even) {
     background-color: var(--table-td-even);
 }
 
-.admin-table tbody tr:hover {
+.app-table tbody tr:hover {
     background-color: var(--table-td-hover);
 }
 /* End of generic tables */
