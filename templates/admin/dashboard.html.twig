@@ -109,7 +109,12 @@
                                     <button class="btn btn-warning" type="submit">Rétrograder</button>
                                 </form>
                         {% endif %}
+                            <form method="post" action="{{ path('admin_delete_participant', {'id': utilisateur.id}) }}">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete_participant'~utilisateur.id) }}">
+                                <button class="btn btn-danger" type="submit">Supprimer</button>
+                            </form>
                         </td>
+
                     </tr>
                 {% endfor %}
                 </tbody>
