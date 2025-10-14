@@ -45,14 +45,12 @@
                             {{ form_end(profilForm) }}
                     </div>
                 {% else %}
-                <div style="min-width: 5em; width: 60em;">
-                        <ul class="list-group mb-3" style="grid-column: 1 / -1;">
-                            <li class="list-group-item"><strong>Prénom :</strong> {{ participant.prenom }}</li>
-                            <li class="list-group-item"><strong>Nom :</strong> {{ participant.nom }}</li>
-                            <li class="list-group-item"><strong>Téléphone :</strong> {{ participant.telephone }}</li>
-                            <li class="list-group-item"><strong>Email :</strong> {{ participant.email }}</li>
-                            <li class="list-group-item"><strong>Site :</strong> {{ participant.site }}</li>
-                        </ul>
+                <div class="form-container" style="min-width: 5em; width: 60em;">
+                            <p><strong>Prénom :</strong> {{ participant.prenom }}</p>
+                            <p><strong>Nom :</strong> {{ participant.nom }}</p>
+                            <p><strong>Téléphone :</strong> {{ participant.telephone }}</p>
+                            <p><strong>Email :</strong> {{ participant.email }}</p>
+                            <p><strong>Site :</strong> {{ participant.site }}</p>
 
                         <div style="display: flex; justify-content: center;">
                             <a href="{{ path('app_home') }}" class="generic-button bouton-info-color" style="width: 100%;">Retour</a>
