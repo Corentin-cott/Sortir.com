@@ -37,8 +37,9 @@
                                 {{ form_row(profilForm.photo) }}
                             </div>
 
-                            <div style="grid-column: 1 / -1; display: flex; justify-content: center; margin-top: 1em;">
+                            <div style="grid-column: 1 / -1; display: flex; justify-content: center; gap: 1em;">
                                 <button class="generic-button bouton-secondary-color">Enregistrer</button>
+                                <a href="{{ path('app_home') }}" class="generic-button bouton-info-color">Retour</a>
                             </div>
 
                             {{ form_end(profilForm) }}
