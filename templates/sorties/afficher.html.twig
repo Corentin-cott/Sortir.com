@@ -18,10 +18,19 @@
                     <div class="row justify-content-center align-items-start g-4">
                         <!-- Image -->
                         <div class="col-12 col-md-4 text-center">
-                            <img src="https://citygem.app/wp-content/uploads/2024/08/placeholder-1-1.png"
-                                 alt="Image de la sortie"
-                                 class="img-fluid rounded shadow-sm w-100"
-                                 style="max-height: 300px; object-fit: cover;">
+                            {% if sortie.photo %}
+                                <img src="{{ asset('uploads/backdrops/' ~ sortie.photo) }}"
+                                     alt='alt="Image de la sortie'
+                                     class="img-fluid rounded shadow-sm w-100"
+                                     style="max-height: 300px; object-fit: cover;"
+                                >
+                                {% else %}
+                                    <img src="https://citygem.app/wp-content/uploads/2024/08/placeholder-1-1.png"
+                                         alt="Image de la sortie"
+                                         class="img-fluid rounded shadow-sm w-100"
+                                         style="max-height: 300px; object-fit: cover;">
+                            {% endif %}
+
                         </div>
 
                         <!-- Infos principales -->

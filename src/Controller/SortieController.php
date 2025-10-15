@@ -11,11 +11,15 @@ use App\Entity\Sortie;
 use App\Form\SortieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use App\Services\FileManager;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+
 
 final class SortieController extends AbstractController
 {
@@ -85,7 +89,7 @@ final class SortieController extends AbstractController
 
     #[Route('/sortie/creer', name: 'app_sortie_creer')]
     #[IsGranted('SORTIE_CREATE', message: 'Vous n\'êtes pas autorisé à voir cette page.')]
-    public function creer(Request $request, EntityManagerInterface $em): Response
+    public function creer(Request $request, EntityManagerInterface $em, FileManager $fileManager): Response
     {
         $user = $this->getUser();
         $organisateur = $em->getRepository(Participant::class)->find($user->getId());
@@ -106,6 +110,14 @@ final class SortieController extends AbstractController
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            //gestion photo
+            $photoFile = $form->get('photo')->getData();
+            if ($photoFile instanceof UploadedFile) {
+                if($name = $fileManager->upload($photoFile, 'uploads/backdrops/', $sortie->getId())) {
+                    $sortie->setPhoto($name);
+                }
+            }
+
             $action = $request->request->get('action');
             if ($action === 'save') {
                 $etat = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Créée']);
@@ -165,7 +177,7 @@ final class SortieController extends AbstractController
 
     #[Route('/sortie/modifier/{id}', name: 'app_sortie_modifier', requirements: ['id' => '\d+'])]
     #[IsGranted('SORTIE_EDIT', subject:'sortie', message: "Vous n'avez pas les droits pour modifier une sortie.")]
-    public function modifier(Request $request, EntityManagerInterface $em, Sortie $sortie): Response
+    public function modifier(Request $request, EntityManagerInterface $em, Sortie $sortie, FileManager $fileManager): Response
     {
         // Récupération de la liste des lieux pour le formulaire
         $lieux = $em->getRepository(Lieu::class)->findAll();
@@ -185,6 +197,18 @@ final class SortieController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $photoFile = $form->get('photo')->getData();
+            if($photoFile instanceof UploadedFile) {
+                //supprime l'ancien fichier
+                if($sortie->getPhoto()) {
+                    $fileManager->remove('uploads/backdrops/' . $sortie->getPhoto(), $sortie->getId());
+                }
+                //Fait l'enregistrement du nouveau fichier
+                if($name = $fileManager->upload($photoFile, 'uploads/backdrops/', $sortie->getId())) {
+                    $sortie->setPhoto($name);
+                }
+            }
+
             $action = $request->request->get('action');
             if ($action === 'save') {
                 $etat = $em->getRepository(Etat::class)->findOneBy(['libelle' => 'Créée']);

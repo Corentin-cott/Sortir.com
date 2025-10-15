@@ -13,10 +13,27 @@
     <div class="body-container">
         <h1 class="title">
             {% if sortie is defined %}
+                <img src="{{ asset('uploads/backdrops/' ~ sortie.photo) }}"
+                     alt='alt="Image de la sortie'
+                     class="sortie-edit-photo"
+                >
                 Modifier la sortie
+
             {% else %}
                 Créer une nouvelle sortie
             {% endif %}
+            <style>
+                @media (max-width: 600px) {
+                    .sortie-edit-photo {
+                        display: none;
+                    }
+                }
+                @media (min-width: 601px) and (max-width: 1024px) {
+                    .sortie-edit-photo {
+                        display: block;
+                    }
+                }
+            </style>
         </h1>
 
         <hr>
@@ -35,6 +52,7 @@
                             {{ form_row(form.nbInscriptionMax) }}
                             {{ form_row(form.duree) }}
                             {{ form_row(form.descriptionInfos) }}
+                            {{ form_row(form.photo) }}
                         </div>
                         <div class="col-md-6">
                             {{ form_row(form.lieu) }}

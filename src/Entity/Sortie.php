@@ -70,6 +70,9 @@ class Sortie
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'Sortie')]
     private Collection $commentaires;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $photo = null;
+
     public function getDeletedAt(): ?\DateTimeInterface
     {
         return $this->deletedAt;
@@ -327,6 +330,18 @@ class Sortie
                 $commentaire->setSortie(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): static
+    {
+        $this->photo = $photo;
 
         return $this;
     }
