@@ -13,12 +13,13 @@
     <div class="body-container">
         <h1 class="title">
             {% if sortie is defined %}
-                <img src="{{ asset('uploads/backdrops/' ~ sortie.photo) }}"
-                     alt='alt="Image de la sortie'
-                     class="sortie-edit-photo"
-                >
+                {% if sortie.photo %}
+                    <img src="{{ asset('uploads/backdrops/' ~ sortie.photo) }}"
+                         alt='alt="Image de la sortie'
+                         class="sortie-edit-photo"
+                    >
+                {% endif %}
                 Modifier la sortie
-
             {% else %}
                 Créer une nouvelle sortie
             {% endif %}

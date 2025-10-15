@@ -9,6 +9,7 @@ use App\Entity\Participant;
 use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use App\Services\MeteoService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use App\Services\FileManager;
@@ -19,6 +20,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 
 final class SortieController extends AbstractController
@@ -28,19 +34,41 @@ final class SortieController extends AbstractController
         $this->logger = $logger;
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     */
     #[Route('/sortie/{id}', name: 'app_sortie_details', requirements: ['id' => '\d+'], methods: ['GET'])]
-    public function details(Request $request, EntityManagerInterface $em, Sortie $sortie): Response
+    public function details(Request $request, EntityManagerInterface $em, Sortie $sortie, MeteoService $meteoService): Response
     {
         $siteOrga = $em->getRepository(Site::class)->find($sortie->getOrganisateur()->getSite());
         $lieu  = $em->getRepository(Lieu::class)->find($sortie->getLieu());
         $lieuVille  = $lieu->getVille();
 
+        $weatherData = null;
+
+        if ($lieu->getLatitude() && $lieu->getLongitude()) {
+            $date = $sortie->getDateHeureDebut();
+            $lat = $lieu->getLatitude();
+            $lon = $lieu->getLongitude();
+
+            $weatherData = $meteoService->getForecast($lat, $lon, $date);
+
+            if ($weatherData !== null) {
+                $weatherData['description'] = $meteoService->interpretWeatherCode($weatherData['weather_code']);
+            }
+
+        }
         // Envoie de la sortie au template
         return $this->render('sorties/afficher.html.twig', [
             'sortie' => $sortie,
             'siteOrga' => $siteOrga,
             'lieu' => $lieu,
-            'lieuVille' => $lieuVille
+            'lieuVille' => $lieuVille,
+            'weather' => $weatherData,
         ]);
     }
 
