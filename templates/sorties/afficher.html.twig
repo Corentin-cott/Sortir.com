@@ -52,8 +52,44 @@
                     <!-- Commentaires -->
                     <section>
                         <h2>Commentaires</h2>
-                        <p>Aucun commentaire sur cette sortie pour le moment.</p>
+
+                        {# Formulaire d'ajout de commentaire #}
+                        <form action="{{ path('app_sortie_ajouter_commentaire', { id: sortie.id }) }}" method="post">
+                            <div class="form-group">
+                                <textarea id="contenu" name="contenu" rows="3" required class="form-control" placeholder="Écrivez votre message..."></textarea>
+                            </div>
+                            <div style="display: flex; justify-content: end">
+                                <button type="submit" class="btn btn-primary mt-2">Publier</button>
+                            </div>
+                        </form>
+
+                        {# Liste des commentaires #}
+                        {% if sortie.commentaires is not empty %}
+                            {% for commentaire in sortie.commentaires %}
+                                <article style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px;">
+
+                                    {% set photoUrl = commentaire.participant.photo
+                                        ? asset('uploads/photos/' ~ commentaire.participant.photo)
+                                        : 'https://avatar.iran.liara.run/public/' ~ commentaire.participant.id ~ '?size=32' %}
+
+                                    <img src="{{ photoUrl }}" alt="Photo de profil" class="profile-photo"
+                                         style="width: 58px; height: 58px; border-radius: 50%; object-fit: cover;">
+
+                                    <div>
+                                        <p class="mb-1" style="margin: 0;">
+                                            <strong>{{ commentaire.participant.pseudo }}</strong>
+                                            <small class="text-muted">— {{ commentaire.datePublication|date('d/m/Y H:i') }}</small>
+                                        </p>
+                                        <p style="margin: 5px 0 0 0;">{{ commentaire.commentaire }}</p>
+                                    </div>
+
+                                </article>
+                            {% endfor %}
+                        {% else %}
+                            <p>Aucun commentaire sur cette sortie pour le moment.</p>
+                        {% endif %}
                     </section>
+
                 </div>
             </div>
 

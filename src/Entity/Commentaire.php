@@ -13,12 +13,19 @@ class Commentaire
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'commentaires')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Participant $participant = null;
 
+    #[ORM\ManyToOne(inversedBy: 'commentaires')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Sortie $Sortie = null;
+
     #[ORM\Column(length: 255)]
     private ?string $commentaire = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $datePublication = null;
 
     public function getId(): ?int
     {
@@ -37,6 +44,18 @@ class Commentaire
         return $this;
     }
 
+    public function getSortie(): ?Sortie
+    {
+        return $this->Sortie;
+    }
+
+    public function setSortie(?Sortie $Sortie): static
+    {
+        $this->Sortie = $Sortie;
+
+        return $this;
+    }
+
     public function getCommentaire(): ?string
     {
         return $this->commentaire;
@@ -45,6 +64,18 @@ class Commentaire
     public function setCommentaire(string $commentaire): static
     {
         $this->commentaire = $commentaire;
+
+        return $this;
+    }
+
+    public function getDatePublication(): ?\DateTimeImmutable
+    {
+        return $this->datePublication;
+    }
+
+    public function setDatePublication(): static
+    {
+        $this->datePublication = new \DateTimeImmutable();
 
         return $this;
     }
