@@ -21,81 +21,86 @@
 
         <hr>
 
-        {{ form_start(form) }}
-
         <div style="display: flex; justify-content: center;">
-            <div class="row" style="min-width: 5em; width: 60em;">
-                <div class="col-md-6">
-                    {{ form_row(form.nom) }}
-                    {{ form_row(form.dateHeureDebut) }}
-                    {{ form_row(form.dateLimiteInscription) }}
-                    {{ form_row(form.nbInscriptionMax) }}
-                    {{ form_row(form.duree) }}
-                    {{ form_row(form.descriptionInfos) }}
-                </div>
-                <div class="col-md-6">
-                    {{ form_row(form.lieu) }}
-                    <div id="lieu-details">
-                        <p>Rue :</p>
-                        <p style="margin-left: 20px"><span id="rue"></span></p>
-                        <p>Ville :</p>
-                        <p style="margin-left: 20px"><span id="ville"></span></p>
-                        <p>Code postal :</p>
-                        <p style="margin-left: 20px"><span id="cp"></span></p>
-                        <p>Latitude :</p>
-                        <p style="margin-left: 20px"><span id="latitude"></span></p>
-                        <p>Longitude :</p>
-                        <p style="margin-left: 20px"><span id="longitude"></span></p>
+            <div class="form-container">
+
+                {{ form_start(form) }}
+
+                <div style="display: flex; justify-content: center;">
+                    <div class="row" style="width: 100%;">
+                        <div class="col-md-6">
+                            {{ form_row(form.nom) }}
+                            {{ form_row(form.dateHeureDebut) }}
+                            {{ form_row(form.dateLimiteInscription) }}
+                            {{ form_row(form.nbInscriptionMax) }}
+                            {{ form_row(form.duree) }}
+                            {{ form_row(form.descriptionInfos) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_row(form.lieu) }}
+                            <div id="lieu-details">
+                                <p>Rue :</p>
+                                <p style="margin-left: 20px"><span id="rue"></span></p>
+                                <p>Ville :</p>
+                                <p style="margin-left: 20px"><span id="ville"></span></p>
+                                <p>Code postal :</p>
+                                <p style="margin-left: 20px"><span id="cp"></span></p>
+                                <p>Latitude :</p>
+                                <p style="margin-left: 20px"><span id="latitude"></span></p>
+                                <p>Longitude :</p>
+                                <p style="margin-left: 20px"><span id="longitude"></span></p>
+                            </div>
+
+                            <script>
+                                const selectLieu = document.querySelector('#{{ form.lieu.vars.id }}');
+                                const lieuxData = {{ lieux|json_encode|raw }};
+                                console.log("Liste des lieux :", lieuxData);
+
+                                function afficherLieu(id) {
+                                    const lieu = lieuxData.find(l => l.id == id);
+                                    if (lieu) {
+                                        document.getElementById('rue').textContent = lieu.rue;
+                                        document.getElementById('ville').textContent = lieu.ville;
+                                        document.getElementById('cp').textContent = lieu.codePostal;
+                                        document.getElementById('latitude').textContent = lieu.latitude;
+                                        document.getElementById('longitude').textContent = lieu.longitude;
+                                    } else {
+                                        document.getElementById('rue').textContent = '';
+                                        document.getElementById('ville').textContent = '';
+                                        document.getElementById('cp').textContent = '';
+                                        document.getElementById('latitude').textContent = '';
+                                        document.getElementById('longitude').textContent = '';
+                                    }
+                                }
+
+                                // Affichage au chargement de la page
+                                afficherLieu(selectLieu.value);
+
+                                // Mise à jour lorsque le lieu change
+                                selectLieu.addEventListener('change', function() {
+                                    afficherLieu(this.value);
+                                });
+                            </script>
+                        </div>
                     </div>
-
-                    <script>
-                        const selectLieu = document.querySelector('#{{ form.lieu.vars.id }}');
-                        const lieuxData = {{ lieux|json_encode|raw }};
-                        console.log("Liste des lieux :", lieuxData);
-
-                        function afficherLieu(id) {
-                            const lieu = lieuxData.find(l => l.id == id);
-                            if (lieu) {
-                                document.getElementById('rue').textContent = lieu.rue;
-                                document.getElementById('ville').textContent = lieu.ville;
-                                document.getElementById('cp').textContent = lieu.codePostal;
-                                document.getElementById('latitude').textContent = lieu.latitude;
-                                document.getElementById('longitude').textContent = lieu.longitude;
-                            } else {
-                                document.getElementById('rue').textContent = '';
-                                document.getElementById('ville').textContent = '';
-                                document.getElementById('cp').textContent = '';
-                                document.getElementById('latitude').textContent = '';
-                                document.getElementById('longitude').textContent = '';
-                            }
-                        }
-
-                        // Affichage au chargement de la page
-                        afficherLieu(selectLieu.value);
-
-                        // Mise à jour lorsque le lieu change
-                        selectLieu.addEventListener('change', function() {
-                            afficherLieu(this.value);
-                        });
-                    </script>
                 </div>
-            </div>
-        </div>
 
-        <div style="display: flex; justify-content: center;">
-            <div class="gap-4">
-                {% if sortie is defined %}
-                    <button type="submit" name="action" value="save" class="generic-button bouton-info-color">Mettre à jour</button>
-                    {% if sortie.etat.libelle == "Créée" %}
-                        <button type="submit" name="action" value="publish" class="generic-button bouton-secondary-color">Publier la sortie</button>
-                    {% endif %}
-                {% else %}
-                    <button type="submit" name="action" value="save" class="generic-button bouton-info-color">Enregistrer</button>
-                    <button type="submit" name="action" value="publish" class="generic-button bouton-secondary-color">Publier la sortie</button>
-                {% endif %}
-                <a href="/" class="generic-button bouton-light-color">Annuler</a>
+                <div style="display: flex; justify-content: center;">
+                    <div class="gap-4">
+                        {% if sortie is defined %}
+                            <button type="submit" name="action" value="save" class="generic-button bouton-info-color">Mettre à jour</button>
+                            {% if sortie.etat.libelle == "Créée" %}
+                                <button type="submit" name="action" value="publish" class="generic-button bouton-secondary-color">Publier la sortie</button>
+                            {% endif %}
+                        {% else %}
+                            <button type="submit" name="action" value="save" class="generic-button bouton-info-color">Enregistrer</button>
+                            <button type="submit" name="action" value="publish" class="generic-button bouton-secondary-color">Publier la sortie</button>
+                        {% endif %}
+                        <a href="/" class="generic-button bouton-light-color">Annuler</a>
+                    </div>
+                </div>
+                {{ form_end(form) }}
             </div>
         </div>
-        {{ form_end(form) }}
     </div>
 {% endblock %}

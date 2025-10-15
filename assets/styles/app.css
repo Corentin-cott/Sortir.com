@@ -7,18 +7,36 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* ✅ corps toujours plein écran */
+    min-height: 100vh;
 }
 
 main {
-    flex: 1; /* ✅ le main s’adapte au contenu et pousse le footer vers le bas */
+    flex: 1;
     padding: var(--bodyPaddingY) var(--bodyPaddingX);
 }
 
-header {
-    padding-bottom: 1em;
+.sortir-header {
+    position: relative;
+    background-image: var(--background-image-url);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
     justify-content: end;
     width: 100%;
+}
+
+.sortir-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--background-image-filter-color);
+    z-index: 1;
+}
+
+.sortir-header > * {
+    position: relative;
+    z-index: 2;
 }
 
 footer {
@@ -26,7 +44,7 @@ footer {
     background-color: var(--contrastBackground);
     margin: 0;
     text-align: center;
-    height: auto; /* ✅ ne pas fixer la hauteur du footer */
+    height: auto;
     padding: 1em 0;
 }
 
@@ -37,11 +55,15 @@ footer {
     padding: 0;
     text-align: center;
     height: 5em;
-    margin-top: 1em;
     align-content: center;
 }
-/* End App structure */
 
+.website-background {
+    background-image: url("../imgs/WebsiteBG.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+/* End App structure */
 
 /* Navbar */
 .custom-navbar {
@@ -80,7 +102,6 @@ footer {
     display: none;
 }
 /* End Navbar */
-
 
 /* Layout Helpers */
 .flexbox-centered {

@@ -55,26 +55,27 @@
             </div>
 
             {# --- Colonne 2 : Formulaire d’ajout ou de modification de ville --- #}
-            <div>
-                <h2>{{ ville.id ? 'Modifier la ville' : 'Ajouter une ville' }}</h2>
-                {{ form_errors(form) }}
+            <div style="margin: 0 1.8em 0 0;">
+                <div class="form-container" style="width: auto; padding: 1em">
+                    <h2>{{ ville.id ? 'Modifier la ville' : 'Ajouter une ville' }}</h2>
+                    {{ form_errors(form) }}
 
-                <div>
-                    {{ form_start(form) }}
-                    {{ form_row(form.nom) }}
-                    {{ form_row(form.codePostal) }}
+                    <div>
+                        {{ form_start(form) }}
+                        {{ form_row(form.nom) }}
+                        {{ form_row(form.codePostal) }}
 
-                    <button type="submit" class="generic-button bouton-secondary-color" style="width: 100%; margin-top: 1.5em;">
-                        {{ ville.id ? 'Mettre à jour' : 'Ajouter' }}
-                    </button>
-                    {% if ville.id %}
-                        <a href="{{ path('admin_gestion_villes') }}" class="generic-button bouton-danger-color" style="width: 100%; margin-top: 1.5em;">Annuler</a>
-                    {% endif %}
+                        <button type="submit" class="generic-button bouton-secondary-color" style="width: 100%; margin-top: 1.5em;">
+                            {{ ville.id ? 'Mettre à jour' : 'Ajouter' }}
+                        </button>
+                        {% if ville.id %}
+                            <a href="{{ path('admin_gestion_villes') }}" class="generic-button bouton-danger-color" style="width: 100%; margin-top: 1.5em;">Annuler</a>
+                        {% endif %}
 
-                    {{ form_end(form) }}
+                        {{ form_end(form) }}
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 

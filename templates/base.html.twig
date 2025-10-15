@@ -19,20 +19,22 @@
 </head>
 
 <body>
-<header class="text-center my-3">
-    <a href="/">
-        <img
+<header>
+    <div class="sortir-header">
+        <a href="/">
+            <img
                 src="{{ asset('imgs/SortirLogo.png') }}"
                 alt="Logo Sortir"
-                style="width: 250px; height: auto; margin-bottom: 10px;"
+                style="width: 250px; height: auto; margin-bottom: -5px;"
                 onmouseover="this.src='{{ asset('imgs/SortirLogo.gif') }}';"
                 onmouseout="this.src='{{ asset('imgs/SortirLogo.png') }}';"
-        >
-    </a>
+            >
+        </a>
+    </div>
     {% include '_navbar.html.twig' %}
 </header>
 
-<main style="min-height: 50vh;">
+<main class="website-background" style="min-height: 50vh; padding-bottom: 1em; padding-top: 1em;">
     {% for status, messages in app.flashes %}
         {% for message in messages %}
             <div class="alert alert-{{ status }}">{{ message }}</div>
@@ -42,7 +44,7 @@
     {% block body %}{% endblock %}
 </main>
 
-<footer class="text-center mt-4 py-3 border-top">
+<footer class="text-center py-3 border-top">
     <p>© Sortir.com - {{ "now"|date("Y") }}</p>
 </footer>
 </body>

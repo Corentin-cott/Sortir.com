@@ -11,27 +11,35 @@
         <hr>
 
         <div style="display: flex; justify-content: center;">
-            <div class="row" style="min-width: 5em; width: 60em;">
-                <div class="col-md-6">
-                    <p><strong>Nom :</strong> {{ sortie.nom }}</p>
-                    <p><strong>Date et heure de début :</strong> {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y H:i') : '' }}</p>
-                    <p><strong>Date limite d'inscription :</strong> {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d/m/Y H:i') : '' }}</p>
-                    <p><strong>Nombre maximum d'inscriptions :</strong> {{ sortie.nbInscriptionMax }}</p>
-                    <p><strong>Durée :</strong> {{ sortie.duree }} minutes</p>
-                    <p><strong>Description :</strong><br>{{ sortie.descriptionInfos }}</p>
-                </div>
-                <div class="col-md-6">
-                    <p><strong>Lieu :</strong> {{ sortie.lieu.nom }}</p>
-                    <div id="lieu-details">
-                        <p>Rue : <span>{{ sortie.lieu.rue }}</span></p>
-                        <p>Ville : <span>{{ sortie.lieu.ville.nom }}</span></p>
-                        <p>Code postal : <span>{{ sortie.lieu.ville.codePostal }}</span></p>
-                        <p>Latitude : <span>{{ sortie.lieu.latitude }}</span></p>
-                        <p>Longitude : <span>{{ sortie.lieu.longitude }}</span></p>
+            <div class="form-container">
+
+                <div style="display: flex; justify-content: center;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Nom :</strong> {{ sortie.nom }}</p>
+                            <p><strong>Date et heure de début :</strong> {{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/Y H:i') : '' }}</p>
+                            <p><strong>Date limite d'inscription :</strong> {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d/m/Y H:i') : '' }}</p>
+                            <p><strong>Nombre maximum d'inscriptions :</strong> {{ sortie.nbInscriptionMax }}</p>
+                            <p><strong>Durée :</strong> {{ sortie.duree }} minutes</p>
+                            <p><strong>Description :</strong><br>{{ sortie.descriptionInfos }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Lieu :</strong> {{ sortie.lieu.nom }}</p>
+                            <div id="lieu-details">
+                                <p>Rue : <span>{{ sortie.lieu.rue }}</span></p>
+                                <p>Ville : <span>{{ sortie.lieu.ville.nom }}</span></p>
+                                <p>Code postal : <span>{{ sortie.lieu.ville.codePostal }}</span></p>
+                                <p>Latitude : <span>{{ sortie.lieu.latitude }}</span></p>
+                                <p>Longitude : <span>{{ sortie.lieu.longitude }}</span></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <div style="display: flex; justify-content: center; margin-top: 2em;">
+                    <a href="/" class="generic-button bouton-info-color">Retour</a>
+                </div>
             </div>
-        </div>
         <!-- Participants (bottom left ~20% on desktop, full-width on mobile) -->
         {% if sortie.participants.count() > 0 %}
             <section class="participants-wrap">
