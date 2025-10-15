@@ -60,6 +60,29 @@ final class SortieController extends AbstractController
         return $this->redirectToRoute('app_sortie_details', ['id' => $sortie->getId()]);
     }
 
+    #[Route('/sortie/{sortieId}/supprimer/commentaire/{commentaireId}', name: 'app_sortie_supprimer_commentaire', requirements: ['sortieId' => '\d+', 'commentaireId' => '\d+'], methods: ['POST'])]
+    public function supprimerCommentaire(Request $request, EntityManagerInterface $em, int $sortieId, int $commentaireId): Response {
+        $commentaire = $em->getRepository(Commentaire::class)->find($commentaireId);
+
+        if (!$this->isCsrfTokenValid('supprimer_commentaire_' . $commentaireId, $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('Token CSRF invalide.');
+        }
+
+        $user = $this->getUser();
+        if (
+            $user !== $commentaire->getParticipant()
+            && $user !== $commentaire->getSortie()->getOrganisateur()
+            && !$this->isGranted('ROLE_ADMIN')
+        ) {
+            throw $this->createAccessDeniedException('Action non autorisée.');
+        }
+
+        $em->remove($commentaire);
+        $em->flush();
+
+        return $this->redirectToRoute('app_sortie_details', ['id' => $sortieId]);
+    }
+
     #[Route('/sortie/creer', name: 'app_sortie_creer')]
     #[IsGranted('SORTIE_CREATE', message: 'Vous n\'êtes pas autorisé à voir cette page.')]
     public function creer(Request $request, EntityManagerInterface $em): Response
