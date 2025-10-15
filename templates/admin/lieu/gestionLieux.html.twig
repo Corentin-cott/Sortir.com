@@ -61,29 +61,30 @@
             </div>
 
             {# --- Colonne 2 : Formulaire d’ajout ou de modification de lieu --- #}
-            <div>
-                <h2>{{ lieu.id ? 'Modifier le lieu' : 'Ajouter un lieu' }}</h2>
-                {{ form_errors(form) }}
+            <div style="margin: 0 1.8em 0 0;">
+                <div class="form-container" style="width: auto; padding: 1em">
+                    <h2>{{ lieu.id ? 'Modifier le lieu' : 'Ajouter un lieu' }}</h2>
+                    {{ form_errors(form) }}
 
-                <div>
-                    {{ form_start(form) }}
-                    {{ form_row(form.nom) }}
-                    {{ form_row(form.rue) }}
-                    {{ form_row(form.latitude) }}
-                    {{ form_row(form.longitude) }}
-                    {{ form_row(form.ville) }}
+                    <div>
+                        {{ form_start(form) }}
+                        {{ form_row(form.nom) }}
+                        {{ form_row(form.rue) }}
+                        {{ form_row(form.latitude) }}
+                        {{ form_row(form.longitude) }}
+                        {{ form_row(form.ville) }}
 
-                    <button type="submit" class="generic-button bouton-secondary-color" style="width: 100%; margin-top: 1.5em;">
-                        {{ lieu.id ? 'Mettre à jour' : 'Ajouter' }}
-                    </button>
-                    {% if lieu.id %}
-                        <a href="{{ path('admin_gestion_lieux') }}" class="generic-button bouton-danger-color" style="width: 100%; margin-top: 1.5em;">Annuler</a>
-                    {% endif %}
+                        <button type="submit" class="generic-button bouton-secondary-color" style="width: 100%; margin-top: 1.5em;">
+                            {{ lieu.id ? 'Mettre à jour' : 'Ajouter' }}
+                        </button>
+                        {% if lieu.id %}
+                            <a href="{{ path('admin_gestion_lieux') }}" class="generic-button bouton-danger-color" style="width: 100%; margin-top: 1.5em;">Annuler</a>
+                        {% endif %}
 
-                    {{ form_end(form) }}
+                        {{ form_end(form) }}
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 
