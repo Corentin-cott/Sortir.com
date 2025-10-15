@@ -11,44 +11,48 @@
 
         <hr>
 
-        <form method="post" action="{{ path('app_sortie_annuler', {id: sortie.id}) }}">
-            <div style="display: flex; justify-content: center;">
-                <div class="row" style="min-width: 5em; width: 40em;">
-                    <div class="col-md-12">
-                        <div style="display: flex; margin-bottom: 1rem;">
-                            <label style="width: 30%; align-self: center;">Nom de la sortie :</label>
-                            <input type="text" class="form-control" value="{{ sortie.nom }}" readonly>
+        <div style="display: flex; justify-content: center;">
+            <div class="form-container">
+
+                <form method="post" action="{{ path('app_sortie_annuler', {id: sortie.id}) }}">
+                    <div style="display: flex; justify-content: center;">
+                        <div class="row" style="min-width: 5em;">
+                                <div style="display: flex; margin-bottom: 1rem;">
+                                    <label style="width: 30%; align-self: center;">Nom de la sortie :</label>
+                                    <input type="text" class="form-control" value="{{ sortie.nom }}" readonly>
+                                </div>
+
+                                <div style="display: flex; margin-bottom: 1rem;">
+                                    <label style="width: 30%; align-self: center;">Date de la sortie :</label>
+                                    <input type="text" class="form-control" value="{{ sortie.dateHeureDebut|date('d/m/Y H:i', 'Europe/Paris') }}" readonly>
+                                </div>
+
+                                <div style="display: flex; margin-bottom: 1rem;">
+                                    <label style="width: 30%; align-self: center;">Site organisateur :</label>
+                                    <input type="text" class="form-control" value="{{ siteOrga.nom }}" readonly>
+                                </div>
+
+                                <div style="display: flex; margin-bottom: 1rem;">
+                                    <label style="width: 30%; align-self: center;">Lieu :</label>
+                                    <input type="text" class="form-control" value="{{ lieu.nom ~ ' - ' ~ lieu.rue ~ ', ' ~ lieuVille.codePostal ~ ' ' ~ lieuVille.nom }}" readonly>
+                                </div>
+
+                                <div style="display: flex; flex-direction: column; margin-bottom: 1rem;">
+                                    <label for="motif">Motif :</label>
+                                    <textarea id="motif" name="motif" class="form-control" rows="3" required></textarea>
+                                </div>
+                            </div>
                         </div>
 
-                        <div style="display: flex; margin-bottom: 1rem;">
-                            <label style="width: 30%; align-self: center;">Date de la sortie :</label>
-                            <input type="text" class="form-control" value="{{ sortie.dateHeureDebut|date('d/m/Y H:i', 'Europe/Paris') }}" readonly>
-                        </div>
-
-                        <div style="display: flex; margin-bottom: 1rem;">
-                            <label style="width: 30%; align-self: center;">Site organisateur :</label>
-                            <input type="text" class="form-control" value="{{ siteOrga.nom }}" readonly>
-                        </div>
-
-                        <div style="display: flex; margin-bottom: 1rem;">
-                            <label style="width: 30%; align-self: center;">Lieu :</label>
-                            <input type="text" class="form-control" value="{{ lieu.nom ~ ' - ' ~ lieu.rue ~ ', ' ~ lieuVille.codePostal ~ ' ' ~ lieuVille.nom }}" readonly>
-                        </div>
-
-                        <div style="display: flex; flex-direction: column; margin-bottom: 1rem;">
-                            <label for="motif">Motif :</label>
-                            <textarea id="motif" name="motif" class="form-control" rows="3" required></textarea>
+                    <div style="display: flex; justify-content: center;">
+                        <div class="gap-4">
+                            <button type="submit" name="action" value="save" class="generic-button bouton-danger-color">Annuler la sortie</button>
+                            <a href="/" class="generic-button bouton-light-color">Revenir en arrière</a>
                         </div>
                     </div>
-                </div>
-            </div>
+                </form>
 
-            <div style="display: flex; justify-content: center; margin-top: 1rem;">
-                <div class="gap-4">
-                    <button type="submit" name="action" value="save" class="generic-button bouton-danger-color">Annuler la sortie</button>
-                    <a href="/" class="generic-button bouton-light-color">Revenir en arrière</a>
-                </div>
             </div>
-        </form>
+        </div>
     </div>
 {% endblock %}
