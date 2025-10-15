@@ -225,6 +225,7 @@ final class AdminController extends AbstractController {
     }
 
     #[Route('admin/grant/{id}', name:'admin_grant', requirements: ['id' => '\d+'], methods: ['POST'])]
+    #[IsGranted("ROLE_ADMIN")]
     public function grantedAdmin(Participant $utilisateur, Request $request, EntityManagerInterface $em): Response
     {
        $token = $request->request->get('_token');
@@ -240,6 +241,7 @@ final class AdminController extends AbstractController {
     }
 
     #[Route('admin/demote/{id}', name:'admin_demote', requirements: ['id' => '\d+'], methods: ['POST'])]
+    #[IsGranted("ROLE_ADMIN")]
     public function demote(Participant $utilisateur, Request $request, EntityManagerInterface $em): Response
     {
         $token = $request->request->get('_token');
@@ -254,6 +256,7 @@ final class AdminController extends AbstractController {
     }
 
     #[Route('/admin/delete/participant/{id}', name:'admin_delete_participant', requirements: ['id' => '\d+'], methods: ['POST'])]
+    #[IsGranted("ROLE_ADMIN")]
     public function deleteParticipant(Participant $utilisateur, Request $request, EntityManagerInterface $em, SoftDeleteSorties $deleteSorties): Response
     {
         $token = $request->request->get('_token');

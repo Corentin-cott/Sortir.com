@@ -58,14 +58,12 @@ final class HomeController extends AbstractController
      * @throws ORMException
      * @throws \Exception
      */
-    #[IsGranted('ROLE_USER')]
+
     #[Route('/sinscrire/{id}', name: 'app_home_sinscrire', requirements: ['id' => '\d+'], methods: ['POST'] )]
+    #[IsGranted('SORTIE_SIGNIN', subject:'sortie', message: 'Vous n\'avez pas les autorisations pour effectuer cette action')]
     public function sinscrire(Request $request, EntityManagerInterface $entityManager, Sortie  $sortie): Response
     {
         $participant = $this->getUser();
-        if (!$participant) {
-            throw $this->createNotFoundException('Connectez vous pour pouvoir vous inscrire');
-        }
         $participant = $entityManager->getRepository(Participant::class)->find($participant->getId());
 
         $token = $request->request->get('_token');
@@ -81,14 +79,12 @@ final class HomeController extends AbstractController
         }
         return $this->redirectToRoute('app_home');
     }
-    #[IsGranted('ROLE_USER')]
+
     #[Route('/desinscrire/{id}', name: 'app_home_desinscrire', requirements: ['id' => '\d+'], methods: ['POST'] )]
+    #[IsGranted('SORTIE_SIGNOUT', subject: 'sortie', message: "Vous devez vous connecter pour effectuer cette action.")]
     public function desinscrire(Request $request, EntityManagerInterface $entityManager, Sortie $sortie): Response
     {
         $participant = $this->getUser();
-        if (!$participant) {
-            throw $this->createNotFoundException('Connectez vous pour pouvoir vous inscrire');
-        }
         $participant = $entityManager->getRepository(Participant::class)->find($participant->getId());
 
         $token = $request->request->get('_token');

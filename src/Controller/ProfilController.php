@@ -33,18 +33,12 @@ class ProfilController extends AbstractController
         $user = $em->getRepository(Participant::class)->find($user->getId());
 
         $isOwner = $user === $participant;
-
-        if (!$user) {
-            return new Response('Utilisateur non connecté');
-        }
         $form = $this->createForm(ProfilType::class, $user, [
             'attr' => ['enctype' => 'multipart/form-data'] // nécessaire pour upload
         ]);
         $form->handleRequest($request);
 
         if($isOwner){
-
-
             if ($form->isSubmitted() && $form->isValid()) {
                 // gérer le mot de passe si rempli
                 if ($form->get('password')->getData()) {
@@ -78,9 +72,6 @@ class ProfilController extends AbstractController
                 return $this->redirectToRoute('app_home');
             }
         }
-
-
-
         return $this->render('profil/edit.html.twig', [
             'participant' => $participant,
             'isOwner' => $isOwner,
