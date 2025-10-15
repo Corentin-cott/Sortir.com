@@ -61,8 +61,72 @@
                     <!-- Commentaires -->
                     <section>
                         <h2>Commentaires</h2>
-                        <p>Aucun commentaire sur cette sortie pour le moment.</p>
+
+                        {# Formulaire d'ajout de commentaire #}
+                        {% if app.user %}
+                            <form action="{{ path('app_sortie_ajouter_commentaire', { id: sortie.id }) }}" method="post">
+                                <div class="form-group">
+                                    <textarea id="contenu" name="contenu" rows="3" required class="form-control" placeholder="Écrivez votre message..."></textarea>
+                                </div>
+                                <div style="display: flex;">
+                                    <button type="submit" class="btn btn-primary mt-2">Publier</button>
+                                </div>
+                            </form>
+
+                            <hr style="margin: 1.5em 0; margin-top: 2em">
+                        {% endif %}
+
+                        {# Liste des commentaires #}
+                        {% if sortie.commentaires is not empty %}
+                            {% for commentaire in sortie.commentaires %}
+                                <article style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 20px;">
+
+                                    <div style="display: flex; align-items: flex-start; gap: 10px; flex: 1;">
+                                        {% set photoUrl = commentaire.participant.photo
+                                            ? asset('uploads/photos/' ~ commentaire.participant.photo)
+                                            : 'https://avatar.iran.liara.run/public/' ~ commentaire.participant.id ~ '?size=32' %}
+
+                                        <img src="{{ photoUrl }}" alt="Photo de profil" class="profile-photo"
+                                             style="width: 58px; height: 58px; border-radius: 50%; object-fit: cover;">
+
+                                        <div>
+                                            <p style="margin: 0;">
+                                                <strong>{{ commentaire.participant.pseudo }}</strong>
+                                                <small style="color: #777;">— {{ commentaire.datePublication|date('d/m/Y H:i') }}</small>
+                                            </p>
+                                            <p style="margin: 5px 0 0 0;">{{ commentaire.commentaire }}</p>
+                                        </div>
+                                    </div>
+
+                                    {% if app.user %}
+                                        {% if sortie.organisateur.id == app.user.id or commentaire.participant.id == app.user.id or is_granted('ROLE_ADMIN') %}
+
+                                            <form action="{{ path('app_sortie_supprimer_commentaire', {'sortieId': sortie.id, 'commentaireId': commentaire.id}) }}"
+                                                  method="post"
+                                                  style="margin: 0; display: inline;">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('supprimer_commentaire_' ~ commentaire.id) }}">
+
+                                                <button type="submit"
+                                                        class="generic-button bouton-danger-color"
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                                                        <path fill="#ffffff"
+                                                              d="M232.7 69.9L224 96L128 96C110.3 96 96 110.3 96 128C96 145.7 110.3 160 128 160L512 160C529.7 160 544 145.7 544 128C544 110.3 529.7 96 512 96L416 96L407.3 69.9C402.9 56.8 390.7 48 376.9 48L263.1 48C249.3 48 237.1 56.8 232.7 69.9zM512 208L128 208L149.1 531.1C150.7 556.4 171.7 576 197 576L443 576C468.3 576 489.3 556.4 490.9 531.1L512 208z"/>
+                                                    </svg>
+                                                </button>
+                                            </form>
+
+                                        {% endif %}
+                                    {% endif %}
+
+                                </article>
+
+                            {% endfor %}
+                        {% else %}
+                            <p>Aucun commentaire sur cette sortie pour le moment.</p>
+                        {% endif %}
                     </section>
+
                 </div>
             </div>
 

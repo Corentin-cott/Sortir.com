@@ -55,14 +55,14 @@ class SortieType extends AbstractType
                 'mapped' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
+                        'maxSize' => '10240k',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
                             'image/jpg',
                         ],
                         'mimeTypesMessage' => 'Insérez une image valide.',
-                        'maxSizeMessage' => 'Max file size 1 Mb',
+                        'maxSizeMessage' => 'Max file size 10 Mb',
 
                     ])
                 ]

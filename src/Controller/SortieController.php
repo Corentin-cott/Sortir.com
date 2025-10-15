@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Commentaire;
 use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Participant;
@@ -43,7 +44,6 @@ final class SortieController extends AbstractController
     #[Route('/sortie/{id}', name: 'app_sortie_details', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function details(Request $request, EntityManagerInterface $em, Sortie $sortie, MeteoService $meteoService): Response
     {
-
         $siteOrga = $em->getRepository(Site::class)->find($sortie->getOrganisateur()->getSite());
         $lieu  = $em->getRepository(Lieu::class)->find($sortie->getLieu());
         $lieuVille  = $lieu->getVille();
@@ -70,7 +70,49 @@ final class SortieController extends AbstractController
             'lieuVille' => $lieuVille,
             'weather' => $weatherData,
         ]);
+    }
 
+    #[Route('/sortie/{id}/ajouter/commentaire', name: 'app_sortie_ajouter_commentaire', requirements: ['id' => '\d+'], methods: ['POST'])]
+    public function ajouterCommentaire(Request $request, EntityManagerInterface $em, Sortie $sortie): Response
+    {
+        // Création du nouveau commentaire
+        $commentaire = new Commentaire();
+        $user = $this->getUser();
+        $participant = $em->getRepository(Participant::class)->find($user->getId());
+        $commentaire->setParticipant($participant);
+        $commentaire->setSortie($sortie);
+        $commentaire->setCommentaire($request->request->get('contenu'));
+        $commentaire->setDatePublication();
+
+        // Sauvegarde en base
+        $em->persist($commentaire);
+        $em->flush();
+
+        // Redirection sur la route
+        return $this->redirectToRoute('app_sortie_details', ['id' => $sortie->getId()]);
+    }
+
+    #[Route('/sortie/{sortieId}/supprimer/commentaire/{commentaireId}', name: 'app_sortie_supprimer_commentaire', requirements: ['sortieId' => '\d+', 'commentaireId' => '\d+'], methods: ['POST'])]
+    public function supprimerCommentaire(Request $request, EntityManagerInterface $em, int $sortieId, int $commentaireId): Response {
+        $commentaire = $em->getRepository(Commentaire::class)->find($commentaireId);
+
+        if (!$this->isCsrfTokenValid('supprimer_commentaire_' . $commentaireId, $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException('Token CSRF invalide.');
+        }
+
+        $user = $this->getUser();
+        if (
+            $user !== $commentaire->getParticipant()
+            && $user !== $commentaire->getSortie()->getOrganisateur()
+            && !$this->isGranted('ROLE_ADMIN')
+        ) {
+            throw $this->createAccessDeniedException('Action non autorisée.');
+        }
+
+        $em->remove($commentaire);
+        $em->flush();
+
+        return $this->redirectToRoute('app_sortie_details', ['id' => $sortieId]);
     }
 
     #[Route('/sortie/creer', name: 'app_sortie_creer')]
