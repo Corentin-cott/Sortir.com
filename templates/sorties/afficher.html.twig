@@ -57,36 +57,43 @@
                 </div>
             </div>
 
-            <!-- Colonne droite : liste des participants -->
-            {% if sortie.participants.count() > 0 %}
-                <div class="form-container" style="height: fit-content;">
-                    <section class="mt-4" style="margin-top: 0 !important;">
+            <!-- Colonne droite : liste des participants OU motif -->
+            <div class="form-container" style="height: fit-content;">
+                <section class="mt-4" style="margin-top: 0 !important;">
+                    {% if sortie.etat.libelle == "Annulée" %}
+                        <h2>Motif d'annulation</h2>
+                        <p style="margin: 0">{{ sortie.annulationMotif }}</p>
+                    {% else %}
                         <h2>Participants inscrits ({{ sortie.participants.count() }})</h2>
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered align-middle">
-                                <thead class="table-light">
-                                <tr>
-                                    <th>Pseudo</th>
-                                    <th>Nom</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for participant in sortie.participants %}
+                        {% if sortie.participants.count() > 0 %}
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered align-middle">
+                                    <thead class="table-light">
                                     <tr>
-                                        <td>
-                                            <a href="{{ path('app_edit', {'id': participant.id}) }}" class="text-decoration-none">
-                                                {{ participant.pseudo }}
-                                            </a>
-                                        </td>
-                                        <td>{{ participant.prenom }} {{ participant.nom }}</td>
+                                        <th>Pseudo</th>
+                                        <th>Nom</th>
                                     </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </section>
-                </div>
-            {% endif %}
+                                    </thead>
+                                    <tbody>
+                                    {% for participant in sortie.participants %}
+                                        <tr>
+                                            <td>
+                                                <a href="{{ path('app_edit', {'id': participant.id}) }}" class="text-decoration-none">
+                                                    {{ participant.pseudo }}
+                                                </a>
+                                            </td>
+                                            <td>{{ participant.prenom }} {{ participant.nom }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p>Aucun participant d'inscrit pour le moment.</p>
+                        {% endif %}
+                    {% endif %}
+                </section>
+            </div>
         </div>
     </div>
 
