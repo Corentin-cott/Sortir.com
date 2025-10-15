@@ -32,7 +32,34 @@
                 </div>
             </div>
         </div>
+        <!-- Participants (bottom left ~20% on desktop, full-width on mobile) -->
+        {% if sortie.participants.count() > 0 %}
+            <section class="participants-wrap">
+                <h3 class="participants-title">Participants inscrits ({{ sortie.participants.count() }})</h3>
 
+                <div class="participants-table">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Pseudo</th>
+                            <th>Nom</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for participant in sortie.participants %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('app_edit', {'id': participant.id}) }}">{{ participant.pseudo }}</a>
+
+                                </td>
+                                <td>{{ participant.prenom }} {{ participant.nom }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        {% endif %}
         <div style="display: flex; justify-content: center; margin-top: 2em;">
             <a href="/" class="generic-button bouton-light-color">Retour</a>
         </div>

@@ -14,7 +14,6 @@ final class SortieVoter extends Voter
 {
     public const CREATE = 'SORTIE_CREATE';
     public const EDIT = 'SORTIE_EDIT';
-    public const VIEW = 'SORTIE_VIEW';
     public const DELETE = 'SORTIE_WITHDRAW';
     public const SIGNIN = 'SORTIE_SIGNIN';
     public const SIGNOUT = 'SORTIE_SIGNOUT';
@@ -24,9 +23,12 @@ final class SortieVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
+        if (in_array($attribute, [self::CREATE, self::SIGNIN, self::SIGNOUT], true)) {
+            return true;
+        }
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE, self::CREATE, self::SIGNIN, self::SIGNOUT])
+        return in_array($attribute, [self::EDIT, self::DELETE ], true)
             && $subject instanceof Sortie;
     }
 
@@ -41,24 +43,24 @@ final class SortieVoter extends Voter
         // ... (check conditions and return true to grant permission) ...
         return match ($attribute) {
             self::EDIT => $this->canEdit($subject, $user),
-            self::CREATE => $this->canCreate($token),
+            self::CREATE => $this->canCreate($token, $user),
             self::DELETE => $this->canDelete($subject, $user, $token),
             self::SIGNIN => $this->canSignin($subject, $user, $token),
-            self::SIGNOUT => $this->canSignout($user, $token),
+            self::SIGNOUT => $this->canSignout($subject, $user, $token),
             default => false,
         };
 
     }
-
     private function canEdit(Sortie $sortie, UserInterface $user): bool
     {
         $utilisateur = $this->entityManager->getRepository(Participant::class)->find($user);
         return $utilisateur->getId() === $sortie->getOrganisateur()->getId();
     }
 
-    private function canCreate(TokenInterface $token): bool
+    private function canCreate(TokenInterface $token, UserInterface $user): bool
     {
-        return $this->accessDecisionManager->decide($token,['ROLE_USER']);
+        $utilisateur = $this->entityManager->getRepository(Participant::class)->find($user);
+        return $this->accessDecisionManager->decide($token,['ROLE_USER']) && $utilisateur->isActif();
     }
 
     private function canDelete(Sortie $sortie, UserInterface $user, TokenInterface $token): bool
@@ -88,13 +90,13 @@ final class SortieVoter extends Voter
         return true;
     }
 
-    private function canSignout(UserInterface $user, TokenInterface $token): bool
+    private function canSignout(Sortie $sortie, UserInterface $user, TokenInterface $token): bool
     {
         $utilisateur = $this->entityManager->getRepository(Participant::class)->find($user);
         if(!$this->accessDecisionManager->decide($token, ['ROLE_USER'])){
             return false;
         }
-        if(!$utilisateur->estInscrit()){
+        if(!$sortie->estInscrit($utilisateur)){
             return false;
         }
         return true;

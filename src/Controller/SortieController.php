@@ -23,11 +23,10 @@ final class SortieController extends AbstractController
         $this->logger = $logger;
     }
 
-    #[Route('/sortie/{id}', name: 'app_sortie_details', methods: ['GET'], requirements: ['id' => '\d+'])]
-    public function details(Request $request, EntityManagerInterface $em, int $id): Response
+    #[Route('/sortie/{id}', name: 'app_sortie_details', requirements: ['id' => '\d+'], methods: ['GET'])]
+    public function details(Request $request, EntityManagerInterface $em, Sortie $sortie): Response
     {
-        // Récupération des infos de la sortie à partir de l'id
-        $sortie = $em->getRepository(Sortie::class)->find($id);
+
         $siteOrga = $em->getRepository(Site::class)->find($sortie->getOrganisateur()->getSite());
         $lieu  = $em->getRepository(Lieu::class)->find($sortie->getLieu());
         $lieuVille  = $lieu->getVille();
@@ -43,17 +42,11 @@ final class SortieController extends AbstractController
     }
 
     #[Route('/sortie/creer', name: 'app_sortie_creer')]
+    #[IsGranted('SORTIE_CREATE', message: 'Vous n\'êtes pas autorisé à voir cette page.')]
     public function creer(Request $request, EntityManagerInterface $em): Response
     {
-        // Vérification que l'utilisateur est connecté
-        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $organisateur = $em->getRepository(Participant::class)->find($user->getId());
-
-        if( !$organisateur->isActif()){
-            $this->addFlash('danger', 'Votre compte est désactivé, vous ne pouvez pas effectuer cette action.');
-            return $this->redirectToRoute('app_home');
-        }
         // Récupération de la liste des lieux pour afficher rue, ville, ect
         $lieux = $em->getRepository(Lieu::class)->findAll();
         $lieux = array_map(function($lieu) {
@@ -98,25 +91,12 @@ final class SortieController extends AbstractController
     }
 
     #[Route('/sortie/annuler/{id}', name: 'app_sortie_annuler', requirements: ['id' => '\d+'])]
-    #[IsGranted('ROLE_USER')]
-    public function annuler(Request $request, EntityManagerInterface $em, int $id): Response
+    #[IsGranted('SORTIE_WITHDRAW', subject: 'sortie', message:'Vous n\'avez pas les droits pour annuler une sortie.')]
+    public function annuler(Request $request, EntityManagerInterface $em, Sortie $sortie): Response
     {
-        // Récupération des infos de la sortie à partir de l'id
-        $sortie = $em->getRepository(Sortie::class)->find($id);
         $siteOrga = $em->getRepository(Site::class)->find($sortie->getOrganisateur()->getSite());
         $lieu  = $em->getRepository(Lieu::class)->find($sortie->getLieu());
         $lieuVille  = $lieu->getVille();
-
-        // Vérification que l'organisateur est bien l'utilisateur demandant l'annulation
-        $user = $em->getRepository(Participant::class)->find($this->getUser());
-        $this->logger->info("[SORTIE CONTROLLER] ----- Organisateur : {$sortie->getOrganisateur()->getId()}");
-        $this->logger->info("[SORTIE CONTROLLER] ----- User : {$user->getId()}");
-        $this->logger->info("[SORTIE CONTROLLER] ----- User est admin ? {$user->isAdmin()}");
-
-        if (!$user->isAdmin() && ($user !== $sortie->getOrganisateur())) {
-            $this->addFlash('danger', 'Cette sortie ne vous appartient pas !');
-            return $this->redirectToRoute('app_home');
-        }
 
         if ($request->isMethod('POST')) {
             $motif = $request->request->get('motif');
@@ -142,26 +122,9 @@ final class SortieController extends AbstractController
     }
 
     #[Route('/sortie/modifier/{id}', name: 'app_sortie_modifier', requirements: ['id' => '\d+'])]
-    public function modifier(Request $request, EntityManagerInterface $em, int $id): Response
+    #[IsGranted('SORTIE_EDIT', subject:'sortie', message: "Vous n'avez pas les droits pour modifier une sortie.")]
+    public function modifier(Request $request, EntityManagerInterface $em, Sortie $sortie): Response
     {
-        // Vérification que l'utilisateur est connecté
-        $this->denyAccessUnlessGranted('ROLE_USER');
-
-        // Récupération de l'utilisateur & organisateur
-        $user = $this->getUser();
-        $organisateur = $em->getRepository(Participant::class)->find($user->getId());
-
-        // Récupération de la sortie à modifier
-        $sortie = $em->getRepository(Sortie::class)->find($id);
-        if (!$sortie) {
-            throw $this->createNotFoundException('Sortie non trouvée.');
-        }
-
-        // Vérification que l'utilisateur est bien l'organisateur
-        if ($sortie->getOrganisateur() !== $organisateur) {
-            throw $this->createAccessDeniedException('Vous ne pouvez modifier que vos propres sorties.');
-        }
-
         // Récupération de la liste des lieux pour le formulaire
         $lieux = $em->getRepository(Lieu::class)->findAll();
         $lieux = array_map(function($lieu) {
