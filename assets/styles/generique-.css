@@ -1,9 +1,6 @@
-/* =============================
-   THEME CLAIR (Light Mode)
-   ============================= */
 :root {
-    /* === Couleurs principales === */
-    --white: #fff;
+    /* Color variables */
+    --white: #000000;
     --primaryColorLight: #6b7280;
     --primaryColor: #333;
     --secondaryColor: #0e4e07;
@@ -12,28 +9,22 @@
     --secondaryColorLightest: #f8f9fa;
     --secondaryColorDark: #0f3e0b;
     --secondaryColorDarkest: #0b2b08;
-
-    /* === Couleurs d’état === */
-    --normalColor: var(--secondaryColor);
-    --normalColorHover: var(--secondaryColorDark);
     --infoColor: #1566a8;
     --infoColorHover: #104e8c;
     --dangerColor: #a80f0f;
     --dangerColorHover: #880808;
     --warningColor: #cf410d;
     --warningColorHover: #a8350b;
-
-    /* === Couleurs neutres === */
     --LightColorLightest: #f8f9fa;
     --LightColorLightestHover: #d2d7dc;
 
     --defaultFontSize: 1em;
 
-    /* === Ombres === */
-    --shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
-    --soft-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+    --shadow: 0 6px 18px rgba(16,24,40,0.12);
+    --soft-shadow: 0 3px 10px rgba(9,30,66,0.08);
+    /* End of color variables */
 
-    /* === Variables d’éléments === */
+    /* Elements variables */
     --background: var(--white);
     --labelColor: var(--primaryColor);
     --linkHover: var(--secondaryColor);
@@ -42,12 +33,11 @@
     --lightContainer: var(--secondaryColorLightest);
     --lightContainerOutline: var(--secondaryColor);
     --titleSecondaryColor: var(--secondaryColor);
-    --textColorNavbar: var(--white);
     --textColor: var(--primaryColor);
     --textLight: var(--primaryColorLight);
     --boutonTextColor: var(--white);
-    --boutonSecondaryColor: var(--normalColor);
-    --boutonSecondaryColorHover: var(--normalColorHover);
+    --boutonSecondaryColor: var(--secondaryColor);
+    --boutonSecondaryColorHover: var(--secondaryColorDark);
     --boutonInfoColor: var(--infoColor);
     --boutonInfoColorHover: var(--infoColorHover);
     --boutonDangerColor: var(--dangerColor);
@@ -66,12 +56,10 @@
     --background-image-url: url('https://www.parc-marais-poitevin.fr/wp-content/uploads/donjon-et-halles-1-e1541422612508-scaled.jpg');
     --background-image-filter-color: rgba(255, 255, 255, 0.5);
 
-    --main-background-image-url: url("../imgs/WebsiteBG.png");
-    --logo-image-url: url("../imgs/SortirLogo.png");
-
     --form-container-border-color: var(--primaryColorLight);
 
     --boutonBorderRadius: 0.5em;
+
     --boutonPadding: 0.55em 0.75em;
     --bodyPaddingX: 2em;
     --bodyPaddingY: 0em;
@@ -81,92 +69,8 @@
     --fontTitleSize: 1.4em;
     --fontLabelSize: 1.1em;
     --fontTextSize: 1em;
-}
 
-/* =============================
-   THEME SOMBRE (Dark Mode)
-   ============================= */
-body.dark-mode {
-    /* === Couleurs principales === */
-    --white: #000000;
-    --primaryColorDark: #191919;
-    --primaryColorLight: #6b7280;
-    --primaryColor: #333;
-    --secondaryColor: #0e4e07;
-    --secondaryColorLight: #7ec876;
-    --secondaryColorLighter: #ccecc8;
-    --secondaryColorLightest: #f8f9fa;
-    --secondaryColorDark: #0f3e0b;
-    --secondaryColorDarkest: #0b2b08;
-
-    /* === Couleurs d’état === */
-    --normalColor: var(--secondaryColorDark);
-    --normalColorHover: var(--secondaryColor);
-    --infoColorHover: #1566a8;
-    --infoColor: #104e8c;
-    --dangerColor: #880808;
-    --dangerColorHover: #a80f0f;
-    --warningColorHover: #cf410d;
-    --warningColor: #a8350b;
-
-    /* === Couleurs neutres === */
-    --LightColorLightest: #f8f9fa;
-    --LightColorLightestHover: #d2d7dc;
-
-    --defaultFontSize: 1em;
-
-    /* === Ombres === */
-    --shadow: 0 6px 18px rgba(16,24,40,0.12);
-    --soft-shadow: 0 3px 10px rgba(9,30,66,0.08);
-
-    /* === Variables d’éléments === */
-    --background: var(--white);
-    --labelColor: var(--primaryColor);
-    --linkHover: var(--secondaryColor);
-    --contrastBackground: var(--primaryColorDark);
-    --contrastLinkHover: var(--secondaryColorLight);
-    --lightContainer: var(--white);
-    --lightContainerOutline: var(--secondaryColor);
-    --titleSecondaryColor: var(--secondaryColor);
-    --textColor: var(--secondaryColorLighter);
-    --textColorNavbar: var(--secondaryColorLighter);
-    --textLight: var(--primaryColorLight);
-    --boutonTextColor: var(--LightColorLightest);
-    --boutonSecondaryColor: var(--normalColor);
-    --boutonSecondaryColorHover: var(--normalColorHover);
-    --boutonInfoColor: var(--infoColor);
-    --boutonInfoColorHover: var(--infoColorHover);
-    --boutonDangerColor: var(--dangerColor);
-    --boutonDangerColorHover: var(--dangerColorHover);
-    --boutonWarningColor: var(--warningColor);
-    --boutonWarningColorHover: var(--warningColorHover);
-    --boutonLightColor: var(--LightColorLightest);
-    --boutonLightColorHover: var(--LightColorLightestHover);
-    --warningTextColor: var(--warningColor);
-    --goodNewsTextColor: var(--secondaryColor);
-    --table-head: var(--secondaryColorDark);
-    --table-head-text: var(--LightColorLightest);
-    --table-td-even: var(--white);
-    --table-td-hover: var(--primaryColorDark);
-
-    --background-image-url: url('https://www.parc-marais-poitevin.fr/wp-content/uploads/donjon-et-halles-1-e1541422612508-scaled.jpg');
-    --background-image-filter-color: rgba(255, 255, 255, 0.5);
-
-    --main-background-image-url: url("../imgs/WebsiteBG-darkmode.png");
-    --logo-image-url: url("../imgs/SortirLogo-darkmode.png");
-
-    --form-container-border-color: var(--primaryColorLight);
-
-    --boutonBorderRadius: 0.5em;
-    --boutonPadding: 0.55em 0.75em;
-    --bodyPaddingX: 2em;
-    --bodyPaddingY: 0em;
-
-    --boutonFontSide: 1rem;
-    --fontPageTitleSize: 2.5em;
-    --fontTitleSize: 1.4em;
-    --fontLabelSize: 1.1em;
-    --fontTextSize: 1em;
+    /* End of elements variables */
 }
 
 /* Generic buttons */
