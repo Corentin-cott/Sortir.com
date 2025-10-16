@@ -18,8 +18,9 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use function PHPUnit\Framework\throwException;
 
+#[Route('/admin', name: 'admin')]
 final class AdminController extends AbstractController {
-    #[Route('/admin/dashboard', name: 'admin_dashboard')]
+    #[Route('/dashboard', name: '_dashboard')]
     #[IsGranted("ROLE_ADMIN")]
     public function importParticipants(Request $request, ParticipantImporter $importer, EntityManagerInterface $em): Response
     {
@@ -46,7 +47,7 @@ final class AdminController extends AbstractController {
     }
 
     /* ROUTE DES LIEUX */
-    #[Route('/admin/gestion/lieux', name: 'admin_gestion_lieux')]
+    #[Route('/gestion/lieux', name: '_gestion_lieux')]
     #[IsGranted("ROLE_ADMIN")]
     public function gestionLieux(Request $request, EntityManagerInterface $em): Response
     {
@@ -74,7 +75,7 @@ final class AdminController extends AbstractController {
         ]);
     }
 
-    #[Route('/admin/gestion/supprimer/lieu/{id}', name: 'admin_lieu_supprimer', methods: ['POST'])]
+    #[Route('/gestion/supprimer/lieu/{id}', name: '_lieu_supprimer', methods: ['POST'])]
     #[IsGranted("ROLE_ADMIN")]
     public function supprimerLieu(Lieu $lieu, EntityManagerInterface $em): Response
     {
@@ -86,7 +87,7 @@ final class AdminController extends AbstractController {
         return $this->redirectToRoute('admin_gestion_lieux');
     }
 
-    #[Route('/admin/gestion/modifier/lieu/{id}', name: 'admin_lieu_modifier', methods: ['POST', 'GET'])]
+    #[Route('/gestion/modifier/lieu/{id}', name: '_lieu_modifier', methods: ['POST', 'GET'])]
     #[IsGranted("ROLE_ADMIN")]
     public function modifierLieu(EntityManagerInterface $em, Request $request, int $id): Response
     {
@@ -114,7 +115,7 @@ final class AdminController extends AbstractController {
     }
     /* FIN ROUTES DES LIEUX */
     /* ROUTES DES VILLES */
-    #[Route('/admin/gestion/villes', name: 'admin_gestion_villes')]
+    #[Route('/gestion/villes', name: '_gestion_villes')]
     #[IsGranted("ROLE_ADMIN")]
     public function gestionVille(Request $request, EntityManagerInterface $em): Response
     {
@@ -142,7 +143,7 @@ final class AdminController extends AbstractController {
         ]);
     }
 
-    #[Route('/admin/gestion/supprimer/ville/{id}', name: 'admin_ville_supprimer', methods: ['POST'])]
+    #[Route('/gestion/supprimer/ville/{id}', name: '_ville_supprimer', methods: ['POST'])]
     #[IsGranted("ROLE_ADMIN")]
     public function supprimerVille(Ville $ville, EntityManagerInterface $em): Response
     {
@@ -154,7 +155,7 @@ final class AdminController extends AbstractController {
         return $this->redirectToRoute('admin_gestion_villes');
     }
 
-    #[Route('/admin/gestion/modifier/ville/{id}', name: 'admin_ville_modifier', methods: ['POST', 'GET'])]
+    #[Route('/gestion/modifier/ville/{id}', name: '_ville_modifier', methods: ['POST', 'GET'])]
     #[IsGranted("ROLE_ADMIN")]
     public function modifierVille(EntityManagerInterface $em, Request $request, int $id): Response
     {
@@ -181,7 +182,7 @@ final class AdminController extends AbstractController {
     }
     /* FIN ROUTES DES VILLES */
 
-    #[Route('/admin/desactiver/{id}', name: 'admin_desactiver', requirements: ['id' => '\d+'], methods: ['POST'])]
+    #[Route('/desactiver/{id}', name: '_desactiver', requirements: ['id' => '\d+'], methods: ['POST'])]
     #[IsGranted("ROLE_ADMIN")]
     public function desactiver(Participant $utilisateur, Request $request, EntityManagerInterface $em): Response
     {
@@ -204,7 +205,7 @@ final class AdminController extends AbstractController {
 
     }
 
-    #[Route('/admin/reactiver/{id}', name: 'admin_reactiver', requirements: ['id' => '\d+'], methods: ['POST'])]
+    #[Route('/reactiver/{id}', name: '_reactiver', requirements: ['id' => '\d+'], methods: ['POST'])]
     #[IsGranted("ROLE_ADMIN")]
     public function reactiver(Participant $utilisateur, Request $request, EntityManagerInterface $em): Response
     {
@@ -224,7 +225,7 @@ final class AdminController extends AbstractController {
         return $this->redirectToRoute('admin_dashboard');
     }
 
-    #[Route('admin/grant/{id}', name:'admin_grant', requirements: ['id' => '\d+'], methods: ['POST'])]
+    #[Route('/grant/{id}', name:'_grant', requirements: ['id' => '\d+'], methods: ['POST'])]
     #[IsGranted("ROLE_ADMIN")]
     public function grantedAdmin(Participant $utilisateur, Request $request, EntityManagerInterface $em): Response
     {
@@ -240,7 +241,7 @@ final class AdminController extends AbstractController {
        return $this->redirectToRoute('admin_dashboard');
     }
 
-    #[Route('admin/demote/{id}', name:'admin_demote', requirements: ['id' => '\d+'], methods: ['POST'])]
+    #[Route('/demote/{id}', name:'_demote', requirements: ['id' => '\d+'], methods: ['POST'])]
     #[IsGranted("ROLE_ADMIN")]
     public function demote(Participant $utilisateur, Request $request, EntityManagerInterface $em): Response
     {
@@ -255,7 +256,7 @@ final class AdminController extends AbstractController {
         return $this->redirectToRoute('admin_dashboard');
     }
 
-    #[Route('/admin/delete/participant/{id}', name:'admin_delete_participant', requirements: ['id' => '\d+'], methods: ['POST'])]
+    #[Route('/delete/participant/{id}', name:'_delete_participant', requirements: ['id' => '\d+'], methods: ['POST'])]
     #[IsGranted("ROLE_ADMIN")]
     public function deleteParticipant(Participant $utilisateur, Request $request, EntityManagerInterface $em, SoftDeleteSorties $deleteSorties): Response
     {
