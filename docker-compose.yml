@@ -1,0 +1,25 @@
+services:
+  symfony:
+    build: .
+    container_name: sortir_com
+    volumes:
+      - public_assets:/var/www/html/public
+      - ./var:/var/www/html/var
+    environment:
+      APP_ENV: prod
+      APP_DEBUG: 0
+    restart: always
+  nginx:
+    image: nginx:stable
+    container_name: sortir_com_nginx
+    ports:
+      - "8084:80"
+    volumes:
+      - public_assets:/var/www/html/public:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - symfony
+    restart: always
+
+volumes:
+  public_assets:
