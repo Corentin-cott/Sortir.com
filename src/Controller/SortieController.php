@@ -134,7 +134,7 @@ final class SortieController extends AbstractController
             //gestion photo
             $photoFile = $form->get('photo')->getData();
             if ($photoFile instanceof UploadedFile) {
-                if($name = $fileManager->upload($photoFile, 'uploads/backdrops/', $sortie->getId())) {
+                if($name = $fileManager->upload($photoFile, 'uploads/backdrops/', $sortie->getNom())) {
                     $sortie->setPhoto($name);
                 }
             }
@@ -222,10 +222,10 @@ final class SortieController extends AbstractController
             if($photoFile instanceof UploadedFile) {
                 //supprime l'ancien fichier
                 if($sortie->getPhoto()) {
-                    $fileManager->remove('uploads/backdrops/' . $sortie->getPhoto(), $sortie->getId());
+                    $fileManager->remove('uploads/backdrops/' . $sortie->getPhoto());
                 }
-                //Fait l'enregistrement du nouveau fichier
-                if($name = $fileManager->upload($photoFile, 'uploads/backdrops/', $sortie->getId())) {
+
+                if($name = $fileManager->upload($photoFile, 'uploads/backdrops/', $sortie->getNom())) {
                     $sortie->setPhoto($name);
                 }
             }
