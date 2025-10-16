@@ -101,7 +101,7 @@
                                     {% if app.user %}
                                         {% if sortie.organisateur.id == app.user.id or commentaire.participant.id == app.user.id or is_granted('ROLE_ADMIN') %}
 
-                                            <form action="{{ path('app_sortie_supprimer_commentaire', {'sortieId': sortie.id, 'commentaireId': commentaire.id}) }}"
+                                            <form action="{{ path('app_sortie_supprimer_commentaire', {'sortieId': sortie.id, 'id': commentaire.id}) }}"
                                                   method="post"
                                                   style="margin: 0; display: inline;">
                                                 <input type="hidden" name="_token" value="{{ csrf_token('supprimer_commentaire_' ~ commentaire.id) }}">
