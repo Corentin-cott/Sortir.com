@@ -21,15 +21,29 @@
 <body>
 <header>
     <div class="sortir-header">
-        <a href="/">
-            <img
-                src="{{ asset('imgs/SortirLogo.png') }}"
-                alt="Logo Sortir"
-                style="width: 250px; height: auto; margin-bottom: -5px;"
-                onmouseover="this.src='{{ asset('imgs/SortirLogo.gif') }}';"
-                onmouseout="this.src='{{ asset('imgs/SortirLogo.png') }}';"
-            >
-        </a>
+        <div class="sortir-header">
+            <a href="/">
+                {# --- Logo pour le thème clair (par défaut) --- #}
+                <img
+                        class="logo-light"
+                        src="{{ asset('imgs/SortirLogo.png') }}"
+                        alt="Logo Sortir"
+                        style="width: 250px; height: auto; margin-bottom: -5px;"
+                        onmouseover="this.src='{{ asset('imgs/SortirLogo.gif') }}';"
+                        onmouseout="this.src='{{ asset('imgs/SortirLogo.png') }}';"
+                >
+
+                {# --- Logo pour le thème sombre (caché par défaut) --- #}
+                <img
+                        class="logo-dark"
+                        src="{{ asset('imgs/SortirLogo-darkmode.png') }}"
+                        alt="Logo Sortir"
+                        style="width: 250px; height: auto; margin-bottom: -5px;"
+                        onmouseover="this.src='{{ asset('imgs/SortirLogo-darkmode.gif') }}';"
+                        onmouseout="this.src='{{ asset('imgs/SortirLogo-darkmode.png') }}';"
+                >
+            </a>
+        </div>
     </div>
     {% include '_navbar.html.twig' %}
 </header>
@@ -44,7 +58,7 @@
     {% block body %}{% endblock %}
 </main>
 
-<footer class="text-center py-3 border-top">
+<footer class="text-center py-3">
     <p>© Sortir.com - {{ "now"|date("Y") }}</p>
 </footer>
 </body>
