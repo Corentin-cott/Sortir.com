@@ -63,8 +63,8 @@
     --table-td-even: var(--secondaryColorLightest);
     --table-td-hover: var(--secondaryColorLighter);
 
-    --background-image-url: url('https://www.parc-marais-poitevin.fr/wp-content/uploads/donjon-et-halles-1-e1541422612508-scaled.jpg');
-    --background-image-filter-color: rgba(255, 255, 255, 0.5);
+    --background-image-url: url('../imgs/HeaderBG.jpg');
+    --background-image-filter-color: rgba(255, 255, 255, 0.65);
 
     --main-background-image-url: url("../imgs/WebsiteBG.png");
     --logo-image-url: url("../imgs/SortirLogo.png");
@@ -149,8 +149,8 @@ body.dark-mode {
     --table-td-even: var(--white);
     --table-td-hover: var(--primaryColorDark);
 
-    --background-image-url: url('https://www.parc-marais-poitevin.fr/wp-content/uploads/donjon-et-halles-1-e1541422612508-scaled.jpg');
-    --background-image-filter-color: rgba(255, 255, 255, 0.5);
+    --background-image-url: url('../imgs/HeaderBG.jpg');
+    --background-image-filter-color: rgba(0, 0, 0, 0.65);
 
     --main-background-image-url: url("../imgs/WebsiteBG-darkmode.png");
     --logo-image-url: url("../imgs/SortirLogo-darkmode.png");
@@ -336,4 +336,16 @@ body.dark-mode {
     object-fit: cover;
     border-radius: 5%;
     border: 3px solid var(--secondaryColorLightest);
+}
+
+.logo-dark {
+    display: none;
+}
+
+.dark-mode .logo-light {
+    display: none;
+}
+
+.dark-mode .logo-dark {
+    display: inline;
 }
