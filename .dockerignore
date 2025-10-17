@@ -1,0 +1,18 @@
+# .dockerignore
+
+# Fichiers de versionning
+.git/
+.github/
+
+# Dépendances et cache
+vendor/
+var/
+node_modules/
+
+# Fichiers de configs
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Fichiers système
+.DS_Store

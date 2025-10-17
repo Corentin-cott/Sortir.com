@@ -3,12 +3,14 @@ services:
     build: .
     container_name: sortir_com
     volumes:
+      - .:/var/www/html
       - public_assets:/var/www/html/public
       - ./var:/var/www/html/var
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
     restart: always
+
   nginx:
     image: nginx:stable
     container_name: sortir_com_nginx
