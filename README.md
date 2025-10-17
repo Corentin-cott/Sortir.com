@@ -72,6 +72,26 @@ Sortir.com/
 
 ## Pièces jointes
 
-Dans le dossier compresser nommé "Pièces jointes.zip" vous trouverez :
+Dans le dossier compressé nommé "*Pièces jointes.zip*" vous trouverez :
+```yaml
+Pièces jointes.zip/ # Dossier compressé
+├── 01-Métier/
+│   ├── ProcessusGestionSorties.pdf
+├── 02-CasUtilisations/
+│   ├── DescriptionProduit.ods
+│   ├── SortiesDesktop.pdf
+│   ├── SortiesSmartphone.pdf
+├── 03-Conception/
+│   ├── DiagClasse.pdf
+│   └── DiagEtatSortie.pdf
+├── 04-ModèlePhysique/
+│   └── create_bd_sorties.sql
+├── DocumentVision.pdf
+└── Enonce.pdf
+```
 
 ## Contributions
+
+- [Corentin COTTEREAU](https://github.com/Corentin-cott)
+- [Thomas LAMBERT](https://github.com/Nowone33)
+- [Axel SCORDIA](https://github.com/ScordiaAxel-git)
