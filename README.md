@@ -1,6 +1,15 @@
 ![SortirLogo.png](assets/imgs/SortirLogo-darkmode.png)
 
-## Description
+## Sommaire
+
+1. [Présentation & architecture du projet](#présentation)
+2. [Installation](#installation)
+3. [Pièces jointes](#pièces-jointes)
+4. [Contributions](#contributions)
+
+## Présentation
+
+### Description
 
 "*La société ENI souhaite développer pour ses stagiaires actifs ainsi que ses anciens stagiaires
 une plateforme web leur permettant d’organiser des sorties.
@@ -12,7 +21,7 @@ organisation géographique des sorties.*"
 Le projet Sortir.com, réaliser en Sympfony répond à ce problèmes en permettant aux
 de créer et s'inscrires à des sorties facilement.
 
-Architecture du projet :
+### Architecture du projet :
 ```yaml
 Sortir.com/
 ├── assets/
@@ -69,6 +78,35 @@ Sortir.com/
 ```
 
 ## Installation
+
+### Deploiement local pour contribuer
+
+Requis :
+- Un IDE *(comme [PhpStorm](https://www.jetbrains.com/phpstorm/))*
+- Un serveur local *(Comme [Wamp](https://wampserver.aviatechno.net/))*
+- [Git](https://git-scm.com/) installer sur votre machine
+- [Symfony CLI]() installer sur votre machine (avec variables d'environnement)
+
+Étapes :
+1. Cloner le projet avec : `git clone https://github.com/Corentin-cott/Sortir.com.git`
+2. Configurer le `.env.local`
+3. Installer les dépendances avec : `symfony composer install`
+4. Créer la basse de données avec : `symfony console doctrine:database:create`
+5. Excecuter les migrations avec : `symfony console doctrine:migration:migrate`
+6. Insérer les fixtures avec : `symfony console doctrine:fixtures:load`
+7. *(Optionnel, dans un autre terminal)* Lancer le scheduler : `symfony console messenger:consume scheduler_hello`
+
+### Commandes Symfony importantes
+
+| Commandes                                           | Action                                         |
+|:----------------------------------------------------|:-----------------------------------------------|
+| `symfony console serve`                             | Lancement du serveur en mode dev sur l'adresse |
+| `symfony composer install`                          |                                                |
+| `symfony console doctrine:database:create`          |                                                |
+| `symfony console doctrine:migration:migrate`        |                                                |
+| `symfony console doctrine:migration:create`         |                                                |
+| `symfony console doctrine:fixtures:load`            |                                                |
+| `symfony console messenger:consume scheduler_hello` |                                                |
 
 ## Pièces jointes
 
