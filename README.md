@@ -89,7 +89,7 @@ Requis :
 
 Étapes :
 1. Cloner le projet avec : `git clone https://github.com/Corentin-cott/Sortir.com.git`
-2. Configurer le `.env.local`
+2. Configurer le `.env.local` (se référer au .env.local.exemple)
 3. Installer les dépendances avec : `symfony composer install`
 4. Créer la basse de données avec : `symfony console doctrine:database:create`
 5. Excecuter les migrations avec : `symfony console doctrine:migration:migrate`
@@ -98,15 +98,15 @@ Requis :
 
 ### Commandes Symfony importantes
 
-| Commandes                                           | Action                                         |
-|:----------------------------------------------------|:-----------------------------------------------|
-| `symfony console serve`                             | Lancement du serveur en mode dev sur l'adresse |
-| `symfony composer install`                          |                                                |
-| `symfony console doctrine:database:create`          |                                                |
-| `symfony console doctrine:migration:migrate`        |                                                |
-| `symfony console doctrine:migration:create`         |                                                |
-| `symfony console doctrine:fixtures:load`            |                                                |
-| `symfony console messenger:consume scheduler_hello` |                                                |
+| Commandes                                           | Action                                                                                                                           |
+|:----------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------|
+| `symfony console serve`                             | Lancement du serveur en mode dev sur l'adresse                                                                                   |
+| `symfony composer install`                          | Installer les dépendances                                                                                                        |
+| `symfony console doctrine:database:create`          | Créer la base de donnée                                                                                                          |
+| `symfony console doctrine:migration:migrate`        | Exécute l'ensemble des migrations pour définir les tables et colonnes                                                            |
+| `symfony console doctrine:migration:create`         | Créer une migration, important lorsqu'on met à jour une Entity
+| `symfony console doctrine:fixtures:load`            | Rempli la base de données avec les données construites dans les fixtures                                                         |
+| `symfony console messenger:consume scheduler_hello` | Lance notre scheduler. Apres ca il s'appelera automatiquement à l'interval qu'on lui a donné                                     |
 
 ## Pièces jointes
 
