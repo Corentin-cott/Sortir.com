@@ -63,6 +63,7 @@ Sortir.com/
 ├── translations/
 │   └── # Fichiers de traduction pour l’internationalisation (i18n)
 ├── .gitignore
+├── .dockerignore
 ├── Dockerfile
 ├── LICENSE
 ├── composer.json # Dépendances PHP et configuration du projet Symfony
